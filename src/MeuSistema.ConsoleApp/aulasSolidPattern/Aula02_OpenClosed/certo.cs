@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using static System.Console;
 
 namespace AulasSOLIDpatterns.Aula02_OpenClosed;
 
+// ===========================================
+// Enumeradores para as propriedades do produto
+// ===========================================
 public enum Color
 {
     Red, Green, Blue, Black, White
@@ -16,7 +17,10 @@ public enum Size
     Small, Medium, Large, ExtraLarge
 }
 
-// Product e a entidade base do exemplo: nome, cor e tamanho.
+
+// ===========================================
+//  Classe de Produto
+// ===========================================
 public class Product
 {
     public string Name { get; set; }
@@ -117,7 +121,7 @@ public class ColorSpecification : ISpecification<Product>
 
 public class OpenClosedMain
 {
-    static void Main(string[] args)
+    public static void RunDemo()
     {
         // Criamos alguns produtos para testar.
         var apple = new Product("Apple", Color.Green, Size.Small);
@@ -127,13 +131,13 @@ public class OpenClosedMain
         Product[] products = { apple, tree, house };
 
         var bf = new BetterFilter();
-        WriteLine("Green products (new):");
+        WriteLine("Produtos verdes (novo):");
 
         // Em vez de alterar BetterFilter para cada caso novo,
         // apenas plugamos uma nova especificacao.
         foreach (var p in bf.Filter(products, new ColorSpecification(Color.Green)))
         {
-            WriteLine($" - {p.Name} is green");
+            WriteLine($" - {p.Name} é verde");
         }
     }
 }

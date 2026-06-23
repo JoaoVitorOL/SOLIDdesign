@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static System.Console;
 
 namespace AulasSOLIDpatterns.Aula01_SingleResponsibility;
@@ -90,7 +87,7 @@ public class JournalErrado
 
 public class ErradoMain
 {
-    static void Main(string[] args)
+    public static void RunDemo()
     {
         var j = new JournalErrado();
         j.AddEntry("Querido diário, Ontem foi uma bosta");

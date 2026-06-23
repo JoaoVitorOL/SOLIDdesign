@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using static System.Console;
 
@@ -78,7 +77,7 @@ public class Persistence
 
 public class CertoMain
 {
-    static void Main(string[] args)
+    public static void RunDemo()
     {
         var j = new JournalCerto();
         j.AddEntry("Querido diário, Ontem foi uma bosta");
@@ -90,7 +89,7 @@ public class CertoMain
         var aulaPath = GetAulaPath();
         var filename = Path.Combine(aulaPath, "journal.txt");
         p.SavetoFile(j, filename, true);
-        Process.Start(new ProcessStartInfo(filename) { UseShellExecute = true });
+        WriteLine($"Arquivo salvo pela classe Persistence em: {filename}");
     }
 
     static string GetAulaPath()
