@@ -13,15 +13,17 @@ Este capítulo foi escrito em formato de livro técnico, com linguagem progressi
 
 Diferentemente de uma explicação apenas teórica, aqui cada princípio será acompanhado de referências diretas às aulas em código da pasta `SOLID/`. Assim, o leitor poderá alternar entre a leitura conceitual e a observação do exemplo concreto.
 
-Ao longo do capítulo, há espaços reservados para **imagens, ilustrações, diagramas e quadros comparativos**.
+Ao longo do capítulo, há **imagens, ilustrações, diagramas e quadros comparativos**, com margem para expansão visual em futuras edições.
 
 ---
 
-## Espaço para Imagens de Abertura
+## Imagem de Abertura
 
-> **Imagem sugerida 1:** retrato de Robert C. Martin  
-> **Imagem sugerida 2:** capa do livro *Agile Principles, Patterns, and Practices in C#*  
-> **Imagem sugerida 3:** diagrama visual com as cinco letras de SOLID
+<p align="center">
+  <img src="./assets/robert-c-martin.jpg" alt="Retrato de Robert C. Martin." width="420" />
+</p>
+
+*Figura 1. Robert C. Martin, autor fortemente associado à formulação e à popularização dos princípios SOLID. Fonte: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Robert_C._Martin_surrounded_by_computers_(cropped).jpg).*
 
 ---
 
@@ -84,9 +86,9 @@ Cada letra do SOLID combate um tipo de fragilidade:
 - **ISP** combate interfaces inchadas.
 - **DIP** combate o acoplamento entre alto nível e implementação concreta.
 
-### Espaço para ilustração
+### Observação visual
 
-> **Ilustração sugerida:** uma tabela visual ligando cada letra de SOLID a um problema recorrente de design.
+Em vez de concentrar todo o apoio visual em um único quadro, este capítulo distribui imagens ao longo das seções. Cada princípio recebe uma figura relacionada ao problema que ele tenta resolver, para aproximar a ideia conceitual do exemplo de código correspondente.
 
 ---
 
@@ -205,9 +207,13 @@ Isso melhora:
 - manutenção;
 - testabilidade.
 
-### 2.7 Espaço para imagem
+### 2.7 Imagem da seção
 
-> **Ilustração sugerida:** antes e depois da separação entre `JournalErrado` e a dupla `JournalCerto` + `Persistence`.
+<p align="center">
+  <img src="./assets/notebooks-and-journals.jpg" alt="Cadernos e anotações, remetendo à organização de responsabilidades." width="420" />
+</p>
+
+*Figura 2. Cadernos e anotações representam bem a ideia de separar organização de conteúdo e meio de registro, a mesma divisão feita entre `JournalCerto` e `Persistence`. Fonte: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Notebooks_and_journals.jpg).*
 
 ---
 
@@ -322,9 +328,13 @@ O efeito é:
 - mais modularidade;
 - mais flexibilidade para evoluir o sistema.
 
-### 3.8 Espaço para imagem
+### 3.8 Imagem da seção
 
-> **Ilustração sugerida:** uma seta mostrando `ProductFilter` crescendo por adição de métodos versus `BetterFilter` recebendo novas especificações plugáveis.
+<p align="center">
+  <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ic_filter_list_48px.svg" alt="Ícone de filtro." width="150" />
+</p>
+
+*Figura 3. O símbolo de filtro conversa diretamente com a Aula 2: a ideia central deixa de ser acumular métodos em `ProductFilter` e passa a ser aplicar critérios plugáveis em `BetterFilter`. Fonte: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ic_filter_list_48px.svg).*
 
 ---
 
@@ -436,9 +446,13 @@ O efeito da mudança, neste projeto, foi:
 - mostrar a diferença entre tipo da variável e tipo real do objeto;
 - destacar o papel de `virtual` e `override` no polimorfismo.
 
-### 4.8 Espaço para imagem
+### 4.8 Imagem da seção
 
-> **Ilustração sugerida:** uma comparação entre “ocultação com `new`” e “sobrescrita com `override`”, destacando em qual ponto a chamada é resolvida.
+| Retângulo | Quadrado |
+| --- | --- |
+| ![Retângulo](./assets/rectangle.svg) | ![Quadrado](https://commons.wikimedia.org/wiki/Special:FilePath/Square%20with%20corners.svg) |
+
+*Figura 4. As duas formas ajudam a visualizar por que a herança entre `Rectangle` e `Square` parece intuitiva à primeira vista, mas pode se tornar problemática quando o comportamento esperado da classe base deixa de ser respeitado. Fontes: [Rectangle with corners](https://commons.wikimedia.org/wiki/File:Rectangle_with_corners.svg) e [Square with corners](https://commons.wikimedia.org/wiki/File:Square_with_corners.svg).*
 
 ---
 
@@ -551,9 +565,13 @@ No `certo.cs`, a classe `MultiFunctionPrinter` também mostra uma ideia próxima
 
 Isso reforça bem a consequência natural do ISP: quando os contratos ficam menores, compor comportamentos se torna mais fácil.
 
-### 5.9 Espaço para imagem
+### 5.9 Imagem da seção
 
-> **Ilustração sugerida:** uma interface grande sendo dividida em três cartões menores, depois recombinados conforme o tipo de máquina.
+<p align="center">
+  <img src="./assets/multifunction-printer.svg" alt="Impressora multifuncional." width="260" />
+</p>
+
+*Figura 5. A impressora multifuncional representa bem a Aula 4: nem toda máquina imprime, escaneia e envia fax ao mesmo tempo, por isso o contrato foi dividido em interfaces menores e mais honestas. Fonte: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Printer_all_in_one_in_classic_standard_style.svg).*
 
 ---
 
@@ -667,9 +685,13 @@ A mudança foi profunda:
 
 Isso inverte a direção do acoplamento e protege o código de negócio contra mudanças de infraestrutura.
 
-### 6.7 Espaço para imagem
+### 6.7 Imagem da seção
 
-> **Ilustração sugerida:** um diagrama com `Research2 -> RelationShips2` no exemplo errado e `Research -> IRelationshipBrowser <- RelationShips` no exemplo correto.
+<p align="center">
+  <img src="https://commons.wikimedia.org/wiki/Special:FilePath/A%20family%20tree%20(neutral%20background).png" alt="Árvore genealógica." width="320" />
+</p>
+
+*Figura 6. A árvore genealógica conversa diretamente com o domínio da Aula 5, no qual `Research` precisa consultar relações de parentesco sem depender da estrutura concreta usada para armazená-las. Fonte: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:A_family_tree_(neutral_background).png).*
 
 ---
 
@@ -698,9 +720,9 @@ Essa é a atitude correta diante do SOLID:
 - primeiro, enxergar a fragilidade;
 - depois, entender qual princípio ajuda a reduzi-la.
 
-### 7.2 Espaço para imagem final
+### 7.2 Fechamento visual
 
-> **Ilustração sugerida:** uma página-resumo com as cinco letras de SOLID, cada uma conectada ao exemplo correspondente do projeto.
+As imagens distribuídas ao longo do capítulo cumprem também o papel de quadro-resumo: diário para SRP, filtro para OCP, formas geométricas para LSP, impressora multifuncional para ISP e árvore genealógica para DIP. Juntas, elas reforçam que cada princípio nasce de um tipo específico de problema estrutural.
 
 ---
 
@@ -728,7 +750,37 @@ No exemplo do projeto, `Research2` conhece diretamente o armazenamento de `Relat
 
 ---
 
-## Espaço Editorial para Recursos Visuais
+## Glossário
+
+> Termos-chave usados ao longo deste capítulo, organizados em ordem alfabética, com definições curtas e voltadas ao contexto de SOLID.
+
+- **Abstração** — contrato ou ideia geral que descreve um comportamento sem expor os detalhes da implementação concreta. No capítulo, aparece com força no `IRelationshipBrowser` da Aula 5.
+- **Acoplamento** — grau de dependência entre partes do sistema. Quanto maior o acoplamento, maior a chance de uma mudança em uma classe afetar outra.
+- **Alto nível** — parte do sistema que expressa regra de negócio, intenção ou fluxo principal da aplicação. No exemplo da Aula 5, `Research` e `Research2` cumprem esse papel.
+- **Baixo nível** — parte do sistema que lida com detalhes concretos de implementação, como armazenamento, infraestrutura ou integração. No exemplo da Aula 5, `RelationShips` e `RelationShips2` representam esse papel.
+- **Classe concreta** — classe real, instanciável, que contém uma implementação específica. Quando o código depende demais de classes concretas, a flexibilidade do sistema tende a diminuir.
+- **Coesão** — grau em que os elementos de uma classe pertencem ao mesmo propósito. Uma classe coesa tem membros que fazem sentido juntos.
+- **Composição** — técnica de construir comportamento combinando objetos menores, em vez de depender apenas de herança. Na Aula 4, `MultiFunctionPrinter` recebe objetos separados para imprimir, escanear e enviar fax.
+- **Contrato** — conjunto de expectativas prometidas por uma classe, interface ou abstração. Interfaces são contratos explícitos; comportamentos esperados de classes base também formam contratos implícitos.
+- **Decorator** — padrão estrutural em que uma classe envolve outra para delegar comportamento e, se necessário, adicionar algo antes ou depois da chamada. A Aula 4 menciona essa ideia ao comentar o encaminhamento das chamadas em `MultiFunctionPrinter`.
+- **Dependência** — relação em que uma classe precisa de outra para funcionar. SOLID não elimina dependências; ele tenta organizá-las melhor.
+- **Especificação** — objeto que representa uma regra isolada de decisão. Na Aula 2, `ColorSpecification` e `SizeSpecification` são exemplos de especificações.
+- **Extensão** — adição de comportamento novo ao sistema sem reescrever necessariamente a estrutura central. No OCP, a extensão ocorre por novas classes e novas implementações.
+- **Herança** — mecanismo que permite a uma classe derivar de outra. Embora seja poderoso, pode causar problemas de design quando a subclasse não respeita o comportamento esperado da classe base.
+- **Interface** — contrato que define o que uma classe precisa oferecer, mas não como ela fará isso. Nas Aulas 2, 4 e 5, interfaces são fundamentais para separar responsabilidades e reduzir acoplamento.
+- **Módulo** — unidade lógica do sistema. Em discussões de DIP, “módulo” costuma significar um bloco de código com uma responsabilidade arquitetural, como regra de negócio ou persistência.
+- **Override** — palavra-chave usada para sobrescrever um membro `virtual` de uma classe base. Na Aula 3, ela é usada para explicar a diferença entre sobrescrita real e ocultação com `new`.
+- **Polimorfismo** — capacidade de tratar diferentes implementações por meio do mesmo contrato. Na Aula 2, o filtro trabalha com qualquer `ISpecification<Product>`, e na Aula 5, `Research` trabalha com qualquer implementação de `IRelationshipBrowser`.
+- **Razão para mudar** — critério central do SRP. Se uma classe muda por motivos diferentes demais, provavelmente ela acumulou responsabilidades.
+- **Responsabilidade** — papel principal de uma classe dentro do sistema. Uma responsabilidade bem definida aumenta clareza, coesão e previsibilidade.
+- **Substituição** — capacidade de usar uma subclasse no lugar da classe base sem quebrar o comportamento esperado. Essa é a ideia central do LSP.
+- **Tupla** — estrutura que agrupa múltiplos valores em uma única unidade. Na Aula 5 errada, `Research2` conhece diretamente a lista de tuplas, o que evidencia acoplamento excessivo.
+- **`new` (ocultação de membro)** — uso da palavra-chave `new` para esconder um membro herdado, criando uma segunda versão dele na classe filha. Na Aula 3, isso ajuda a mostrar por que a substituição pode se tornar confusa.
+- **`virtual` / `override`** — combinação que permite sobrescrita polimórfica real. Na Aula 3, é usada para explicar a diferença entre apenas ocultar comportamento e participar do mesmo contrato da classe base.
+
+---
+
+## Recursos Visuais Complementares
 
 ### Sugestões de materiais complementares
 
