@@ -5,21 +5,34 @@ using static System.Console;
 namespace AulasSOLIDpatterns.Aula03_LiskovSubstituiton
 {
 
-    // Neste arquivo, a intencao do exemplo "certo" e mostrar uma tentativa
-    // de tornar a substituicao mais explicita usando polimorfismo real.
-    // A diferenca central para o errado.cs e que aqui a classe base expõe
-    // membros virtuais e a classe filha participa desse contrato com override,
-    // em vez de esconder membros com "new".
+    // Neste arquivo, a intencao e explicar melhor a diferenca tecnica
+    // entre "ocultar" um membro herdado e "sobrescrever" esse membro.
+    //
+    // A diferenca central para o errado.cs e esta:
+    // - la, Square escondia Width e Height com "new"
+    // - aqui, Rectangle2 declara Width e Height como "virtual"
+    // - e Square2 participa do mesmo contrato usando "override"
+    //
+    // Em resumo:
+    // "new" cria uma segunda versao do membro na classe filha.
+    // "virtual" + "override" mantem o mesmo membro, mas com uma implementacao sobrescrita.
 
     // ====================================
     //   Classe de Retangulo
     // ====================================
     public class Rectangle2
     {
-        // "virtual" permite que a classe filha sobrescreva esse comportamento
-        // de forma explicita dentro do mesmo contrato da classe base.
-        public virtual int Width {get; set;}  // VIRTUAL e a palavra chave para permitir a substituicao de um metodo
-        public virtual int Height {get; set;}  // VIRTUAL e a palavra chave para permitir a substituicao de um metodo
+        // "virtual" diz:
+        // "esta propriedade faz parte de um contrato que pode ser redefinido pela classe filha".
+        //
+        // Com isso, se uma variavel do tipo Rectangle2 apontar para um objeto filho,
+        // o runtime podera usar a implementacao da classe filha.
+        //
+        // Diferenca para o arquivo errado:
+        // la a decisao dependia do tipo da variavel.
+        // aqui a decisao pode considerar o tipo real do objeto.
+        public virtual int Width {get; set;}  // VIRTUAL habilita polimorfismo real para essa propriedade
+        public virtual int Height {get; set;}  // VIRTUAL habilita polimorfismo real para essa propriedade
 
         public Rectangle2()
         {
@@ -46,14 +59,18 @@ namespace AulasSOLIDpatterns.Aula03_LiskovSubstituiton
     public class Square2 : Rectangle2
     {
         // "override" significa:
-        // a classe filha nao esta escondendo membros da classe pai,
-        // ela esta sobrescrevendo o comportamento previsto no contrato virtual.
-        public override int Width // OVERRIDE e a palavra chave para realizar a substituicao de um metodo virtual
+        // a classe filha NAO esta criando uma segunda Width escondida.
+        // Ela esta pegando a mesma propriedade virtual da classe pai
+        // e trocando a implementacao dela.
+        //
+        // Isso quer dizer que, se o objeto real for Square2,
+        // mesmo uma variavel do tipo Rectangle2 podera executar este codigo.
+        public override int Width // OVERRIDE e a palavra chave para substituir a implementacao do membro virtual
         {
             set { base.Width = base.Height = value;}
         }
 
-        public override int Height // OVERRIDE e a palavra chave para realizar a substituicao de um metodo virtual
+        public override int Height // OVERRIDE e a palavra chave para substituir a implementacao do membro virtual
         {
             set { base.Width = base.Height = value;}
         }
@@ -83,17 +100,24 @@ namespace AulasSOLIDpatterns.Aula03_LiskovSubstituiton
                 sq2.Width = 4;
                 WriteLine($"{sq2} has area {Area(sq2)}");
 
-                // Por que este arquivo foi pensado como o "certo"?
-                // Porque a mudanca proposta foi sair de uma ocultacao com "new"
-                // para uma sobrescrita com "virtual" e "override".
-                // A ideia didatica aqui e mostrar que a classe filha deve participar
-                // do mesmo contrato da classe pai, e nao criar um contrato paralelo.
-
-                // Qual efeito essa mudanca teve no codigo?
-                // 1. Rectangle2 passou a declarar Width e Height como virtuais.
-                // 2. Square2 passou a sobrescrever essas propriedades com override.
-                // 3. Com isso, a substituicao deixa de ser uma simples ocultacao de membros
-                //    e passa a acontecer pelo mecanismo de polimorfismo da linguagem.
+                // Como ler a diferenca na pratica:
+                //
+                // No arquivo errado:
+                // Rectangle sq2 = new Square();
+                // sq2.Width = 4;
+                // Aqui o compilador usa Rectangle.Width, porque "new" apenas oculta o membro.
+                //
+                // Neste arquivo:
+                // Rectangle2 sq2 = new Square2();
+                // sq2.Width = 4;
+                // Aqui a chamada pode cair em Square2.Width, porque existe
+                // um membro virtual sobrescrito com override.
+                //
+                // Entao a diferenca tecnica e:
+                // - com "new", o membro usado depende do tipo da variavel
+                // - com "virtual/override", o membro usado pode depender do tipo real do objeto
+                //
+                // Essa e a grande mudanca de mecanismo entre um arquivo e outro.
             }
         }
 
