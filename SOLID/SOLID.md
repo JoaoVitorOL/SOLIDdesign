@@ -321,10 +321,9 @@ Esse é um detalhe que frequentemente confunde quem está começando.
 
 ---
 
-<img width="1160" height="600" alt="image" src="https://github.com/user-attachments/assets/21077cbc-d481-4ce4-bbe3-43bed9ad6a2a" />
-
-
 ## 3. Single Responsibility Principle (SRP)
+
+<img width="1160" height="600" alt="image" src="https://github.com/user-attachments/assets/21077cbc-d481-4ce4-bbe3-43bed9ad6a2a" />
 
 [⬆️ Voltar ao Sumário](#sumário)
 
@@ -535,10 +534,12 @@ Se essas perguntas começarem a incomodar, SRP provavelmente está pedindo aten�
 
 ---
 
-<img width="463" height="431" alt="image" src="https://github.com/user-attachments/assets/69a75dac-b209-4ea2-8cf2-66a39367c64b" />
 
 
 ## 4. Open-Closed Principle (OCP)
+
+<img width="463" height="431" alt="image" src="https://github.com/user-attachments/assets/69a75dac-b209-4ea2-8cf2-66a39367c64b" />
+
 
 [⬆️ Voltar ao Sumário](#sumário)
 
@@ -750,10 +751,11 @@ Esse é o centro do princípio.
 
 ---
 
-<img width="1400" height="906" alt="image" src="https://github.com/user-attachments/assets/ed313065-e979-4d3f-9940-b3cff23224e2" />
-
 
 ## 5. Liskov Substitution Principle (LSP)
+
+<img width="1400" height="906" alt="image" src="https://github.com/user-attachments/assets/ed313065-e979-4d3f-9940-b3cff23224e2" />
+
 
 [⬆️ Voltar ao Sumário](#sumário)
 
@@ -946,10 +948,12 @@ Essa é uma pergunta de design muito mais madura.
 
 ---
 
-<img width="579" height="530" alt="image" src="https://github.com/user-attachments/assets/f6bef253-b7f3-40bb-8fac-b3084ca3d5ce" />
-
 
 ## 6. Interface Segregation Principle (ISP)
+
+
+<img width="579" height="530" alt="image" src="https://github.com/user-attachments/assets/f6bef253-b7f3-40bb-8fac-b3084ca3d5ce" />
+
 
 [⬆️ Voltar ao Sumário](#sumário)
 
@@ -1134,10 +1138,11 @@ Quando as interfaces ficam específicas:
 
 ---
 
-<img width="640" height="482" alt="image" src="https://github.com/user-attachments/assets/d1e86299-46e3-488d-9667-e412cbf8295c" />
 
 
 ## 7. Dependency Inversion Principle (DIP)
+
+<img width="640" height="482" alt="image" src="https://github.com/user-attachments/assets/d1e86299-46e3-488d-9667-e412cbf8295c" />
 
 [⬆️ Voltar ao Sumário](#sumário)
 
