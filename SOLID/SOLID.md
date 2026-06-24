@@ -1217,6 +1217,33 @@ O problema aparece em duas camadas.
 
 Ou seja, a regra de alto nível conhece a classe concreta de baixo nível.
 
+Em termos práticos, "conhecer a classe concreta de baixo nível" significa isto:
+
+- o alto nível sabe exatamente **qual tipo concreto** está sendo usado;
+- ele não depende de um contrato genérico como `IRelationshipReader`;
+- ele escreve código assumindo que a implementação real é `Relationships2`;
+- se essa implementação concreta mudar, o alto nível tende a mudar junto.
+
+No exemplo, `Research2` não recebe algo como:
+
+```csharp
+IRelationshipReader relationshipReader
+```
+
+Ele recebe isto:
+
+```csharp
+Relationships2 relationships
+```
+
+Essa diferença parece pequena na sintaxe, mas é enorme no design.
+
+Quando o construtor recebe `Relationships2`, o alto nível fica amarrado a uma classe específica. Ele passa a dizer, na prática:
+
+"eu só sei trabalhar se você me entregar exatamente esta implementação concreta".
+
+Se amanhã o relacionamento vier de banco de dados, arquivo, API externa, cache ou outra estrutura em memória, o alto nível não está protegido por um contrato estável. Ele conhece a peça concreta demais.
+
 #### Segunda camada: dependência do formato interno
 
 [⬆️ Voltar ao Sumário](#sumário)
@@ -1570,6 +1597,8 @@ Interfaces devem ser pequenas e específicas. No projeto, `IMachine2` força imp
 [⬆️ Voltar ao Sumário](#sumário)
 
 Módulos de alto nível devem depender de abstrações. No projeto, `Research2` conhece detalhes de `Relationships2`; `Research` passa a depender de `IRelationshipReader`.
+
+Em outras palavras, no exemplo errado o alto nível sabe qual é a classe concreta e como ela organiza os dados. No exemplo correto, o alto nível sabe apenas qual pergunta de negócio pode fazer ao contrato.
 
 ---
 
