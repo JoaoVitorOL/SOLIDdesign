@@ -10,6 +10,8 @@
 
 ## Prefácio
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 Este guia nasceu para resolver um problema comum: muita gente aprende C# decorando palavras-chave, nomes de tipos e pequenas receitas de código, mas sem construir um modelo mental sólido da linguagem. O resultado é que a pessoa até consegue escrever alguns exemplos, porém trava quando precisa projetar software de verdade, ler código de produção, depurar comportamento inesperado ou decidir entre duas abordagens aparentemente válidas.
 
 O objetivo aqui é transformar o arquivo em algo mais próximo de um livro técnico do que de uma folha de cola. Em vez de apenas listar recursos, a ideia é explicar por que cada recurso existe, que problema ele resolve, qual o custo de usá-lo e quais erros aparecem com frequência em code review e manutenção de sistemas reais.
@@ -21,6 +23,8 @@ Bons estudos.
 ---
 
 ## Como usar este guia
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 Você pode ler este material de três formas:
 
@@ -162,6 +166,8 @@ Ao longo do texto, pense sempre nestas quatro perguntas:
 
 ### 1.1 O que é C#?
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 C# é uma **linguagem de programação orientada a objetos, estaticamente tipada, de propósito geral e fortemente tipada**, criada pela Microsoft em 2000, liderada por Anders Hejlsberg (o mesmo criador do Delphi e TypeScript). É a linguagem principal do ecossistema **.NET**.
 
 Assim como Java, C# compila para um formato intermediário — o **IL (Intermediate Language)**, também chamado de **CIL (Common Intermediate Language)** — que é executado sobre o **CLR (Common Language Runtime)**, a máquina virtual do .NET. O mesmo princípio "escreva uma vez, execute em qualquer lugar" se aplica dentro do ecossistema .NET.
@@ -179,6 +185,8 @@ O compilador moderno do C# é chamado **Roslyn** e é open-source. O runtime mod
 ---
 
 ### 1.2 Por que aprender C# em 2026?
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 Em **24 de junho de 2026**, a Microsoft lista **.NET 10 (LTS)**, **.NET 9** e **.NET 8 (LTS)** como versões suportadas, e a documentação oficial marca o **C# 14** como a versão mais recente da linguagem. Isso importa porque C# não é uma linguagem parada: ela evolui sem perder compatibilidade com os fundamentos. Você investe no núcleo da linguagem e continua aproveitando esse conhecimento por muitos anos.
 
@@ -200,6 +208,8 @@ C# continua sendo uma linguagem excelente para quem quer combinar **fundamentos 
 ---
 
 ### 1.3 Estrutura de um programa C#
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 **Top-level statements (C# 9+)** — forma moderna e simplificada:
 
@@ -253,6 +263,8 @@ public class Program
 
 ### 2.1 Namespaces
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 Um **namespace** é um contêiner lógico que agrupa tipos relacionados, evitando conflitos de nome entre bibliotecas diferentes.
 
 ```csharp
@@ -281,6 +293,8 @@ System.Collections.Generic
 ---
 
 ### 2.2 Using Directives
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 Para usar um tipo de outro namespace, utilize `using`.
 
@@ -328,6 +342,8 @@ public class Exemplo
 
 ### 3.1 O que é uma variável?
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 Uma variável é um **espaço nomeado na memória** que armazena um valor. Em C#, todo valor tem um tipo definido em tempo de compilação.
 
 ```csharp
@@ -345,6 +361,8 @@ var total  = 150.75;      // compilador infere: double
 ---
 
 ### 3.2 Tipos de valor vs tipos de referência
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 Esta é a distinção fundamental do sistema de tipos do C#.
 
@@ -406,6 +424,8 @@ Console.WriteLine(p1.X); // ainda 10
 
 ### 3.3 Nullable Types — tipos que aceitam null
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 Por padrão, tipos de valor **não podem ser null**. Para permitir null em tipos de valor, use o sufixo `?`.
 
 ```csharp
@@ -449,6 +469,8 @@ void Processar(string? entrada)
 
 ### 3.4 `var` — inferência de tipo
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 ```csharp
 // var é equivalente ao tipo explícito — inferido pelo compilador
 var nome  = "Ana";                         // string
@@ -465,6 +487,8 @@ numero = "texto"; // ERRO DE COMPILAÇÃO — número é int, não string
 ---
 
 ### 3.5 `const` e `readonly`
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 // const — constante de compile-time; deve ser inicializada na declaração
@@ -513,6 +537,8 @@ private readonly List<string> _itens = new();
 
 ### 4.1 String é um tipo de referência imutável
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 Em C#, `string` é um tipo de referência (`System.String`), mas se comporta de forma especial: é **imutável** e possui otimizações de interning (similar ao String Pool do Java).
 
 ```csharp
@@ -534,6 +560,8 @@ bool igual = string.Equals("abc", "ABC", StringComparison.OrdinalIgnoreCase); //
 ---
 
 ### 4.2 Imutabilidade e StringBuilder
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 string nome = "Ana";
@@ -565,6 +593,8 @@ Console.WriteLine(builder.Length); // tamanho atual
 ---
 
 ### 4.3 String Interpolation e verbatim strings
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 string nome  = "Ana";
@@ -601,6 +631,8 @@ string json = """
 ---
 
 ### 4.4 Métodos importantes de string
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 string s = "  Olá, C#!  ";
@@ -650,6 +682,8 @@ bool   ok     = int.TryParse("abc", out int val); // seguro — retorna false se
 
 ### 5.1 Os modificadores de acesso do C#
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 C# possui mais modificadores de acesso do que Java, oferecendo controle mais granular.
 
 ```
@@ -671,6 +705,8 @@ C# possui mais modificadores de acesso do que Java, oferecendo controle mais gra
 ---
 
 ### 5.2 Boas práticas com modificadores
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 public class ContaBancaria
@@ -729,6 +765,8 @@ public class ContaBancaria
 
 ### 6.1 O que são Properties?
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 C# introduz o conceito de **propriedade** como cidadão de primeira classe da linguagem — não é apenas um padrão de codificação (como getters/setters em Java), mas uma construção sintática nativa.
 
 ```csharp
@@ -781,6 +819,8 @@ p.Email = "novo@email.com";       // ERRO se Email for { get; init; } após cons
 
 ### 6.2 Expression-bodied members
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 C# permite sintaxe compacta para métodos e propriedades com uma única expressão:
 
 ```csharp
@@ -809,6 +849,8 @@ public class Calculadora
 ---
 
 ### 7.1 `static`
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 public class Contador
@@ -855,6 +897,8 @@ public class Configuracao
 
 ### 7.2 `sealed`
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 Equivalente ao `final` de classe em Java — impede herança.
 
 ```csharp
@@ -881,6 +925,8 @@ public class Mamifero : Animal
 ---
 
 ### 7.3 `abstract`
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 public abstract class Forma
@@ -915,6 +961,8 @@ public class Circulo : Forma
 
 ### 7.4 `virtual` e `override`
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 Em C#, métodos **não são virtuais por padrão** (ao contrário do Java). É necessário declarar explicitamente com `virtual` para permitir sobrescrita.
 
 ```csharp
@@ -944,6 +992,8 @@ a.Respirar();  // "Respirando" — sem polimorfismo, chama a versão de Animal
 ---
 
 ### 7.5 `this` e `base`
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 public class Pessoa
@@ -991,6 +1041,8 @@ public class Funcionario : Pessoa
 
 ### 7.6 `is`, `as` e Pattern Matching
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 ```csharp
 object obj = "Olá, C#!";
 
@@ -1036,6 +1088,8 @@ static string ClassificarPonto(int x, int y) => (x, y) switch
 
 ### 7.7 `using` para gerenciamento de recursos
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 ```csharp
 // using statement — chama Dispose() automaticamente ao sair do escopo
 // Equivalente ao try-with-resources do Java
@@ -1054,6 +1108,8 @@ string conteudo = reader.ReadToEnd();
 ---
 
 ### 7.8 `ref`, `out` e `in`
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 // ref — passa por referência (leitura e escrita; deve ser inicializado antes)
@@ -1088,6 +1144,8 @@ void ImprimirPonto(in Ponto p) => Console.WriteLine($"({p.X}, {p.Y})");
 
 ### 8.1 `if / else if / else`
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 ```csharp
 int nota = 75;
 
@@ -1114,6 +1172,8 @@ nome ??= "Padrão"; // atribui apenas se nome for null
 ---
 
 ### 8.2 `switch` e switch expressions
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 // switch statement clássico
@@ -1162,6 +1222,8 @@ string classificar(int n) => n switch
 
 ### 8.3 Loops
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 ```csharp
 // for
 for (int i = 0; i < 5; i++)
@@ -1208,6 +1270,8 @@ for (int i = 0; i < 10; i++)
 
 ### 9.1 Declaração de métodos
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 ```csharp
 // modificadorDeAcesso tipoDeRetorno NomeDoMetodo(Tipo parametro)
 public int Somar(int a, int b) => a + b;
@@ -1239,6 +1303,8 @@ SomarTodos(new int[]{1,2}); // array explícito também funciona
 ---
 
 ### 9.2 Métodos de extensão (Extension Methods)
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 C# permite adicionar métodos a tipos existentes sem herança ou modificação do código original.
 
@@ -1279,6 +1345,8 @@ public static class EnumerableExtensions
 
 ### 9.3 Sobrecarga de métodos
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 ```csharp
 public class Geometria
 {
@@ -1298,6 +1366,8 @@ public class Geometria
 ---
 
 ### 10.1 Enums básicos
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 public enum DiaDaSemana
@@ -1331,6 +1401,8 @@ string tipo = hoje switch
 ---
 
 ### 10.2 Flags enum — bitmask
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 // [Flags] permite combinar valores como bitmask
@@ -1366,6 +1438,8 @@ usuario &= ~Permissoes.Escrita;  // remove
 ---
 
 ### 11.1 Estrutura completa de uma classe
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 public class ContaBancaria
@@ -1424,7 +1498,11 @@ public class ContaBancaria
 
 ### 11.2 Construtores em Profundidade
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 #### 11.2.1 Definição
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 | Termo | Definição |
 |---|---|
@@ -1433,6 +1511,8 @@ public class ContaBancaria
 | Quantidade | Uma classe pode ter múltiplos construtores, desde que cada um tenha uma lista de parâmetros distinta (sobrecarga). |
 
 #### 11.2.2 Construtor padrão (implícito)
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 Caso nenhum construtor seja declarado explicitamente, o compilador gera um **construtor padrão sem parâmetros** automaticamente. No momento em que qualquer construtor é declarado pelo programador, essa geração automática deixa de ocorrer.
 
@@ -1456,6 +1536,8 @@ var p = new Produto(); // válido — construtor implícito disponível
 > Assim que se declara `public Produto(string nome) { ... }`, o construtor sem parâmetros desaparece e `new Produto()` passa a gerar erro de compilação, salvo se for declarado manualmente.
 
 #### 11.2.3 Construtor parametrizado
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 public class Produto
@@ -1485,6 +1567,8 @@ var p = new Produto("Teclado", 199.90);
 | `Nome = nome;` | Inicializa a propriedade `Nome`, que só pode ser atribuída dentro da classe (`get;` sem `set`). |
 
 #### 11.2.4 Sobrecarga de construtores
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 Assim como métodos, construtores podem ser sobrecarregados — múltiplas assinaturas, mesmo nome.
 
@@ -1525,6 +1609,8 @@ public class Retangulo
 
 #### 11.2.5 Encadeamento de construtores com `this(...)`
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 Evita duplicação de lógica de inicialização entre sobrecargas — um construtor delega para outro da mesma classe.
 
 ```csharp
@@ -1560,6 +1646,8 @@ public class Retangulo
 
 #### 11.2.6 Chamada ao construtor da classe base com `base(...)`
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 ```csharp
 public class Pessoa
 {
@@ -1591,6 +1679,8 @@ public class Funcionario : Pessoa
 > Caso a classe base não possua construtor sem parâmetros, toda classe derivada **deve** chamar explicitamente um construtor da base via `base(...)`; caso contrário ocorre erro de compilação.
 
 #### 11.2.7 Ordem de execução em uma hierarquia de herança
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 | Ordem | Etapa |
 |---|---|
@@ -1627,6 +1717,8 @@ var d = new Derivada();
 
 #### 11.2.8 Construtor estático
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 Já introduzido na [Parte 7.1](#71-static); reapresentado aqui no contexto específico de inicialização de classe.
 
 | Característica | Descrição |
@@ -1654,6 +1746,8 @@ public class Configuracao
 
 #### 11.2.9 Construtor privado
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 Impede a criação de instâncias fora da própria classe. Aplicado tipicamente em padrões como Singleton ou em classes que expõem apenas métodos fábrica (`static`).
 
 ```csharp
@@ -1672,6 +1766,8 @@ var c = ConfiguracaoGlobal.Instancia; // única forma válida de obter a instân
 ```
 
 #### 11.2.10 Construtores primários (Primary Constructors — C# 12)
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 Recurso introduzido no C# 12: permite declarar os parâmetros do construtor diretamente na assinatura da classe, eliminando a necessidade de um bloco de construtor explícito para os casos simples de atribuição direta.
 
@@ -1701,6 +1797,8 @@ var p = new Produto("Teclado", 199.90);
 
 #### 11.2.11 Tabela-resumo dos tipos de construtor
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 | Tipo | Modificador | Quando executa | Uso típico |
 |---|---|---|---|
 | Padrão (implícito) | `public` (gerado) | Na ausência de qualquer construtor declarado | Classes simples sem necessidade de inicialização |
@@ -1712,6 +1810,8 @@ var p = new Produto("Teclado", 199.90);
 ---
 
 ### 11.3 Records (C# 9+)
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 Records são tipos de dados imutáveis com `Equals`, `GetHashCode` e `ToString` gerados automaticamente. Equivalente e superior aos Records do Java 16+.
 
@@ -1755,6 +1855,8 @@ public record struct Coordenada(double Latitude, double Longitude);
 ---
 
 ### 11.4 Padrão Builder
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 public class Pedido
@@ -1815,6 +1917,8 @@ var pedido = new Pedido.Builder("Ana", "Teclado")
 ---
 
 ### 12.1 Herança em C#
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 Herança é o mecanismo pelo qual um tipo especializado reutiliza e estende outro tipo mais geral. Em termos de modelagem, herança costuma representar uma relação **"é um"**:
 
@@ -1880,6 +1984,8 @@ Em engenharia de software real, a pergunta não é "posso herdar?", mas sim **"a
 ---
 
 ### 12.2 Interfaces
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 Se herança responde à pergunta **"o que esse tipo é?"**, interface responde à pergunta **"o que esse tipo sabe fazer?"**.
 
@@ -1957,6 +2063,8 @@ Perceba o papel da variável `IPagavel pedido`: quando você usa uma referência
 
 #### O que uma interface pode ter hoje?
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 Nas versões modernas do C#, interfaces deixaram de ser "apenas assinaturas vazias". Segundo a documentação oficial, elas continuam sendo contratos, mas podem ter recursos avançados:
 
 - membros abstratos tradicionais;
@@ -1976,6 +2084,8 @@ public interface IParsableId<TSelf> where TSelf : IParsableId<TSelf>
 Esse tipo de recurso aparece em cenários mais avançados, como matemática genérica, factories tipadas e APIs orientadas a constraints. Para júnior e pleno, o mais importante é entender que a ideia central da interface continua sendo: **definir um contrato reutilizável e implementável por múltiplos tipos**.
 
 #### Implementação implícita e explícita
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 Na forma mais comum, a implementação é **implícita**: os membros são públicos e ficam disponíveis diretamente na classe.
 
@@ -2043,6 +2153,8 @@ Em termos de arquitetura, interface é um dos recursos mais importantes do C# pa
 
 ### 13.1 Delegates — ponteiros de método tipados
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 Um **delegate** é um tipo que representa uma referência a um método com uma assinatura específica. É a base do sistema de eventos e lambdas em C#.
 
 ```csharp
@@ -2076,6 +2188,8 @@ notificar -= LogConsole; // remove
 
 ### 13.2 Func, Action e Predicate
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 C# fornece delegates genéricos pré-definidos para os casos mais comuns:
 
 | Delegate | Assinatura | Descrição |
@@ -2105,6 +2219,8 @@ bool r = positivo(-5); // false
 
 ### 13.3 Expressões Lambda
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 ```csharp
 // Lambda de expressão — uma linha
 Func<int, int>    dobrar   = x => x * 2;
@@ -2128,6 +2244,8 @@ Func<DateTime> agora = () => DateTime.Now;
 ---
 
 ### 13.4 Eventos (Events)
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 Eventos são delegates com encapsulamento adicional — seguem o padrão publicador/assinante (publisher/subscriber).
 
@@ -2176,6 +2294,8 @@ botao.Clicado -= Handler;  // cancela assinatura
 ---
 
 ### 14.1 O que é LINQ?
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 LINQ significa **Language Integrated Query**. O nome é importante: não é só uma biblioteca, nem só uma sintaxe. LINQ é a combinação de:
 
@@ -2239,6 +2359,8 @@ Também é essencial entender que LINQ não é apenas "a maneira bonita de itera
 ---
 
 ### 14.2 Operadores LINQ principais
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 Os operadores do LINQ podem ser entendidos por categoria. Isso ajuda mais do que decorar nomes isolados.
 
@@ -2343,6 +2465,8 @@ Em outras palavras: LINQ deixa o código conciso, mas não elimina o custo compu
 
 ### 14.3 `IEnumerable<T>` e o contrato fundamental das sequências
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 `IEnumerable<T>` é uma das interfaces mais importantes de todo o ecossistema .NET. A documentação oficial a descreve como a interface base das coleções genéricas que podem ser enumeradas com `foreach`.
 
 O que isso significa, de forma direta?
@@ -2380,6 +2504,8 @@ O `yield return` é importante porque mostra que uma sequência pode ser **gerad
 
 #### Quando expor `IEnumerable<T>`?
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 Use `IEnumerable<T>` como tipo de retorno quando:
 
 - o consumidor só precisa iterar;
@@ -2402,6 +2528,8 @@ public sealed class CatalogoProdutos
 Isso é melhor do que retornar `List<string>` quando o chamador não precisa de operações específicas da lista.
 
 #### O que `IEnumerable<T>` não garante
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 Essa distinção evita muitos bugs de design:
 
@@ -2427,6 +2555,8 @@ Em resumo: `IEnumerable<T>` é o contrato ideal para **sequência**, não necess
 ---
 
 ### 14.4 `IQueryable<T>` e queries traduzíveis para outra fonte
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 `IQueryable<T>` herda de `IEnumerable<T>`, mas representa algo conceitualmente diferente.
 
@@ -2459,6 +2589,8 @@ Nesse fluxo:
 
 #### Por que isso importa?
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 Porque algumas operações são executadas de forma diferente dependendo da fonte:
 
 - em `IEnumerable<T>`, a filtragem acontece em memória;
@@ -2466,6 +2598,8 @@ Porque algumas operações são executadas de forma diferente dependendo da font
 - isso muda performance, volume de dados transferidos e até semântica de comparação.
 
 #### Armadilhas reais com `IQueryable<T>`
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 - Nem todo método C# pode ser traduzido pelo provider.
 - Chamar `ToList()` cedo demais materializa dados cedo demais e corta a composição da query.
@@ -2492,6 +2626,8 @@ Regra prática:
 
 ### 14.5 Execução adiada, materialização e armadilhas
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 Uma das ideias mais importantes do LINQ é **deferred execution**: a query normalmente não roda quando você a escreve, e sim quando alguém consome seus resultados.
 
 Exemplo:
@@ -2515,6 +2651,8 @@ A saída mostra que a filtragem só acontece durante a enumeração.
 
 #### Deferred vs immediate
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 Operadores comuns por comportamento:
 
 | Operador | Execução | Observação |
@@ -2525,6 +2663,8 @@ Operadores comuns por comportamento:
 | `ToList`, `ToArray`, `ToDictionary` | Imediata | Materializam os resultados |
 
 #### O que é materializar?
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 Materializar é transformar a query em uma estrutura concreta, como:
 
@@ -2548,6 +2688,8 @@ Materializar é útil quando:
 
 #### Armadilhas que aparecem em produção
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 - Criar uma query acreditando que ela já executou.
 - Enumerar a mesma query várias vezes e repetir trabalho sem perceber.
 - Misturar lógica com efeito colateral dentro de `Where` ou `Select`.
@@ -2570,6 +2712,8 @@ Boas práticas:
 ---
 
 ### 15.1 Tipos de coleções principais
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 Escolher a coleção certa faz diferença em legibilidade, complexidade algorítmica e custo operacional. Em C#, a melhor escolha quase nunca é "a que eu lembro primeiro", e sim "a que comunica melhor a intenção do domínio e do acesso".
 
@@ -2611,6 +2755,8 @@ Confundir essas coisas leva a APIs mal desenhadas.
 ---
 
 ### 15.2 List\<T\>
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 `List<T>` é a coleção "padrão ouro" do C# para a maioria dos cenários em memória. Internamente, ela funciona como um **array redimensionável**.
 
@@ -2674,6 +2820,8 @@ Custos clássicos de `List<T>`:
 
 ### 15.3 Dictionary\<TKey, TValue\>
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 `Dictionary<TKey, TValue>` é a escolha natural quando você quer recuperar um valor a partir de uma chave.
 
 Mentalmente, ele responde a perguntas como:
@@ -2735,6 +2883,8 @@ Armadilhas comuns:
 
 ### 15.4 Como escolher a coleção certa
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 Se você decorar só uma parte deste capítulo, que seja esta tabela:
 
 | Se você precisa... | Prefira... | Porque comunica melhor |
@@ -2771,6 +2921,8 @@ Em código maduro, escolher coleção não é detalhe. É parte do design.
 
 ### 16.1 O modelo assíncrono do C#
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 C# possui suporte nativo e profundo para programação assíncrona com `async`/`await`. É uma das implementações mais elegantes dessa funcionalidade entre as linguagens modernas.
 
 ```csharp
@@ -2806,6 +2958,8 @@ public async Task ExemploAsync()
 ---
 
 ### 16.2 Padrões de uso
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 // Executar múltiplas tasks em paralelo
@@ -2852,6 +3006,8 @@ string dados = await BuscarDadosAsync("url").ConfigureAwait(false);
 
 ### 16.3 Task vs ValueTask
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 ```csharp
 // Task — aloca um objeto no heap; adequado para operações realmente assíncronas
 public async Task<int> OperacaoAsync() { await Task.Delay(100); return 42; }
@@ -2876,6 +3032,8 @@ public async ValueTask<int> OperacaoRapidaAsync(bool usarCache)
 
 ### 17.1 Tipos parametrizados
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 ```csharp
 // Classe genérica
 public class Repositorio<T> where T : class
@@ -2894,6 +3052,8 @@ repo.Adicionar(new Usuario());
 ---
 
 ### 17.2 Constraints (restrições)
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 // where T : class          — T deve ser tipo de referência
@@ -2925,6 +3085,8 @@ public static T PrimeiroOuPadrao<T>(IEnumerable<T> colecao, T valorPadrao = defa
 
 ### 17.3 Covariância e contravariância
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 ```csharp
 // Covariância (out) — pode usar tipo mais derivado
 // Ex: IEnumerable<Cachorro> pode ser atribuído a IEnumerable<Animal>
@@ -2953,6 +3115,8 @@ public interface IEscritor<in T> { void Escrever(T item); }
 ---
 
 ### 18.1 `try / catch / finally`
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 try
@@ -2983,6 +3147,8 @@ finally
 ---
 
 ### 18.2 Exceções customizadas
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 // Exceção customizada
@@ -3018,6 +3184,8 @@ public class NaoEncontradoException : DomainException
 
 ### 18.3 Hierarquia de exceções
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 ```
 Exception
 ├── SystemException
@@ -3048,6 +3216,8 @@ Exception
 ---
 
 ### 19.1 Attributes embutidos
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 public class Exemplo
@@ -3082,6 +3252,8 @@ public class Produto
 ---
 
 ### 19.2 Criando Attributes customizados
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 using System;
@@ -3123,6 +3295,8 @@ if (attr != null)
 
 ### 20.1 Tuple e ValueTuple
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 ```csharp
 // Tuple nomeada (ValueTuple — C# 7+)
 (string Nome, int Idade) pessoa = ("Ana", 28);
@@ -3146,6 +3320,8 @@ var (min, max, media) = Estatisticas(new List<double> { 1, 5, 3, 2, 4 });
 
 ### 20.2 Span\<T\> e Memory\<T\> — zero-allocation slicing
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 ```csharp
 // Span<T> — fatia de memória sem alocação (stack only)
 int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -3166,6 +3342,8 @@ Console.WriteLine(texto.ToString()); // "Mundo"
 ---
 
 ### 20.3 Sealed classes com Pattern Matching (como Discriminated Union)
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 // Hierarquia fechada representando resultado de operação
@@ -3197,6 +3375,8 @@ string descricao = resultado switch
 
 ### 21.1 Thread básico e ThreadPool
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 ```csharp
 using System.Threading;
 
@@ -3218,6 +3398,8 @@ ThreadPool.QueueUserWorkItem(_ =>
 ---
 
 ### 21.2 Task Parallel Library (TPL)
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 using System.Threading.Tasks;
@@ -3251,6 +3433,8 @@ var resultados = numeros
 ---
 
 ### 21.3 Sincronização
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 // lock — exclusão mútua (equivalente ao synchronized do Java)
@@ -3298,6 +3482,8 @@ public async Task AcessarRecursoAsync()
 
 ### 22.1 Reflection
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 ```csharp
 using System.Reflection;
 
@@ -3323,6 +3509,8 @@ metodo.Invoke(instancia, new object[] { 500.0 });
 
 ### 22.2 Source Generators (C# 9+)
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 Source Generators são compiladores que executam durante a build e geram código C# adicional automaticamente. Usados extensivamente em frameworks modernos (System.Text.Json, EF Core, Dapper, etc.) para eliminar Reflection em runtime.
 
 ```csharp
@@ -3338,6 +3526,8 @@ string json = JsonSerializer.Serialize(usuario, MeuJsonContext.Default.Usuario);
 ---
 
 ### 22.3 Unsafe code e ponteiros
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
 // Requer /unsafe no compilador ou <AllowUnsafeBlocks>true</AllowUnsafeBlocks> no .csproj
@@ -3415,6 +3605,8 @@ unsafe
 
 ### 23.1 C# e Unity — a combinação dominante
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 **Unity** é o motor de jogos mais utilizado no mundo para jogos mobile, indie e AA. C# é a **única linguagem de scripting oficial** do Unity. Compreender C# bem é pré-requisito direto para trabalhar com Unity.
 
 Unity utiliza uma versão do runtime .NET chamada **Mono** (em builds legadas) e **IL2CPP** para builds de plataformas como iOS e consoles. IL2CPP converte o IL do .NET para C++ nativo antes da compilação, eliminando a necessidade da JIT no dispositivo alvo.
@@ -3426,6 +3618,8 @@ Código C# → IL/CIL → IL2CPP → C++ → binário nativo da plataforma
 ---
 
 ### 23.2 MonoBehaviour — a classe base dos scripts Unity
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 Todo script que você cria no Unity herda de `MonoBehaviour`, que fornece o ciclo de vida do game object.
 
@@ -3545,6 +3739,8 @@ public class Jogador : MonoBehaviour
 
 ### 23.3 Ciclo de vida do MonoBehaviour
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 ```
 Instanciação
     │
@@ -3580,6 +3776,8 @@ OnDestroy()      — quando o objeto é destruído
 ---
 
 ### 23.4 ScriptableObject — dados desacoplados do GameObject
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 `ScriptableObject` é um asset de dados reutilizável que vive fora da hierarquia de cenas. Ideal para configurações, estatísticas de personagens, itens, etc.
 
@@ -3634,6 +3832,8 @@ public class EquipamentoJogador : MonoBehaviour
 ---
 
 ### 23.5 Coroutines — execução assíncrona sem async/await
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 Coroutines são o mecanismo tradicional do Unity para execução temporizada e assíncrona **antes** do suporte completo a `async`/`await`.
 
@@ -3698,6 +3898,8 @@ public class EfeitosVisuais : MonoBehaviour
 
 ### 23.6 Unity Events e C# Events
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 ```csharp
 using UnityEngine;
 using UnityEngine.Events;
@@ -3757,6 +3959,8 @@ public class HUD : MonoBehaviour
 ---
 
 ### 23.7 Boas práticas de performance no Unity
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 Em Unity, otimização é crítica porque o jogo precisa rodar a 30–60+ FPS. C# oferece ferramentas específicas para isso.
 
@@ -3923,6 +4127,8 @@ public class SistemaParticulas : MonoBehaviour
 
 ### 23.8 Padrões de design comuns em jogos com C#
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 **Singleton:**
 
 ```csharp
@@ -4029,6 +4235,8 @@ public class PainelPontuacao : MonoBehaviour
 
 ### 23.9 C# no Godot 4
 
+[⬆️ Voltar ao Sumário](#sumário)
+
 O Godot 4 possui suporte oficial ao C# via .NET 6+. A estrutura é similar ao Unity, mas com suas particularidades:
 
 ```csharp
@@ -4087,6 +4295,8 @@ public partial class Inimigo : Node2D
 ---
 
 ### 23.10 Diferenças entre C# padrão e C# no Unity
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 | Aspecto | C# Padrão (.NET) | C# no Unity |
 |---|---|---|
@@ -4148,6 +4358,8 @@ Sugestão de estudo: use este guia para construir o modelo mental e a documenta�
 ---
 
 ## Glossário
+
+[⬆️ Voltar ao Sumário](#sumário)
 
 > Termos-chave usados ao longo do guia, em ordem alfabética. Cada item linka direto para a seção onde o assunto é explicado em detalhe.
 
