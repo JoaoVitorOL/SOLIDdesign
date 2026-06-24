@@ -4114,6 +4114,7 @@ Plataformas externas para praticar C# e lógica de programação, cada uma com u
 | Plataforma | Suporte a C# | Formato Estilo Exame | Foco Pedagógico e Conceitual |
 | --- | --- | --- | --- |
 | **Codility** | Sim | Altamente aderente | Complexidade algorítmica, corretude e desempenho sob estresse |
+| **CodeWars** | Sim | Altamente aderente | Complexidade algorítmica, corretude e desempenho sob estresse |
 | **Beecrowd** | Sim | Altamente aderente | Lógica de programação pura, matemática e estruturas de dados |
 | **Exercism** | Sim | Baixa aderência (foco em projetos) | Idiomatismo da linguagem, legibilidade e TDD local |
 | **CodeSignal Learn** | Sim | Média aderência (trilhas guiadas) | Código limpo, princípios SOLID e padrões de projeto aplicados |

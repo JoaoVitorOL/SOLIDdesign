@@ -58,6 +58,7 @@ public class BetterFilter : IFilter<Product>
     {
         foreach (var i in items)
         {
+            
             // O filtro nao decide a regra; ele delega isso para a especificacao recebida.
             if (spec.IsSatisfied(i))
             {
