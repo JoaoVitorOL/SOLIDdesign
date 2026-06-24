@@ -1172,7 +1172,7 @@ Essa distinção é importante:
 No exemplo da aula:
 
 - `Research2` e `Research` representam o alto nível;
-- `RelationShips2` e `RelationShips` representam o baixo nível.
+- `Relationships2` e `Relationships` representam o baixo nível.
 
 ### 7.3 Leitura guiada do exemplo errado
 
@@ -1186,16 +1186,22 @@ Arquivos da aula:
 No exemplo errado:
 
 ```csharp
-public Research2(RelationShips2 relationships)
+public Research2(Relationships2 relationships)
 {
-    var relations = relationships.Relations;
+    var rawRelations = relationships.RawRelations;
 
-    foreach (var r in relations.Where(x => x.Item1.Name == "John" && x.Item2 == RelationShip.Parent))
+    foreach (var relation in rawRelations.Where(x => x.From.Name == "John" && x.Type == RelationshipType.Parent))
     {
-        WriteLine($"John has a child called {r.Item3.Name}");
+        WriteLine($"John has a child called {relation.To.Name}");
     }
 }
 ```
+
+Leia esse trecho com calma:
+
+- `Research2` quer responder uma pergunta de negócio;
+- mas, para conseguir isso, ele precisa abrir o armazenamento cru;
+- isso obriga o alto nível a entender estrutura de dados, e não só a regra.
 
 ### 7.4 Onde está a violação
 
@@ -1207,7 +1213,7 @@ O problema aparece em duas camadas.
 
 [⬆️ Voltar ao Sumário](#sumário)
 
-`Research2` depende diretamente de `RelationShips2`.
+`Research2` depende diretamente de `Relationships2`.
 
 Ou seja, a regra de alto nível conhece a classe concreta de baixo nível.
 
@@ -1219,9 +1225,9 @@ Além disso, `Research2` conhece:
 
 - que existe uma lista;
 - que a lista guarda tuplas;
-- que o pai está em `Item1`;
-- que o tipo da relação está em `Item2`;
-- que a outra pessoa está em `Item3`.
+- que a pessoa de origem está em `From`;
+- que o tipo da relação está em `Type`;
+- que a outra pessoa está em `To`.
 
 Isso significa que o alto nível não está perguntando:
 
@@ -1238,7 +1244,7 @@ Ele está fazendo algo muito mais frágil:
 No trecho:
 
 ```csharp
-relations.Where(x => x.Item1.Name == "John" && x.Item2 == RelationShip.Parent)
+rawRelations.Where(x => x.From.Name == "John" && x.Type == RelationshipType.Parent)
 ```
 
 `Where` é um operador LINQ de filtragem.
@@ -1247,10 +1253,10 @@ Ele recebe uma função que responde `true` ou `false` para cada item, e mantém
 
 Aqui a função está dizendo:
 
-- o primeiro elemento da tupla tem nome `"John"`;
+- a pessoa de origem da relação tem nome `"John"`;
 - o tipo da relação é `Parent`.
 
-Do ponto de vista didático, esse trecho é ótimo porque mostra uma regra de negócio lendo estrutura interna demais.
+Repare no ponto principal: mesmo com nomes melhores como `From`, `Type` e `To`, o problema de design continua o mesmo. O alto nível ainda está lendo estrutura interna demais.
 
 ### 7.6 Leitura guiada do exemplo correto
 
@@ -1259,18 +1265,24 @@ Do ponto de vista didático, esse trecho é ótimo porque mostra uma regra de ne
 Na solução correta, surge uma abstração:
 
 ```csharp
-public interface IRelationshipBrowser
+public interface IRelationshipReader
 {
-    IEnumerable<Person> FindAllChildrenOf(string name);
+    IEnumerable<Person> FindChildrenOf(string parentName);
 }
 ```
+
+Essa interface diz, em linguagem de negócio:
+
+"se você souber ler relacionamentos, me entregue os filhos deste pai".
+
+Ela não fala nada sobre `List`, tupla, banco, API, SQL ou formato interno.
 
 Agora o alto nível depende dela:
 
 ```csharp
-public Research(IRelationshipBrowser browser)
+public Research(IRelationshipReader relationshipReader)
 {
-    foreach (var person in browser.FindAllChildrenOf("John"))
+    foreach (var person in relationshipReader.FindChildrenOf("John"))
     {
         WriteLine($"John has a child called {person.Name}");
     }
@@ -1280,20 +1292,26 @@ public Research(IRelationshipBrowser browser)
 E o baixo nível implementa o contrato:
 
 ```csharp
-public class RelationShips : IRelationshipBrowser
+public class Relationships : IRelationshipReader
 {
-    public IEnumerable<Person> FindAllChildrenOf(string name)
+    public IEnumerable<Person> FindChildrenOf(string parentName)
     {
         foreach (var relation in relations)
         {
-            if (relation.Item1.Name == name && relation.Item2 == RelationShip2.Parent)
+            if (relation.From.Name == parentName && relation.Type == RelationshipType2.Parent)
             {
-                yield return relation.Item3;
+                yield return relation.To;
             }
         }
     }
 }
 ```
+
+Aqui está a virada mais importante do exemplo:
+
+- `Research` faz uma pergunta de negócio;
+- `Relationships` traduz essa pergunta para o seu armazenamento interno;
+- a interface separa claramente quem pergunta de quem sabe como responder.
 
 ### 7.7 O que mudou estruturalmente
 
@@ -1310,6 +1328,15 @@ Depois:
 - a abstração faz a ponte entre os dois.
 
 Essa inversão é o coração do DIP.
+
+Uma forma curta de memorizar:
+
+| No exemplo errado | No exemplo correto |
+|---|---|
+| "me deixa ver sua lista" | "me diga quais são os filhos" |
+| o alto nível conhece armazenamento | o alto nível conhece só o contrato |
+| a regra filtra dados crus | a infraestrutura filtra e entrega o resultado |
+| mudar o armazenamento tende a quebrar o alto nível | mudar o armazenamento tende a preservar o alto nível |
 
 ### 7.8 O que é "inversão" aqui?
 
@@ -1338,7 +1365,17 @@ Não são a mesma coisa.
 - **injeção de dependência** é uma técnica de fornecer dependências.
 - **container de DI** é uma ferramenta para automatizar essa técnica.
 
-Você pode aplicar DIP sem framework nenhum, como o exemplo faz ao passar `IRelationshipBrowser` no construtor.
+Você pode aplicar DIP sem framework nenhum, como o exemplo faz ao passar `IRelationshipReader` no construtor.
+
+No código da aula, isso acontece manualmente:
+
+```csharp
+var relationships = new Relationships();
+IRelationshipReader relationshipReader = relationships;
+new Research(relationshipReader);
+```
+
+Essa parte costuma ser chamada de composição dos objetos. O detalhe importante é: a classe concreta é escolhida ali, mas o alto nível continua dependendo do contrato.
 
 ### 7.10 Checklist mental para DIP
 
@@ -1532,7 +1569,7 @@ Interfaces devem ser pequenas e específicas. No projeto, `IMachine2` força imp
 
 [⬆️ Voltar ao Sumário](#sumário)
 
-Módulos de alto nível devem depender de abstrações. No projeto, `Research2` conhece detalhes de `RelationShips2`; `Research` passa a depender de `IRelationshipBrowser`.
+Módulos de alto nível devem depender de abstrações. No projeto, `Research2` conhece detalhes de `Relationships2`; `Research` passa a depender de `IRelationshipReader`.
 
 ---
 
