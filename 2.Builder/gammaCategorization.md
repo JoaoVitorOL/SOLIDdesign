@@ -1,4 +1,4 @@
-# Capítulo 2 - Builder
+# Gamma Categorization
 
 **por Erich Gamma, Richard Helm, Ralph Johnson e John Vlissides (Gang of Four - GoF)**
 

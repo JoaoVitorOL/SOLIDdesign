@@ -84,7 +84,7 @@ namespace Aula01_builder
             var i = new string(' ', identSize * ident);
 
             // Abre a tag do elemento atual.
-            sb.Append($"{i}<{Name}>");
+            sb.AppendLine($"{i}<{Name}>");
 
             if (!string.IsNullOrWhiteSpace(Text))
             {
@@ -97,11 +97,11 @@ namespace Aula01_builder
             // cada elemento sabe renderizar seus próprios filhos.
             foreach (var e in Elements)
             {
-                sb.Append(e.ToStringImpl(ident + 1));
+                sb.Append(e.ToStringImpl(ident + 1)); // chamadas recursivas
             }
 
             // Fecha a tag do elemento atual.
-            sb.Append($"{i}</{Name}>");
+            sb.AppendLine($"{i}</{Name}>");
 
             return sb.ToString();
         }
@@ -179,8 +179,6 @@ namespace Aula01_builder
                 // "quero outro item com texto world"
                 builder.AddChild("li","hello");
                 builder.AddChild("li","world");
-                builder.AddChild("li","XD");
-
                 // Só no final pedimos a representação em string.
                 // Ou seja: primeiro construímos a estrutura, depois renderizamos.
                 WriteLine(builder.ToString());
