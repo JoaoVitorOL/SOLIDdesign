@@ -62,6 +62,7 @@ Ao longo do texto, pense sempre nestas quatro perguntas:
   - [4.2 Imutabilidade e StringBuilder](#42-imutabilidade-e-stringbuilder)
   - [4.3 String Interpolation e verbatim strings](#43-string-interpolation-e-verbatim-strings)
   - [4.4 Métodos importantes de string](#44-métodos-importantes-de-string)
+  - [4.5 Classes e funções predefinidas essenciais do .NET](#45-classes-e-funções-predefinidas-essenciais-do-net)
 - [Parte 5 — Modificadores de Acesso](#parte-5-modificadores-de-acesso)
   - [5.1 Os modificadores de acesso do C#](#51-os-modificadores-de-acesso-do-c)
   - [5.2 Boas práticas com modificadores](#52-boas-práticas-com-modificadores)
@@ -582,33 +583,53 @@ bool igual = string.Equals("abc", "ABC", StringComparison.OrdinalIgnoreCase); //
 [⬆️ Voltar ao Sumário](#sumário)
 
 ```csharp
-string nome = "Ana";
-nome = nome + " Silva"; // cria novo objeto — original "Ana" é descartado
+using System.Text;
 
-// Concatenação em loop — ineficiente
+string nome = "Ana";
+nome = nome + " Silva"; // cria outro objeto string
+
+// Concatenação repetida em loop — muitas alocações
 string resultado = "";
 for (int i = 0; i < 1000; i++)
-    resultado += i; // cria um novo objeto a cada iteração
-
-// StringBuilder — eficiente para concatenações múltiplas
-var sb = new System.Text.StringBuilder();
-for (int i = 0; i < 1000; i++)
 {
+    resultado += i; // cria um novo objeto a cada iteração
+}
+
+// StringBuilder — buffer mutável para montagem incremental
+var sb = new StringBuilder(capacity: 64);
+sb.Append("Itens: ");
+for (int i = 0; i < 5; i++)
+{
+    if (i > 0) sb.Append(", ");
     sb.Append(i);
-    if (i < 999) sb.Append(", ");
 }
 string eficiente = sb.ToString();
 
-// API do StringBuilder
-var builder = new System.Text.StringBuilder("Olá");
-builder.Append(" Mundo");         // "Olá Mundo"
-builder.Insert(3, ",");           // "Olá, Mundo"
-builder.Replace("Mundo", "C#");   // "Olá, C#"
-builder.Remove(4, 1);             // "Olá C#"
-Console.WriteLine(builder.Length); // tamanho atual
+// API mais usada no dia a dia
+var builder = new StringBuilder("Olá", capacity: 32);
+builder.Append(" Mundo");             // adiciona no fim
+builder.Insert(3, ",");               // insere em um índice específico
+builder.Replace("Mundo", "C#");       // substitui ocorrências
+builder.AppendLine("!");              // adiciona texto + quebra de linha
+Console.WriteLine(builder.ToString());
+
+var relatorio = new StringBuilder(64);
+relatorio.EnsureCapacity(128);        // reserva espaço para evitar realocações
+relatorio.AppendLine("Resumo:");
+relatorio.AppendFormat("- Total: {0:C}", 25);
+
+Console.WriteLine(relatorio.Length);   // tamanho atual do conteúdo
+Console.WriteLine(relatorio.Capacity); // espaço reservado no buffer
+relatorio.Clear();                     // reaproveita o buffer
 ```
 
-**Como interpretar o exemplo:** O custo da concatenacao aparece porque cada mudanca em `string` gera um novo objeto. `StringBuilder` resolve o caso de montagem incremental repetida, oferecendo um buffer mutavel que reduz alocacao e copia.
+**Como interpretar o exemplo:** O custo da concatenação aparece porque cada mudança em `string` gera um novo objeto. `StringBuilder`, do namespace `System.Text`, mantém um buffer mutável e por isso é mais adequado para montagem repetida de texto, principalmente em laços, relatórios, HTML, logs e payloads textuais.
+
+**Regra prática:** prefira `string` com interpolação (`$"..."`) quando o texto é pequeno e nasce quase pronto. Prefira `string.Join(...)` quando você só quer unir uma coleção. Traga `StringBuilder` quando o texto cresce pedaço por pedaço, em várias operações.
+
+**Armadilha comum:** `Length` é o tamanho do conteúdo atual; `Capacity` é o espaço reservado no buffer. Elas não representam a mesma coisa.
+
+> **Referência oficial:** [Microsoft Learn — Usando a classe StringBuilder no .NET](https://learn.microsoft.com/pt-br/dotnet/standard/base-types/stringbuilder)
 
 ---
 
@@ -693,13 +714,78 @@ int    num    = int.Parse("42");              // string → int (lança exceçã
 bool   ok     = int.TryParse("abc", out int val); // seguro — retorna false sem exceção
 ```
 
+**Como interpretar o exemplo:** A lista de metodos fica mais facil de entender quando voce a enxerga por categoria: inspecionar, transformar, extrair e converter. Esse modelo mental ajuda inclusive a evitar erros comuns, como usar `Parse` em entrada externa quando o fluxo correto e `TryParse`.
+
+---
+
+### 4.5 Classes e funções predefinidas essenciais do .NET
+
+[⬆️ Voltar ao Sumário](#sumário)
+
+C# não é só sintaxe e palavras-chave. Pela documentação oficial da Microsoft, muitos recursos que o iniciante percebe como "funções da linguagem" são, na prática, **tipos e métodos da biblioteca base do .NET**. O namespace `System` é a raiz dos tipos fundamentais, e vários keywords do C# são apenas aliases de tipos do .NET, como `int` → `System.Int32` e `string` → `System.String`.
+
+```csharp
+using System;
+using System.Globalization;
+using System.IO;
+
+Console.Write("Nome: ");
+string? nomeLido = Console.ReadLine();
+
+double raiz = Math.Sqrt(144);
+int notaAjustada = Math.Clamp(150, 0, 100); // 100
+
+DateTime agoraLocal = DateTime.Now;
+DateTime agoraUtc   = DateTime.UtcNow;
+DateOnly hoje       = DateOnly.FromDateTime(agoraLocal);
+TimeOnly horario    = TimeOnly.FromDateTime(agoraLocal);
+TimeSpan timeout    = TimeSpan.FromSeconds(30);
+
+Guid id = Guid.NewGuid();
+
+var random = new Random();
+int dado = random.Next(1, 7); // 1 a 6
+
+bool okNumero = int.TryParse("42", out int numero);
+bool okData = DateTime.TryParseExact(
+    "25/06/2026",
+    "dd/MM/yyyy",
+    CultureInfo.InvariantCulture,
+    DateTimeStyles.None,
+    out DateTime data);
+
+string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+string arquivo = Path.Combine(desktop, "resumo.txt");
+File.WriteAllText(arquivo, $"Id={id}; Dado={dado}; NumeroValido={okNumero}");
+bool existe = File.Exists(arquivo);
+```
+
+| Tipo/API | Quando aparece no dia a dia | Membros comuns | Cuidado profissional |
+| --- | --- | --- | --- |
+| `Console` | Apps de terminal, demos, ferramentas internas | `WriteLine`, `Write`, `ReadLine`, `Error` | saída normal e erro podem seguir fluxos diferentes |
+| `Math` | Cálculos numéricos | `Abs`, `Clamp`, `Round`, `Min`, `Max`, `Sqrt`, `Pow` | arredondamento e ponto flutuante exigem atenção |
+| `DateTime` | Data e hora completas | `Now`, `UtcNow`, `AddDays`, `ToString`, `TryParse` | prefira UTC para integrações e persistência |
+| `DateOnly` / `TimeOnly` | Quando você quer só data ou só hora | `FromDateTime`, `AddDays`, `AddHours`, `Parse` | mais claro do que usar `DateTime` "pela metade" |
+| `TimeSpan` | Duração, timeout, intervalo | `FromSeconds`, `FromMinutes`, `TotalSeconds` | não use para representar um instante no calendário |
+| `Guid` | Identificadores únicos | `NewGuid`, `Parse`, `TryParse`, `ToString("N")` | não é identificador legível e não substitui regra de negócio |
+| `Random` | Sorteio, simulação, jogos, testes | `Next`, `NextDouble`, `NextInt64`, `NextBytes` | não use para senha, token ou criptografia |
+| `Convert` e `TryParse` | Conversão entre tipos e parsing | `Convert.ToInt32`, `int.TryParse`, `DateTime.TryParseExact` | entrada externa deve preferir `TryParse` |
+| `Environment` | Dados do processo e da máquina | `MachineName`, `UserName`, `Version`, `GetEnvironmentVariable` | o resultado depende do ambiente onde o app roda |
+| `Path`, `File`, `Directory` | Caminhos, arquivos e pastas | `Combine`, `GetExtension`, `ReadAllText`, `WriteAllText`, `Exists`, `CreateDirectory` | não monte caminhos manualmente com `/` ou `\\` |
+
+**Como interpretar o exemplo:** Em C#, "funções predefinidas" normalmente são métodos estáticos ou membros de tipos da BCL (Base Class Library), e não funções soltas como em linguagens script. Isso muda a forma correta de estudar: vale mais aprender **famílias de responsabilidade** (`System`, `System.IO`, `System.Text`, `System.Collections.Generic`) do que decorar chamadas isoladas.
+
+**Regra prática:** se um recurso não é sintaxe (`if`, `switch`, `foreach`, `using`) nem palavra-chave (`class`, `public`, `async`), há uma boa chance de você estar olhando para uma API do .NET. `Console.WriteLine`, `Math.Sqrt`, `Guid.NewGuid`, `File.ReadAllText` e `Path.Combine` são exemplos clássicos.
+
+**Mapa mental útil:** este guia já detalha alguns desses tipos em seções próprias, como `string` e `StringBuilder` na Parte 4, `List<T>` e `Dictionary<TKey, TValue>` na Parte 15, exceções na Parte 18 e LINQ na Parte 14. O importante é enxergar tudo isso como parte do mesmo ecossistema da linguagem.
+
+> **Referências oficiais:** [Overview of core .NET libraries](https://learn.microsoft.com/en-us/dotnet/standard/class-library-overview), [Built-in types (C# reference)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/built-in-types), [Console](https://learn.microsoft.com/en-us/dotnet/api/system.console?view=net-10.0), [Math](https://learn.microsoft.com/en-us/dotnet/api/system.math?view=net-10.0), [DateTime](https://learn.microsoft.com/en-us/dotnet/api/system.datetime?view=net-10.0), [DateOnly e TimeOnly](https://learn.microsoft.com/en-us/dotnet/standard/datetime/how-to-use-dateonly-timeonly), [TimeSpan](https://learn.microsoft.com/en-us/dotnet/api/system.timespan?view=net-10.0), [Guid](https://learn.microsoft.com/en-us/dotnet/api/system.guid?view=net-10.0), [Random](https://learn.microsoft.com/en-us/dotnet/api/system.random?view=net-10.0), [Convert](https://learn.microsoft.com/en-us/dotnet/api/system.convert?view=net-10.0), [Environment](https://learn.microsoft.com/en-us/dotnet/api/system.environment?view=net-10.0), [File](https://learn.microsoft.com/en-us/dotnet/api/system.io.file?view=net-10.0), [Path](https://learn.microsoft.com/en-us/dotnet/api/system.io.path?view=net-10.0)
+
 ---
 
 ## Parte 5 — Modificadores de Acesso
 
 [⬆️ Voltar ao Sumário](#sumário)
-
-**Como interpretar o exemplo:** A lista de metodos fica mais facil de entender quando voce a enxerga por categoria: inspecionar, transformar, extrair e converter. Esse modelo mental ajuda inclusive a evitar erros comuns, como usar `Parse` em entrada externa quando o fluxo correto e `TryParse`.
 
 ---
 
@@ -4521,11 +4607,26 @@ As definições, distinções conceituais e atualizações de versão deste guia
 - [A tour of C#](https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/)
 - [What's new in C# 14](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14)
 - [.NET releases and support](https://learn.microsoft.com/en-us/dotnet/core/releases-and-support)
+- [Overview of core .NET libraries](https://learn.microsoft.com/en-us/dotnet/standard/class-library-overview)
+- [Built-in types (C# reference)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/built-in-types)
+- [Console Class (System)](https://learn.microsoft.com/en-us/dotnet/api/system.console?view=net-10.0)
+- [Math Class (System)](https://learn.microsoft.com/en-us/dotnet/api/system.math?view=net-10.0)
+- [DateTime Struct (System)](https://learn.microsoft.com/en-us/dotnet/api/system.datetime?view=net-10.0)
+- [How to use the DateOnly and TimeOnly structures](https://learn.microsoft.com/en-us/dotnet/standard/datetime/how-to-use-dateonly-timeonly)
+- [TimeSpan Struct (System)](https://learn.microsoft.com/en-us/dotnet/api/system.timespan?view=net-10.0)
+- [Guid Struct (System)](https://learn.microsoft.com/en-us/dotnet/api/system.guid?view=net-10.0)
+- [Random Class (System)](https://learn.microsoft.com/en-us/dotnet/api/system.random?view=net-10.0)
+- [Convert Class (System)](https://learn.microsoft.com/en-us/dotnet/api/system.convert?view=net-10.0)
+- [Environment Class (System)](https://learn.microsoft.com/en-us/dotnet/api/system.environment?view=net-10.0)
+- [File Class (System.IO)](https://learn.microsoft.com/en-us/dotnet/api/system.io.file?view=net-10.0)
+- [Path Class (System.IO)](https://learn.microsoft.com/en-us/dotnet/api/system.io.path?view=net-10.0)
+- [Directory Class (System.IO)](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory?view=net-10.0)
 - [Interfaces - define behavior for multiple types](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/interfaces)
 - [Language Integrated Query (LINQ)](https://learn.microsoft.com/en-us/dotnet/csharp/linq/)
 - [Standard query operators overview](https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/)
 - [`IEnumerable<T>` Interface](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1?view=net-10.0)
 - [`IQueryable<T>` Interface](https://learn.microsoft.com/en-us/dotnet/api/system.linq.iqueryable-1?view=net-10.0)
+- [Usando a classe StringBuilder no .NET](https://learn.microsoft.com/pt-br/dotnet/standard/base-types/stringbuilder)
 - [Introduction to LINQ queries](https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/introduction-to-linq-queries)
 - [Explicit Interface Implementation](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/interfaces/explicit-interface-implementation)
 

@@ -1,8 +1,9 @@
 # Capítulo 2 - Builder
 
-**por Gang of Four (GoF)**  
+**por Erich Gamma, Richard Helm, Ralph Johnson e John Vlissides (Gang of Four - GoF)**  
 
-> **Base conceitual:** *Design Patterns: Elements of Reusable Object-Oriented Software*  
+> **Livro de referência principal:** *Design Patterns: Elements of Reusable Object-Oriented Software*  
+> **Autores da obra-base:** Erich Gamma, Richard Helm, Ralph Johnson e John Vlissides  
 > **Objetivo deste capítulo:** introduzir a categorização clássica dos Design Patterns e posicionar o padrão `Builder` dentro desse mapa conceitual
 
 ---
@@ -42,6 +43,10 @@ Este material foi escrito com duas intenções ao mesmo tempo:
 
 Se você está começando, leia em ordem. Se já conhece alguns padrões, use este texto como uma introdução conceitual para alinhar terminologia e contexto antes de mergulhar em implementações.
 
+Ao longo do texto, quando aparecerem expressões como **GoF**, **Gamma Categorization** ou **padrões clássicos**, a referência principal é sempre o livro:
+
+- **Gamma, Erich; Helm, Richard; Johnson, Ralph; Vlissides, John.** *Design Patterns: Elements of Reusable Object-Oriented Software*.
+
 ---
 
 ## Sumário
@@ -52,6 +57,7 @@ Se você está começando, leia em ordem. Se já conhece alguns padrões, use es
 4. [Behavioral Patterns](#4-behavioral-patterns)
 5. [Onde o Builder entra nesse mapa](#5-onde-o-builder-entra-nesse-mapa)
 6. [Conclusão](#6-conclusão)
+7. [Referências bibliográficas](#7-referências-bibliográficas)
 
 ---
 
@@ -243,3 +249,18 @@ Dentro desse panorama, o `Builder` aparece como um padrão criacional voltado à
 Essa introdução é importante porque ela evita um erro muito comum: estudar o `Builder` como uma técnica isolada, sem perceber que ele faz parte de uma discussão maior sobre **criação de objetos, desacoplamento e clareza de design**.
 
 Nos próximos trechos deste capítulo, o foco natural passa a ser justamente esse: entender com profundidade o problema que o `Builder` resolve, por que ele existe e em que tipo de design ele realmente faz diferença.
+
+---
+
+## 7. Referências bibliográficas
+
+[⬆️ Voltar ao Sumário](#sumário)
+
+Referência principal utilizada na organização conceitual deste capítulo:
+
+- **Gamma, Erich; Helm, Richard; Johnson, Ralph; Vlissides, John.** *Design Patterns: Elements of Reusable Object-Oriented Software*. Addison-Wesley, 1994.
+
+Observação importante:
+
+- o termo **Gang of Four (GoF)** se refere exatamente a esses quatro autores;
+- a expressão **Gamma Categorization** faz referência a **Erich Gamma**, um dos autores da obra.
