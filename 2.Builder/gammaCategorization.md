@@ -535,7 +535,71 @@ var car = CarBuilder.Create()
 
 Se o cliente acabou de chamar `Create()`, ele ainda nao enxerga `WithWheels()` nem `Build()`, porque esses metodos nao fazem parte da interface atual.
 
-### 15.4 Por que existe uma classe `Impl`
+### 15.4 Objeto real vs tipo da referencia
+
+Essa e a parte que mais costuma confundir no comeco.
+
+No metodo:
+
+```csharp
+public static ISpecifyCarType Create()
+{
+    return new Impl();
+}
+```
+
+parece estranho ler:
+
+- a assinatura promete `ISpecifyCarType`;
+- mas o `return` devolve `new Impl()`.
+
+Isso funciona porque `Impl` implementa `ISpecifyCarType`.
+
+Em C#, isso e normal: um objeto concreto pode ser tratado como uma interface que ele implementa.
+
+Leitura mental correta:
+
+- **objeto real criado na memoria:** `Impl`
+- **tipo da referencia entregue ao cliente:** `ISpecifyCarType`
+
+Essas duas coisas nao sao iguais.
+
+No Stepwise Builder, a ordem nao e controlada por "qual objeto foi criado por baixo". A ordem e controlada por **qual interface foi entregue ao cliente nesta etapa**.
+
+Como `ISpecifyCarType` so declara:
+
+```csharp
+ISpecifyWheelSize OfType(CarType type);
+```
+
+entao, naquele momento, o cliente so consegue chamar `OfType()`.
+
+Ele nao consegue chamar `WithWheels()` nem `Build()` porque esses metodos nao fazem parte do tipo da referencia atual, mesmo que o objeto concreto por baixo seja um `Impl` que saiba fazer tudo.
+
+Uma forma de abrir a cadeia e enxergar melhor isso e esta:
+
+```csharp
+ISpecifyCarType step1 = CarBuilder.Create();
+ISpecifyWheelSize step2 = step1.OfType(CarType.Crossover);
+IBuildCar step3 = step2.WithWheels(18);
+Car car = step3.Build();
+```
+
+Agora a ideia fica mais visivel:
+
+- `step1` so conhece `OfType()`;
+- `step2` so conhece `WithWheels()`;
+- `step3` so conhece `Build()`.
+
+Entao a pergunta certa nao e:
+
+**"qual objeto foi criado?"**
+
+A pergunta certa e:
+
+**"qual interface foi devolvida para o cliente agora?"**
+
+### 15.5 Por que existe uma classe `Impl`
 
 Dentro do `CarBuilder`, existe uma classe privada `Impl` que implementa todas as interfaces:
 
@@ -550,7 +614,9 @@ Essa e a ideia chave:
 - por dentro, um unico objeto sabe tudo;
 - por fora, a API so expõe o proximo passo valido.
 
-### 15.5 Onde a validacao entra
+Mesmo que o objeto real seja um `Impl`, o cliente nao consegue pedir essa classe concreta diretamente, porque ela e `private`. Isso ajuda a blindar o caminho das interfaces publicas.
+
+### 15.6 Onde a validacao entra
 
 No exemplo, a escolha das rodas depende do tipo do carro:
 
@@ -564,13 +630,13 @@ O stepwise builder nao substitui a validacao de regra de negocio. Ele trabalha j
 - as interfaces restringem a **ordem**;
 - o metodo concreto ainda valida o **conteudo** do passo.
 
-### 15.6 O que ele enfatiza
+### 15.7 O que ele enfatiza
 
 - ordem correta dos passos;
 - seguranca de construcao em tempo de compilacao;
 - API que representa melhor o fluxo obrigatorio do dominio.
 
-### 15.7 Quando ele faz sentido
+### 15.8 Quando ele faz sentido
 
 Ele e util quando:
 
@@ -579,7 +645,7 @@ Ele e util quando:
 - um objeto incompleto seria invalido demais para ser liberado;
 - voce quer que o compilador ajude a bloquear usos errados da API.
 
-### 15.8 Custo dessa abordagem
+### 15.9 Custo dessa abordagem
 
 O ganho de seguranca costuma vir com mais tipos, mais interfaces e mais burocracia de modelagem.
 
