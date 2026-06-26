@@ -10,7 +10,7 @@ using static System.Console;
 
 
 
-namespace Aula01_builder
+namespace Aula02_FluentBuilder
 {
     // Fluent Builder:
     // gera o mesmo HTML do builder tradicional.

@@ -459,29 +459,131 @@ var me = Person.New
 
 [⬆️ Voltar ao Sumário](#sumário)
 
-Esta seção existe para seguir a organização da trilha mostrada na imagem.
+Esta parte corresponde ao arquivo `2.Builder/Aula03_StepWiseBuilder/StepWiseBuilder.cs`.
 
-O **Stepwise Builder** tenta resolver outro problema: impedir que o cliente monte o objeto em ordem inválida ou esqueça passos obrigatórios.
+O **Stepwise Builder** tenta resolver um problema diferente do fluent builder comum:
 
-Em vez de apenas permitir encadeamento, ele guia a construção em estágios.
+- o fluent builder melhora a leitura da API;
+- o stepwise builder melhora a **seguranca da ordem** da construcao.
 
-### 15.1 O que ele enfatiza
+Em vez de apenas devolver `this`, ele devolve **interfaces diferentes para cada etapa**.
+
+### 15.1 Qual problema ele resolve
+
+No builder tradicional ou no fluent builder comum, o cliente pode ter liberdade demais. Dependendo da API, ele pode:
+
+- tentar pular um passo obrigatorio;
+- chamar metodos em ordem ruim;
+- chegar em `Build()` cedo demais.
+
+O stepwise builder combate isso fazendo a pergunta:
+
+**"qual e o proximo passo valido que o cliente pode executar agora?"**
+
+### 15.2 Como isso aparece no exemplo do carro
+
+No exemplo atual, a ordem desejada e esta:
+
+1. escolher o tipo do carro;
+2. escolher o tamanho da roda;
+3. construir o carro.
+
+Essa ordem aparece nas interfaces:
+
+```csharp
+public interface ISpecifyCarType
+{
+    ISpecifyWheelSize OfType(CarType type);
+}
+
+public interface ISpecifyWheelSize
+{
+    IBuildCar WithWheels(int size);
+}
+
+public interface IBuildCar
+{
+    Car Build();
+}
+```
+
+Cada interface representa um **estagio da conversa** com o builder.
+
+- `ISpecifyCarType`: so permite escolher o tipo.
+- `ISpecifyWheelSize`: so permite escolher as rodas.
+- `IBuildCar`: so permite finalizar com `Build()`.
+
+### 15.3 O ponto central da tecnica
+
+O truque principal nao esta no objeto concreto interno. O truque esta no **tipo devolvido por cada metodo**.
+
+Leia a cadeia assim:
+
+- `Create()` devolve `ISpecifyCarType`;
+- `OfType()` devolve `ISpecifyWheelSize`;
+- `WithWheels()` devolve `IBuildCar`;
+- `Build()` devolve `Car`.
+
+Ou seja, o compilador passa a guiar a ordem:
+
+```csharp
+var car = CarBuilder.Create()
+    .OfType(CarType.Crossover)
+    .WithWheels(18)
+    .Build();
+```
+
+Se o cliente acabou de chamar `Create()`, ele ainda nao enxerga `WithWheels()` nem `Build()`, porque esses metodos nao fazem parte da interface atual.
+
+### 15.4 Por que existe uma classe `Impl`
+
+Dentro do `CarBuilder`, existe uma classe privada `Impl` que implementa todas as interfaces:
+
+```csharp
+private class Impl : ISpecifyCarType, ISpecifyWheelSize, IBuildCar
+```
+
+Ela sabe executar todos os passos internamente, mas o cliente nao recebe a classe concreta diretamente. O cliente recebe apenas a interface do estagio atual.
+
+Essa e a ideia chave:
+
+- por dentro, um unico objeto sabe tudo;
+- por fora, a API so expõe o proximo passo valido.
+
+### 15.5 Onde a validacao entra
+
+No exemplo, a escolha das rodas depende do tipo do carro:
+
+- `Crossover` aceita rodas entre `17` e `20`;
+- `Sedan` aceita rodas entre `15` e `17`.
+
+Isso aparece em `WithWheels(int size)`.
+
+O stepwise builder nao substitui a validacao de regra de negocio. Ele trabalha junto com ela:
+
+- as interfaces restringem a **ordem**;
+- o metodo concreto ainda valida o **conteudo** do passo.
+
+### 15.6 O que ele enfatiza
 
 - ordem correta dos passos;
-- segurança de construção;
-- uso do compilador para restringir chamadas inválidas.
+- seguranca de construcao em tempo de compilacao;
+- API que representa melhor o fluxo obrigatorio do dominio.
 
-### 15.2 Quando ele faz sentido
+### 15.7 Quando ele faz sentido
 
-É útil quando:
+Ele e util quando:
 
-- a ordem faz parte do contrato do domínio;
-- existem passos obrigatórios;
-- um objeto incompleto seria inválido demais para ser liberado.
+- a ordem faz parte do contrato do dominio;
+- existem passos obrigatorios;
+- um objeto incompleto seria invalido demais para ser liberado;
+- voce quer que o compilador ajude a bloquear usos errados da API.
 
-### 15.3 Custo dessa abordagem
+### 15.8 Custo dessa abordagem
 
-O ganho de segurança costuma vir com mais tipos, mais interfaces e mais burocracia de modelagem.
+O ganho de seguranca costuma vir com mais tipos, mais interfaces e mais burocracia de modelagem.
+
+Em troca, a leitura da API passa a ensinar a ordem correta de construcao.
 
 ---
 

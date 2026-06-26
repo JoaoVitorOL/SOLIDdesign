@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using static System.Console;
 
-namespace Aula01_builder
+namespace Aula02_FluentBuilder
 {
     public class Person
     {
