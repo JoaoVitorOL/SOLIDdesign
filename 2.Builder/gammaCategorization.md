@@ -686,7 +686,65 @@ Por fora, a cadeia lembra um fluent builder comum. A diferença importante está
 - `WorksAsA()` registra outra operação;
 - `Build()` cria o objeto base e aplica todas as operações acumuladas.
 
-### 16.1 O que muda em relação ao Stepwise Builder
+### 16.1 O que muda em relação ao builder normal
+
+Esta é a comparação que mais ajuda a não confundir os dois estilos.
+
+No **builder tradicional**, o modelo mental costuma ser este:
+
+- o builder já guarda o produto em construção;
+- cada método altera esse produto imediatamente;
+- o estado vai ficando pronto aos poucos dentro do próprio builder.
+
+No arquivo `Builder.cs`, isso aparece na prática:
+
+```csharp
+private HtmlElement root = new HtmlElement();
+
+public void AddChild(string childName, string childText)
+{
+    var e = new HtmlElement(childName, childText);
+    root.Elements.Add(e);
+}
+```
+
+Leitura correta desse estilo:
+
+- o objeto `root` já existe;
+- `AddChild()` mexe nele na hora;
+- depois de cada chamada, o produto já está um pouco mais montado.
+
+No **Functional Builder**, o modelo mental muda:
+
+- o builder não fica guardando o produto final pronto para ser mutado agora;
+- ele guarda uma lista de operações;
+- essas operações só serão aplicadas quando `Build()` for chamado.
+
+No arquivo desta aula, isso aparece assim:
+
+```csharp
+private readonly List<Func<TSubject, TSubject>> actions
+```
+
+e depois:
+
+```csharp
+return actions.Aggregate(new TSubject(), (subject, action) => action(subject));
+```
+
+Leitura correta desse estilo:
+
+- o produto final ainda não foi materializado durante os passos;
+- `Called()` e `WorksAsA()` não "preenchem a pessoa agora" no mesmo sentido do builder normal;
+- eles apenas acumulam instruções;
+- o objeto final nasce no `Build()`.
+
+Uma forma curta de guardar:
+
+- **builder normal:** "muta o produto agora"
+- **functional builder:** "guarda instruções e monta no final"
+
+### 16.2 O que muda em relação ao Stepwise Builder
 
 Esta é a comparação mais importante com a aula anterior.
 
@@ -713,7 +771,7 @@ Resumo da virada:
 - `Stepwise Builder`: enfatiza ordem obrigatória.
 - `Functional Builder`: enfatiza composição de passos.
 
-### 16.2 Como isso aparece na anatomia do código
+### 16.3 Como isso aparece na anatomia do código
 
 No arquivo da aula, a base genérica é esta:
 
@@ -742,7 +800,7 @@ Cada `Func<TSubject, TSubject>` representa uma operação que:
 2. aplica alguma mudança;
 3. devolve o mesmo objeto para a próxima operação.
 
-### 16.3 O papel de `Do()`, `AddAction()` e `Build()`
+### 16.4 O papel de `Do()`, `AddAction()` e `Build()`
 
 O método:
 
@@ -775,7 +833,7 @@ Leitura passo a passo:
 
 Em outras palavras: no functional builder, o objeto final só nasce "de verdade" no `Build()`.
 
-### 16.4 Onde a extensibilidade aparece
+### 16.5 Onde a extensibilidade aparece
 
 No exemplo atual, `Called(string name)` fica dentro de `PersonBuilder`, mas `WorksAsA(string position)` aparece em `PersonBuilderExtensions`.
 
@@ -787,21 +845,23 @@ Esse detalhe mostra um ganho comum desse estilo:
 
 Isso conversa diretamente com a ideia de compor pequenas operações independentes.
 
-### 16.5 Diferença direta para a aula anterior
+### 16.6 Diferença direta para as aulas anteriores
 
 Uma tabela mental simples ajuda:
 
 | Aula | Pergunta principal | Técnica central | Ganho principal |
 | --- | --- | --- | --- |
+| `Builder` tradicional | "como montar o produto passo a passo?" | o builder guarda e muta o produto durante a configuração | centralização da montagem |
 | `Stepwise Builder` | "qual é o próximo passo válido?" | interfaces diferentes por etapa | segurança de ordem em tempo de compilação |
 | `Functional Builder` | "quais operações quero acumular?" | lista de funções aplicadas no `Build()` | composição flexível de comportamento |
 
 Outra forma curta de guardar:
 
+- no builder tradicional, o produto vai sendo alterado a cada chamada;
 - no stepwise, o tipo devolvido controla o fluxo;
 - no functional, a lista de operações controla a construção.
 
-### 16.6 Quando ele ajuda
+### 16.7 Quando ele ajuda
 
 Ele pode ser interessante quando:
 
@@ -810,7 +870,7 @@ Ele pode ser interessante quando:
 - você quer adicionar novos passos sem inchar tanto a classe principal;
 - a equipe está confortável com delegates, lambdas e uma leitura mais abstrata.
 
-### 16.7 Cuidado didático
+### 16.8 Cuidado didático
 
 Para iniciantes, este estilo costuma parecer mais abstrato do que o builder tradicional e do que o stepwise builder.
 

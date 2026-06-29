@@ -1,6 +1,14 @@
 // Exemplo da aula:
 // um builder funcional para montar uma `Person`.
 //
+// A diferenca principal para o builder tradicional e esta:
+// - no builder normal, cada metodo costuma mexer no objeto FINAL na hora;
+// - no functional builder, cada metodo registra uma operacao para ser aplicada depois.
+//
+// Exemplo mental:
+// - builder normal: "adicione isso ao objeto agora"
+// - functional builder: "guarde esta instrucao para eu aplicar no Build()"
+//
 // A diferenca principal para a aula anterior (Stepwise Builder) e esta:
 // - no Stepwise Builder, o foco era FORCAR A ORDEM dos passos
 //   por meio de interfaces diferentes a cada etapa;
@@ -41,7 +49,11 @@ namespace Aula04_FunctionalBuilder
         where TSubject : new()
         where TSelf : FunctionalBuilder<TSubject, TSelf>
     {
-        // Em vez de guardar o objeto pronto e ir mutando ele imediatamente,
+        // No builder tradicional, seria comum guardar o produto final aqui
+        // e mutar esse produto imediatamente a cada chamada.
+        //
+        // No builder funcional, fazemos diferente:
+        // em vez de guardar o objeto pronto e ir mutando ele imediatamente,
         // o builder funcional guarda uma lista de "acoes de construcao".
         //
         // Cada item da lista recebe um `TSubject`, aplica alguma mudanca
@@ -60,6 +72,16 @@ namespace Aula04_FunctionalBuilder
             return AddAction(action);
         }
 
+        // Esta e a diferenca mais importante para o builder normal.
+        //
+        // No builder tradicional:
+        // - o produto ja existe durante a configuracao
+        // - cada metodo altera esse produto na hora
+        //
+        // No functional builder:
+        // - o produto final so nasce de verdade aqui
+        // - antes disso, o builder so acumulou instrucoes
+        //
         // O objeto final so nasce de verdade aqui.
         //
         // `new TSubject()` cria a instancia base.
