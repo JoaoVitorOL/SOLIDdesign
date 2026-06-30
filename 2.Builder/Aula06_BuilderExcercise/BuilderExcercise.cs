@@ -63,7 +63,7 @@ namespace Aula06_BuilderExcercise
         public override string ToString()
         {
             // 8º Internamente, alguem precisa saber renderizar o resultado final.
-            var sb = new StringBuilder();
+            var sb = new StringBuilder();//classe utilitária do .NET.Ele só ajuda a montar texto de forma eficiente.
             sb.AppendLine($"public class {Name}").AppendLine("{");
             foreach (var f in Fields)
                 sb.AppendLine($"  {f};");
@@ -76,7 +76,7 @@ namespace Aula06_BuilderExcercise
     public class CodeBuilder
     {
         // 4º Todo builder precisa manter internamente o objeto em construcao.
-        private CodeClass codeClass = new CodeClass();
+        private CodeClass codeClass = new CodeClass(); //Instância vazia do objeto que será construído
 
         public CodeBuilder(string rootName)
         {
@@ -89,7 +89,7 @@ namespace Aula06_BuilderExcercise
             // 6º Cada metodo de configuracao altera o produto em construcao.
             codeClass.Fields.Add(new CodeField { Name = name, Type = type });
 
-            // 7º `return this` permite continuar a montagem na mesma linha.
+            // 7º `return this` permite continuar a montagem na mesma linha. ( É o que o torna um fluent builder)
             return this;
         }
 
