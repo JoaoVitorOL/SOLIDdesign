@@ -44,8 +44,9 @@ Arquivos já presentes no repositório:
 - `2.Builder/Aula03_StepWiseBuilder/StepWiseBuilder.cs`
 - `2.Builder/Aula04_FunctionalBuilder/FunctionalBuilder.cs`
 - `2.Builder/Aula05_FacetedBuilder/FacetedBuilder.cs`
+- `2.Builder/Aula06_BuilderExcercise/BuilderExcercise.cs`
 
-A seção de `Coding Exercise` foi mantida porque faz parte da trilha da imagem, mesmo sem um arquivo local específico no estado atual do repositório.
+O exercício prático da trilha já existe no repositório e aparece no arquivo `2.Builder/Aula06_BuilderExcercise/BuilderExcercise.cs`.
 
 ---
 
@@ -969,20 +970,161 @@ E também ajuda a enxergar a diferença para o Functional Builder:
 
 [⬆️ Voltar ao Sumário](#sumário)
 
-Esta seção foi criada para espelhar a trilha da imagem.
+Esta parte corresponde ao arquivo `2.Builder/Aula06_BuilderExcercise/BuilderExcercise.cs`.
 
-No estado atual do repositório, ainda não há um arquivo específico do exercício prático dentro de `2.Builder/`. Mesmo assim, vale registrar o objetivo pedagógico desse ponto da trilha:
+Este exercício é importante porque ele pega a ideia do capítulo e a transforma em uma implementação pequena, concreta e fácil de inspecionar.
 
-- sair da leitura conceitual;
-- implementar uma solução usando o padrão;
-- testar se a diferença entre construção manual, builder tradicional e fluent builder realmente ficou clara.
+### O que o exercício quer de verdade
 
-Quando o exercício for adicionado ao repositório, esta seção pode ser expandida com:
+O enunciado não está pedindo um gerador genérico de código nem um renderizador de qualquer sintaxe arbitrária.
 
-- intenção do problema;
-- participantes do padrão no exercício;
-- decisões de modelagem;
-- riscos e trade-offs da solução.
+Ele está pedindo algo mais específico:
+
+- montar o texto de **uma classe C# simples**;
+- receber o nome dessa classe;
+- permitir adicionar vários campos públicos;
+- devolver a representação final formatada como código.
+
+Em outras palavras, o aluno não precisa resolver "geração de código" em geral. O aluno precisa resolver:
+
+**"como encapsular a montagem de uma classe simples em uma API builder?"**
+
+### Como ler o uso esperado
+
+O uso esperado é este:
+
+```csharp
+var cb = new CodeBuilder("Person")
+  .AddField("Name", "string")
+  .AddField("Age", "int");
+
+Console.WriteLine(cb);
+```
+
+Essa leitura pode ser feita em etapas:
+
+1. `new CodeBuilder("Person")` inicia a construção da classe `Person`.
+2. `AddField("Name", "string")` adiciona um campo à classe em construção.
+3. `AddField("Age", "int")` adiciona outro campo.
+4. `Console.WriteLine(cb)` pede a renderização final do resultado.
+
+Ou seja, o cliente não está escrevendo manualmente:
+
+- a linha `public class Person`;
+- a chave de abertura;
+- a chave de fechamento;
+- a identação de cada campo;
+- os `;` no final das linhas.
+
+Esse trabalho foi centralizado no builder e no produto que ele está montando.
+
+### O que é o produto neste exercício
+
+No exemplo atual, existe uma nuance didática útil.
+
+O produto pode ser lido em duas camadas:
+
+- **produto em memória:** o objeto `CodeClass`;
+- **representação final visível:** a string com o código da classe.
+
+Isso ajuda a evitar uma confusão comum.
+
+O builder não está simplesmente concatenando string aleatoriamente a cada chamada. Ele primeiro monta um pequeno modelo da classe e, só depois, esse modelo é renderizado como texto.
+
+### Participantes do padrão no exercício
+
+Mapeando o exercício para a linguagem do GoF:
+
+- `CodeBuilder`: é o **Builder**.
+- `CodeClass`: é o **Product** em construção.
+- `CodeField`: é uma parte simples do produto.
+- `Main`/cliente: é quem descreve o que quer construir e consome o resultado final.
+
+Repare que este exercício não usa um `Director` separado. Assim como nas outras aulas da pasta, o próprio cliente conduz a sequência da montagem.
+
+### O que faz este exercício ser um builder
+
+Este ponto vale atenção porque, à primeira vista, alguém pode pensar:
+
+**"isso não é só um `ToString()` com `StringBuilder`?"**
+
+Não. O `StringBuilder` aqui é apenas um detalhe interno de implementação para montar a saída textual.
+
+O que faz a solução ser um **Builder Pattern** é a estrutura da conversa:
+
+- existe um objeto especializado em construção;
+- ele guarda o estado do produto em construção;
+- ele expõe passos de montagem em vez de expor a formatação inteira;
+- o cliente descreve o que quer, sem montar manualmente a saída final.
+
+Se o cliente precisasse escrever diretamente:
+
+- `public class ...`
+- `{`
+- cada linha de campo
+- `}`
+
+então estaríamos mais perto de construção manual do que de builder.
+
+### Onde a fluência aparece
+
+Este exercício também funciona como ponte entre o **builder tradicional** e o **fluent builder**.
+
+O motivo é simples:
+
+- ele continua sendo um builder porque organiza a construção;
+- mas `AddField(...)` devolve o próprio builder com `return this`.
+
+Então a API ganha encadeamento:
+
+```csharp
+new CodeBuilder("Person")
+  .AddField("Name", "string")
+  .AddField("Age", "int");
+```
+
+Por isso, pedagogicamente, este exercício reforça duas ideias ao mesmo tempo:
+
+- **builder:** centralizar a montagem;
+- **fluência:** encadear a montagem de forma mais legível.
+
+### O que o aluno precisa enxergar para conseguir reproduzir sozinho
+
+Se você quisesse construir outro builder parecido depois, o raciocínio seria este:
+
+1. descubra **qual é o produto** que será montado;
+2. descubra **quais partes desse produto** variam;
+3. crie um builder que **guarde esse produto internamente**;
+4. faça cada método de configuração **alterar o produto em construção**;
+5. no final, exponha um ponto de saída que **materialize ou renderize** o resultado.
+
+No exercício atual:
+
+1. o produto é uma classe C# simples;
+2. as partes variáveis são o nome da classe e seus campos;
+3. o builder guarda uma `CodeClass`;
+4. `AddField(...)` altera essa `CodeClass`;
+5. `ToString()` devolve a representação final em texto.
+
+### O que costuma confundir aqui
+
+As confusões mais comuns nesta aula costumam ser estas:
+
+- achar que o exercício está pedindo geração genérica de código;
+- confundir `Builder Pattern` com o uso interno de `StringBuilder`;
+- não perceber que o produto interno é a estrutura da classe, e não apenas a string final;
+- olhar o `return this` e enxergar apenas "fluência", sem perceber a construção do produto por trás.
+
+### Como validar mentalmente se a solução está correta
+
+Uma boa solução para este exercício deve satisfazer estas perguntas:
+
+- o cliente consegue criar a classe sem escrever manualmente a formatação?
+- os campos são adicionados passo a passo?
+- a API ficou simples de ler?
+- a saída final respeita exatamente o formato pedido?
+
+Se essas respostas forem "sim", então o exercício cumpriu seu objetivo pedagógico.
 
 ---
 
@@ -1005,7 +1147,7 @@ O mapa deste capítulo fica assim:
 | 15. Stepwise Builder | Como forçar ordem e passos obrigatórios? |
 | 16. Functional Builder | Como pensar a construção como composição de operações? |
 | 17. Faceted Builder | Como dividir um builder grande por facetas sem trocar de produto? |
-| Coding Exercise 1 | Como aplicar o padrão em um problema prático? |
+| Coding Exercise 1 | Como aplicar o padrão em um problema prático de geração controlada de código? |
 | 18. Summary | Como consolidar o mapa mental do capítulo? |
 
 ### 18.2 Ideia central que atravessa todas as variações
@@ -1052,6 +1194,7 @@ Arquivos desta pasta usados como base prática:
 - `2.Builder/Aula03_StepWiseBuilder/StepWiseBuilder.cs`
 - `2.Builder/Aula04_FunctionalBuilder/FunctionalBuilder.cs`
 - `2.Builder/Aula05_FacetedBuilder/FacetedBuilder.cs`
+- `2.Builder/Aula06_BuilderExcercise/BuilderExcercise.cs`
 
 Observação importante:
 

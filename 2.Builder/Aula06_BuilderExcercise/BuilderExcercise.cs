@@ -108,7 +108,7 @@ namespace Aula06_BuilderExcercise
             .AddField("Name", "string")
             .AddField("Age", "int");
 
-        Console.WriteLine(cb);
+         Console.WriteLine(cb);
         }
     }
 }
