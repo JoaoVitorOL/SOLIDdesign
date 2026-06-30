@@ -43,7 +43,7 @@ using static System.Console;
 
 namespace Aula06_BuilderExcercise
 {
-    // Peca simples do produto final: um campo da classe gerada.
+    // 1º Defina as pecas simples que o produto final vai conter.
     public class CodeField
     {
         public string Type, Name;
@@ -54,7 +54,7 @@ namespace Aula06_BuilderExcercise
         }
     }
 
-    // Produto em construcao: a "classe C#" que queremos montar.
+    // 2º Defina o produto completo que sera montado pelo builder.
     public class CodeClass
     {
         public string Name;
@@ -62,7 +62,7 @@ namespace Aula06_BuilderExcercise
 
         public override string ToString()
         {
-            // O produto final sabe se renderizar como texto.
+            // 8º Internamente, alguem precisa saber renderizar o resultado final.
             var sb = new StringBuilder();
             sb.AppendLine($"public class {Name}").AppendLine("{");
             foreach (var f in Fields)
@@ -72,30 +72,30 @@ namespace Aula06_BuilderExcercise
         }
     }
 
-    // Builder: recebe pedidos do cliente e vai preenchendo o produto.
+    // 3º Crie o builder que vai guardar e preencher esse produto.
     public class CodeBuilder
     {
-        // Todo builder precisa guardar o objeto que esta sendo montado.
+        // 4º Todo builder precisa manter internamente o objeto em construcao.
         private CodeClass codeClass = new CodeClass();
 
         public CodeBuilder(string rootName)
         {
-            // Primeiro passo da construcao: definir a "raiz" do produto.
+            // 5º No construtor, receba os dados iniciais obrigatorios.
             codeClass.Name = rootName;
         }
 
         public CodeBuilder AddField(string name, string type)
         {
-            // Cada metodo de configuracao altera o produto em construcao.
+            // 6º Cada metodo de configuracao altera o produto em construcao.
             codeClass.Fields.Add(new CodeField { Name = name, Type = type });
 
-            // `return this` transforma o builder em fluent builder.
+            // 7º `return this` permite continuar a montagem na mesma linha.
             return this;
         }
 
         public override string ToString()
         {
-            // No fim, o builder entrega a representacao final do produto.
+            // 9º No fim, o builder expoe essa representacao final ao cliente.
             return codeClass.ToString();
         }
     }
@@ -104,6 +104,7 @@ namespace Aula06_BuilderExcercise
     public class Program{
         static void Main(string[] args)
         {
+            // 10º O cliente usa o builder descrevendo o que quer montar.
             var cb = new CodeBuilder("Person")
             .AddField("Name", "string")
             .AddField("Age", "int");
