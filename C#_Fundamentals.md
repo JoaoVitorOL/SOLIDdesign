@@ -114,8 +114,8 @@ Ao longo do texto, pense sempre nestas quatro perguntas:
   - [14.5 Execução adiada, materialização e armadilhas](#145-execução-adiada-materialização-e-armadilhas)
 - **Parte 15 — Coleções**
   - [15.1 Tipos de coleções principais](#151-tipos-de-coleções-principais)
-  - [15.2 List\<T\>](#152-listt)
-  - [15.3 Dictionary\<TKey, TValue\>](#153-dictionarytkey-tvalue)
+  - [15.2 List<T>](#152-listt)
+  - [15.3 Dictionary<TKey, TValue>](#153-dictionarytkey-tvalue)
   - [15.4 Como escolher a coleção certa](#154-como-escolher-a-coleção-certa)
 - **Parte 16 — Async/Await e Programação Assíncrona**
   - [16.1 O modelo assíncrono do C#](#161-o-modelo-assíncrono-do-c)
@@ -136,7 +136,7 @@ Ao longo do texto, pense sempre nestas quatro perguntas:
 - **Parte 20 — Tipos Especiais Modernos do C#**
   - [20.1 Tuple e ValueTuple](#201-tuple-e-valuetuple)
   - [20.2 `WeakReference<T>` e referências fracas no GC](#202-weakreferencet-e-referências-fracas-no-gc)
-  - [20.3 Span\<T\> e Memory\<T\> — zero-allocation slicing](#203-spant-e-memoryt-zero-allocation-slicing)
+  - [20.3 Span<T> e Memory<T> — zero-allocation slicing](#203-spant-e-memoryt-zero-allocation-slicing)
   - [20.4 Sealed classes com Pattern Matching (como Discriminated Union)](#204-sealed-classes-com-pattern-matching-como-discriminated-union)
 - **Parte 21 — Threads e Concorrência**
   - [21.1 Thread básico e ThreadPool](#211-thread-básico-e-threadpool)
@@ -188,7 +188,7 @@ Código C# (.cs)
 
 O compilador moderno do C# é chamado **Roslyn** e é open-source. O runtime moderno é o **.NET** (anteriormente chamado .NET Core), enquanto o **.NET Framework** é a versão legada, exclusiva do Windows.
 
-**Como interpretar o exemplo:** O diagrama mostra que o codigo C# nao roda direto no sistema operacional; ele passa por compilacao para IL e depois pelo runtime do .NET. Esse fluxo explica por que o ecossistema consegue oferecer coleta de lixo, verificacao de tipos, tratamento consistente de excecoes e portabilidade entre plataformas.
+**Como interpretar o exemplo:** O diagrama mostra que o código C# não roda direto no sistema operacional; ele passa por compilação para IL e depois pelo runtime do .NET. Esse fluxo explica por que o ecossistema consegue oferecer coleta de lixo, verificação de tipos, tratamento consistente de exceções e portabilidade entre plataformas.
 
 ---
 
@@ -213,7 +213,7 @@ C# tem um escopo extremamente amplo:
 
 C# continua sendo uma linguagem excelente para quem quer combinar **fundamentos fortes de engenharia** com **mercado amplo**. Ela tem um sistema de tipos maduro, uma biblioteca padrão extensa, tooling profissional e uma curva de crescimento muito boa: dá para começar com console apps simples e chegar em APIs distribuídas, engines de jogos, processamento assíncrono, tooling, automação e bibliotecas de alta performance.
 
-**Como interpretar o exemplo:** A tabela nao serve apenas para listar mercados; ela mostra que a mesma base da linguagem reaparece em contextos muito diferentes, do backend ao desenvolvimento de jogos. Isso significa que estudar fundamentos de C# rende em varias areas ao mesmo tempo, mesmo quando o framework muda.
+**Como interpretar o exemplo:** A tabela não serve apenas para listar mercados; ela mostra que a mesma base da linguagem reaparece em contextos muito diferentes, do backend ao desenvolvimento de jogos. Isso significa que estudar fundamentos de C# rende em várias áreas ao mesmo tempo, mesmo quando o framework muda.
 
 ---
 
@@ -262,7 +262,7 @@ public class Program
 | Ponto e vírgula `;` | Delimitador de instrução | Indica o fim de cada instrução |
 | Chaves `{}` | Delimitador de escopo | Define onde começa e termina um bloco |
 
-**Como interpretar o exemplo:** Os dois formatos existem porque a linguagem evoluiu para reduzir verbosidade sem abandonar compatibilidade com projetos antigos. Entender tanto `top-level statements` quanto a forma classica com `Program` e `Main` ajuda voce a ler codigo moderno e legado com a mesma naturalidade.
+**Como interpretar o exemplo:** Os dois formatos existem porque a linguagem evoluiu para reduzir verbosidade sem abandonar compatibilidade com projetos antigos. Entender tanto `top-level statements` quanto a forma clássica com `Program` e `Main` ajuda você a ler código moderno e legado com a mesma naturalidade.
 
 ---
 
@@ -301,7 +301,7 @@ Microsoft.AspNetCore.Mvc
 System.Collections.Generic
 ```
 
-**Como interpretar o exemplo:** O namespace funciona como endereco logico dos tipos, e nao apenas como enfeite visual. Uma boa estrutura de namespaces comunica dominio, camada e responsabilidade antes mesmo de voce abrir a implementacao da classe.
+**Como interpretar o exemplo:** O namespace funciona como endereço lógico dos tipos, e não apenas como enfeite visual. Uma boa estrutura de namespaces comunica domínio, camada e responsabilidade antes mesmo de você abrir a implementação da classe.
 
 ---
 
@@ -342,9 +342,9 @@ public class Exemplo
 }
 ```
 
-> ⚠️ Projetos .NET modernos (SDK-style) incluem `global using` implícitos para namespaces comuns (`System`, `System.Collections.Generic`, etc.) quando `<ImplicitUsings>enable</ImplicitUsings>` está configurado no `.csproj`. Isso significa que muitos `using` são desnecessários em projetos novos.
+> ⚠️ Projetos .NET modernos (SDK-style) incluem `global using` implícitos para namespaces comuns (`System`, `System.Collections.Generic`, etc.) quando `<Nullable>enable</Nullable>` está configurado no `.csproj`. Isso significa que muitos `using` são desnecessários em projetos novos.
 
-**Como interpretar o exemplo:** `using` reduz ruido visual ao esconder nomes totalmente qualificados que nao agregam valor a toda leitura. Alias, `using static` e `global using` mostram que C# trata legibilidade e ergonomia como parte do desenho da linguagem.
+**Como interpretar o exemplo:** `using` reduz ruído visual ao esconder nomes totalmente qualificados que não agregam valor a toda leitura. Aliás, `using static` e `global using` mostram que C# trata legibilidade e ergonomia como parte do desenho da linguagem.
 
 ---
 
@@ -372,7 +372,7 @@ var cidade = "São Paulo"; // compilador infere: string
 var total  = 150.75;      // compilador infere: double
 ```
 
-**Como interpretar o exemplo:** Toda variavel em C# liga tres ideias: nome, tipo e valor atual. Mesmo com `var`, o tipo continua existindo e sendo conhecido pelo compilador; a diferenca e apenas que ele faz a inferencia para voce.
+**Como interpretar o exemplo:** Toda variável em C# liga três ideias: nome, tipo e valor atual. Mesmo com `var`, o tipo continua existindo e sendo conhecido pelo compilador; a diferença é apenas que ele faz a inferência para você.
 
 ---
 
@@ -436,7 +436,7 @@ p2.X = 99;
 Console.WriteLine(p1.X); // ainda 10
 ```
 
-**Como interpretar o exemplo:** O que realmente importa aqui nao e decorar `stack` e `heap`, mas entender a semantica de copia e compartilhamento. Quando voce domina isso, passa a prever melhor efeitos colaterais, mutabilidade e comportamento de parametros e colecoes.
+**Como interpretar o exemplo:** O que realmente importa aqui não é decorar `stack` e `heap`, mas entender a semântica de cópia e compartilhamento. Quando você domina isso, passa a prever melhor efeitos colaterais, mutabilidade e comportamento de parâmetros e coleções.
 
 ---
 
@@ -483,7 +483,7 @@ void Processar(string? entrada)
 }
 ```
 
-**Como interpretar o exemplo:** Os operadores mostrados existem para tornar a ausencia de valor visivel no contrato, em vez de deixar `null` circular de forma implicita. Em codigo profissional, isso reduz muito `NullReferenceException` e melhora a clareza das APIs.
+**Como interpretar o exemplo:** Os operadores mostrados existem para tornar a ausência de valor visível no contrato, em vez de deixar `null` circular de forma implícita. Em código profissional, isso reduz muito `NullReferenceException` e melhora a clareza das APIs.
 
 ---
 
@@ -504,7 +504,7 @@ numero = "texto"; // ERRO DE COMPILAÇÃO — número é int, não string
 
 > Em C#, `var` é sempre inferência de tipo local, não equivalente ao `dynamic` (que é tipagem dinâmica em runtime). `var` e `dynamic` são conceitos completamente diferentes.
 
-**Como interpretar o exemplo:** O exemplo desfaz a confusao mais comum: `var` nao significa tipagem dinamica, e sim tipagem estatica com inferencia local. Use `var` quando ele reduz repeticao sem esconder um tipo importante para o leitor.
+**Como interpretar o exemplo:** O exemplo desfaz a confusão mais comum: `var` não significa tipagem dinâmica, e sim tipagem estática com inferência local. Use `var` quando ele reduz repetição sem esconder um tipo importante para o leitor.
 
 ---
 
@@ -548,7 +548,7 @@ private readonly List<string> _itens = new();
 | Onde pode ser inicializado | Apenas na declaração | Declaração ou construtor |
 | Pode ser `static` | Sempre é `static` implicitamente | Pode ser `static` ou de instância |
 
-**Como interpretar o exemplo:** A diferenca entre os dois nao e so sintatica; ela muda tempo de resolucao, flexibilidade e evolucao da API. `const` representa valor totalmente fixo e embutido pelo compilador, enquanto `readonly` protege o campo ou referencia depois da construcao do objeto.
+**Como interpretar o exemplo:** A diferença entre os dois não é só sintática; ela muda tempo de resolução, flexibilidade e evolução da API. `const` representa valor totalmente fixo e embutido pelo compilador, enquanto `readonly` protege o campo ou referência depois da construção do objeto.
 
 ---
 
@@ -694,19 +694,19 @@ Tabela mental rápida:
 |---|---|---|
 | `ITheme theme = new DarkTheme();` | Direto | Sim, enquanto essa referência forte existir |
 | `Ref<ITheme> handle = new Ref<ITheme>(...)` | Indireto, via `handle.Value` | Sim, enquanto `handle` e `Value` mantiverem o objeto alcançável |
-| `WeakReference<ITheme> weak = new WeakReference<ITheme>(theme);` | Indireto, via `TryGetTarget(...)` | Não |
+| `WeakReference<T> weak = new WeakReference<T>(theme);` | Indireto, via `TryGetTarget(...)` | Não |
 
 #### 3.6.5 Ligando isso ao projeto
 
 Na aula `Object Tracking and Bulk Replacement`, os três conceitos aparecem juntos, mas com papéis diferentes:
 
-- em **Object Tracking**, a factory guarda `WeakReference<ITheme>` para observar temas sem mantê-los vivos artificialmente;
+- em **Object Tracking**, a factory guarda `WeakReference<T>` para observar temas sem mantê-los vivos artificialmente;
 - em **Bulk Replacement**, o cliente recebe `Ref<ITheme>` para que a factory possa trocar o `Value` depois;
 - nesses dois casos, a centralização da criação pela factory é a base, mas tracking e bulk replacement continuam sendo capacidades opcionais.
 
 Se você guardar só uma frase desta seção, guarde esta:
 
-**`Ref<ITheme>` é indireção controlada; `WeakReference<ITheme>` é observação sem posse forte.**
+**`Ref<ITheme>` é indireção controlada; `WeakReference<T>` é observação sem posse forte.**
 
 **Como interpretar o exemplo:** O erro mais comum é tratar `handle`, `weak reference` e `referência normal` como se fossem apenas versões diferentes da mesma coisa. Não são. `Ref<ITheme>` resolve um problema de indireção e substituição; `WeakReference<T>` resolve um problema de observação sem estender tempo de vida; e a referência direta comum continua sendo a forma padrão de usar objetos no dia a dia.
 
@@ -742,7 +742,7 @@ Console.WriteLine(object.ReferenceEquals(a, c)); // false — referências difer
 bool igual = string.Equals("abc", "ABC", StringComparison.OrdinalIgnoreCase); // true
 ```
 
-**Como interpretar o exemplo:** `string` e um caso especial em C#: embora seja tipo de referencia, sua semantica foi desenhada para ser mais segura no uso cotidiano. Por isso `==` compara conteudo, mas comparacoes profissionais ainda devem preferir `StringComparison` quando cultura e caixa importam.
+**Como interpretar o exemplo:** `string` é um caso especial em C#: embora seja tipo de referência, sua semântica foi desenhada para ser mais segura no uso cotidiano. Por isso `==` compara conteúdo, mas comparações profissionais ainda devem preferir `StringComparison` quando cultura e caixa importam.
 
 ---
 
@@ -837,7 +837,7 @@ string json = """
     """;
 ```
 
-**Como interpretar o exemplo:** Cada forma de escrever texto ataca um problema de legibilidade diferente. Interpolacao e melhor para misturar valores com texto; `@` ajuda com caminhos e escapes; e raw strings servem muito bem para conteudos multilinha, como JSON e templates.
+**Como interpretar o exemplo:** Cada forma de escrever texto ataca um problema de legibilidade diferente. Interpolação é melhor para misturar valores com texto; `@` ajuda com caminhos e escapes; e raw strings servem muito bem para conteúdos multilinha, como JSON e templates.
 
 ---
 
@@ -882,7 +882,7 @@ int    num    = int.Parse("42");              // string → int (lança exceçã
 bool   ok     = int.TryParse("abc", out int val); // seguro — retorna false sem exceção
 ```
 
-**Como interpretar o exemplo:** A lista de metodos fica mais facil de entender quando voce a enxerga por categoria: inspecionar, transformar, extrair e converter. Esse modelo mental ajuda inclusive a evitar erros comuns, como usar `Parse` em entrada externa quando o fluxo correto e `TryParse`.
+**Como interpretar o exemplo:** A lista de métodos fica mais fácil de entender quando você a enxerga por categoria: inspecionar, transformar, extrair e converter. Esse modelo mental ajuda inclusive a evitar erros comuns, como usar `Parse` em entrada externa quando o fluxo correto é `TryParse`.
 
 ---
 
@@ -979,7 +979,7 @@ C# possui mais modificadores de acesso do que Java, oferecendo controle mais gra
 
 > **Assembly** é a unidade de compilação do .NET — um arquivo `.dll` ou `.exe`. `internal` é o equivalente aproximado ao `package-private` do Java, mas com escopo de assembly em vez de pacote.
 
-**Como interpretar o exemplo:** Modificador de acesso nao serve apenas para esconder membros; ele define quem pode colaborar com quem dentro do sistema. Quando voce trata `public`, `private`, `protected`, `internal` e os compostos como fronteiras de design, suas APIs ficam menores e menos acopladas.
+**Como interpretar o exemplo:** Modificador de acesso não serve apenas para esconder membros; ele define quem pode colaborar com quem dentro do sistema. Quando você trata `public`, `private`, `protected`, `internal` e os compostos como fronteiras de design, suas APIs ficam menores e menos acopladas.
 
 ---
 
@@ -1039,7 +1039,7 @@ public class ContaBancaria
 
 [⬆️ Voltar ao Sumário](#sumário)
 
-**Como interpretar o exemplo:** A `ContaBancaria` mostra um padrao muito comum em C#: campos privados para estado interno e propriedades publicas para exposicao controlada. Isso permite validar entrada, manter invariantes e evoluir a implementacao sem quebrar a interface visivel.
+**Como interpretar o exemplo:** A `ContaBancaria` mostra um padrão muito comum em C#: campos privados para estado interno e propriedades públicas para exposição controlada. Isso permite validar entrada, manter invariantes e evoluir a implementação sem quebrar a interface visível.
 
 ---
 
@@ -1095,7 +1095,7 @@ Console.WriteLine(p.NomeCompleto); // "Ana (ID: ...)"
 p.Email = "novo@email.com";       // ERRO se Email for { get; init; } após construção
 ```
 
-**Como interpretar o exemplo:** Properties parecem campos para quem consome a classe, mas se comportam como acessos controlados por `get`, `set` ou `init`. Esse recurso existe para encapsular validacao, calculo e evolucao interna sem mudar o contrato externo.
+**Como interpretar o exemplo:** Properties parecem campos para quem consome a classe, mas se comportam como acessos controlados por `get`, `set` ou `init`. Esse recurso existe para encapsular validação, cálculo e evolução interna sem mudar o contrato externo.
 
 Em termos de vocabulário, é aqui que entram os **getters** e **setters**:
 
@@ -1311,7 +1311,7 @@ public Calculadora(string nome)
 
 Perceba a ideia central: o `=>` não cria uma regra mágica nova; ele apenas substitui um bloco mais verboso quando a lógica cabe em uma única expressão ou ação direta.
 
-**Como interpretar o exemplo:** Essa sintaxe faz sentido quando a intencao inteira cabe em uma unica expressao. O ganho nao e apenas escrever menos, e sim tornar obvio que aquele membro tem logica direta e nao precisa de um bloco completo.
+**Como interpretar o exemplo:** Essa sintaxe faz sentido quando a intenção inteira cabe em uma única expressão. O ganho não é apenas escrever menos, e sim tornar óbvio que aquele membro tem lógica direta e não precisa de um bloco completo.
 
 **Regra prática:** se o membro cabe naturalmente em uma linha e continua claro, `=>` melhora a leitura. Se a lógica começa a exigir várias decisões, validações ou efeitos colaterais, normalmente um bloco com `{ ... }` volta a ser mais legível.
 
@@ -1368,7 +1368,7 @@ public class Configuracao
 }
 ```
 
-**Como interpretar o exemplo:** `static` separa o que pertence ao tipo do que pertence a cada instancia. Isso e excelente para utilitarios e estado compartilhado, mas exige cuidado porque qualquer dado estatico tende a viver mais e acoplar mais partes do sistema.
+**Como interpretar o exemplo:** `static` separa o que pertence ao tipo do que pertence a cada instância. Isso é excelente para utilitários e estado compartilhado, mas exige cuidado porque qualquer dado estático tende a viver mais e acoplar mais partes do sistema.
 
 ---
 
@@ -1399,7 +1399,7 @@ public class Mamifero : Animal
 }
 ```
 
-**Como interpretar o exemplo:** `sealed` e uma forma explicita de dizer que aquela linha de extensao nao deve continuar. Em design orientado a objetos, isso protege invariantes e evita que heranca seja usada onde o tipo nao foi pensado para ser prolongado.
+**Como interpretar o exemplo:** `sealed` é uma forma explícita de dizer que aquela linha de extensão não deve continuar. Em design orientado a objetos, isso protege invariantes e evita que herança seja usada onde o tipo não foi pensado para ser prolongado.
 
 ---
 
@@ -1436,7 +1436,7 @@ public class Circulo : Forma
 }
 ```
 
-**Como interpretar o exemplo:** Uma classe abstrata captura o que e comum a uma familia de tipos sem fingir que ja e concreta o bastante para ser instanciada. Ela define o que toda subclasse deve fornecer e o que a base ja consegue entregar pronto.
+**Como interpretar o exemplo:** Uma classe abstrata captura o que é comum a uma família de tipos sem fingir que já é concreta o bastante para ser instanciada. Ela define o que toda subclasse deve fornecer e o que a base já consegue entregar pronto.
 
 ---
 
@@ -1470,7 +1470,7 @@ a.EmitirSom(); // "Au au!" — polimorfismo funciona com virtual/override
 a.Respirar();  // "Respirando" — sem polimorfismo, chama a versão de Animal
 ```
 
-**Como interpretar o exemplo:** O exemplo deixa claro que polimorfismo em C# acontece apenas quando a base abre a porta com `virtual` e a derivada participa com `override`. `new` nao entra no mesmo contrato; ele apenas esconde um membro e pode surpreender quem enxerga o objeto pelo tipo da base.
+**Como interpretar o exemplo:** O exemplo deixa claro que polimorfismo em C# acontece apenas quando a base abre a porta com `virtual` e a derivada participa com `override`. `new` não entra no mesmo contrato; ele apenas esconde um membro e pode surpreender quem enxerga o objeto pelo tipo da base.
 
 ---
 
@@ -1520,7 +1520,7 @@ public class Funcionario : Pessoa
 }
 ```
 
-**Como interpretar o exemplo:** `this` e `base` existem para deixar claro de onde vem a chamada: da propria classe atual ou da implementacao herdada. Essa explicitude ajuda a ler melhor construcao de objetos, reutilizacao de logica e encadeamento em hierarquias.
+**Como interpretar o exemplo:** `this` e `base` existem para deixar claro de onde vem a chamada: da própria classe atual ou da implementação herdada. Essa explicitude ajuda a ler melhor construção de objetos, reutilização de lógica e encadeamento em hierarquias.
 
 ---
 
@@ -1569,7 +1569,7 @@ static string ClassificarPonto(int x, int y) => (x, y) switch
 };
 ```
 
-**Como interpretar o exemplo:** O C# moderno prefere pattern matching porque ele combina teste, extracao e classificacao de forma mais segura e expressiva. Em vez de varios casts espalhados, voce descreve a forma do valor e o compilador ajuda a manter o fluxo correto.
+**Como interpretar o exemplo:** O C# moderno prefere pattern matching porque ele combina teste, extração e classificação de forma mais segura e expressiva. Em vez de vários casts espalhados, você descreve a forma do valor e o compilador ajuda a manter o fluxo correto.
 
 ---
 
@@ -1592,7 +1592,7 @@ string conteudo = reader.ReadToEnd();
 // reader.Dispose() é chamado ao final do método/bloco
 ```
 
-**Como interpretar o exemplo:** Aqui `using` nao tem a ver com importar namespaces; ele existe para descarte deterministico de recursos que o GC nao fecha no tempo certo. Arquivos, conexoes e streams sao exemplos classicos em que esperar a coleta de lixo nao e uma estrategia aceitavel.
+**Como interpretar o exemplo:** Aqui `using` não tem a ver com importar namespaces; ele existe para descarte determinístico de recursos que o GC não fecha no tempo certo. Arquivos, conexões e streams são exemplos clássicos em que esperar a coleta de lixo não é uma estratégia aceitável.
 
 ---
 
@@ -1622,7 +1622,7 @@ void ImprimirPonto(in Ponto p) => Console.WriteLine($"({p.X}, {p.Y})");
 // p.X = 0; // ERRO — 'in' é somente leitura
 ```
 
-**Como interpretar o exemplo:** Os tres modificadores deixam explicita a intencao de passagem por referencia. `ref` compartilha leitura e escrita, `out` obriga preenchimento de saida, e `in` evita copia sem permitir modificacao do argumento pelo metodo chamado.
+**Como interpretar o exemplo:** Os três modificadores deixam explícita a intenção de passagem por referência. `ref` compartilha leitura e escrita, `out` obriga preenchimento de saída, e `in` evita cópia sem permitir modificação do argumento pelo método chamado.
 
 ---
 
@@ -1713,7 +1713,7 @@ string display = nome ?? "Sem nome"; // "Sem nome"
 nome ??= "Padrão"; // atribui apenas se nome for null
 ```
 
-**Como interpretar o exemplo:** Esse bloco representa a forma mais direta de modelar decisoes booleanas. O mesmo trecho tambem mostra que C# moderno oferece formas orientadas a valor, como operador ternario e nulidade, para escrever escolhas pequenas de forma mais concisa.
+**Como interpretar o exemplo:** Esse bloco representa a forma mais direta de modelar decisões booleanas. O mesmo trecho também mostra que C# moderno oferece formas orientadas a valor, como operador ternário e nulidade, para escrever escolhas pequenas de forma mais concisa.
 
 ---
 
@@ -1764,7 +1764,7 @@ string classificar(int n) => n switch
 };
 ```
 
-**Como interpretar o exemplo:** O `switch` classico organiza varios caminhos por valor, enquanto a switch expression aproxima o controle de fluxo de uma classificacao declarativa. Em C# moderno, isso torna o `switch` cada vez mais util para padroes e formas, nao apenas para substituir varios `if`s`.
+**Como interpretar o exemplo:** O `switch` clássico organiza vários caminhos por valor, enquanto a switch expression aproxima o controle de fluxo de uma classificação declarativa. Em C# moderno, isso torna o `switch` cada vez mais útil para padrões e formas, não apenas para substituir vários `if`s`.
 
 ---
 
@@ -1807,7 +1807,7 @@ for (int i = 0; i < 10; i++)
 }
 ```
 
-**Como interpretar o exemplo:** Cada laco existe para uma intencao principal: `for` para contagem, `foreach` para sequencias, `while` para condicao e `do-while` para garantir ao menos uma execucao. `break` e `continue` refinam esse fluxo, mas em excesso podem deixar a leitura mais dificil.
+**Como interpretar o exemplo:** Cada laço existe para uma intenção principal: `for` para contagem, `foreach` para sequências, `while` para condição e `do-while` para garantir ao menos uma execução. `break` e `continue` refinam esse fluxo, mas em excesso podem deixar a leitura mais difícil.
 
 ---
 
@@ -1849,7 +1849,7 @@ SomarTodos(1, 2, 3, 4);    // 10
 SomarTodos(new int[]{1,2}); // array explícito também funciona
 ```
 
-**Como interpretar o exemplo:** A assinatura de um metodo e um contrato de uso: ela informa retorno, parametros e ergonomia de chamada. Recursos como parametros opcionais, nomeados e `params` tornam a API mais amigavel, mas tambem moldam a forma como outros desenvolvedores entendem o que e obrigatorio.
+**Como interpretar o exemplo:** A assinatura de um método é um contrato de uso: ela informa retorno, parâmetros e ergonomia de chamada. Recursos como parâmetros opcionais, nomeados e `params` tornam a API mais amigável, mas também moldam a forma como outros desenvolvedores entendem o que é obrigatório.
 
 ---
 
@@ -1881,7 +1881,7 @@ public static class StringExtensions
 
 // Uso — parece um método nativo de string
 bool eh   = "arara".EhPalindromo();    // true
-string cap = "jOÃo".Capitalizar();     // "João"
+string cap = "jOão".Capitalizar();     // "João"
 
 // Métodos de extensão em IEnumerable
 public static class EnumerableExtensions
@@ -1892,7 +1892,7 @@ public static class EnumerableExtensions
 }
 ```
 
-**Como interpretar o exemplo:** Um metodo de extensao parece nativo do tipo alvo, mas continua sendo um metodo estatico com sintaxe especial. Isso e excelente para criar APIs fluentes, desde que voce nao esconda dependencias nem espalhe comportamento sem criterio.
+**Como interpretar o exemplo:** Um método de extensão parece nativo do tipo alvo, mas continua sendo um método estático com sintaxe especial. Isso é excelente para criar APIs fluentes, desde que você não esconda dependências nem espalhe comportamento sem critério.
 
 ---
 
@@ -1915,7 +1915,7 @@ public class Geometria
 
 [⬆️ Voltar ao Sumário](#sumário)
 
-**Como interpretar o exemplo:** Sobrecarga funciona bem quando varias assinaturas representam a mesma ideia com entradas diferentes. Quando as versoes passam a fazer coisas semanticamente distantes, o recurso deixa de melhorar a API e comeca a confundir o leitor.
+**Como interpretar o exemplo:** Sobrecarga funciona bem quando várias assinaturas representam a mesma ideia com entradas diferentes. Quando as versões passam a fazer coisas semanticamente distantes, o recurso deixa de melhorar a API e começa a confundir o leitor.
 
 ---
 
@@ -1952,7 +1952,7 @@ string tipo = hoje switch
 };
 ```
 
-**Como interpretar o exemplo:** `enum` existe para dar nome semantico a conjuntos finitos de estados, evitando numeros magicos pelo codigo. O cast e o parse lembram que ainda existe uma base numerica por baixo, entao valores externos continuam precisando de validacao.
+**Como interpretar o exemplo:** `enum` existe para dar nome semântico a conjuntos finitos de estados, evitando números mágicos pelo código. O cast e o parse lembram que ainda existe uma base numérica por baixo, então valores externos continuam precisando de validação.
 
 ---
 
@@ -1990,7 +1990,7 @@ usuario &= ~Permissoes.Escrita;  // remove
 
 [⬆️ Voltar ao Sumário](#sumário)
 
-**Como interpretar o exemplo:** Aqui o `enum` nao representa estados unicos, e sim combinacoes de permissoes. O detalhe tecnico decisivo e usar potencias de dois, para que cada bit represente uma capacidade independente e possa ser composto sem ambiguidade.
+**Como interpretar o exemplo:** Aqui o `enum` não representa estados únicos, e sim combinações de permissões. O detalhe técnico decisivo é usar potências de dois, para que cada bit represente uma capacidade independente e possa ser composto sem ambiguidade.
 
 ---
 
@@ -2051,7 +2051,7 @@ public class ContaBancaria
 }
 ```
 
-**Como interpretar o exemplo:** A classe foi montada como mapa dos principais elementos de um tipo orientado a objetos em C#: campos, propriedades, construtor, metodos e sobrescritas. Ler uma classe com essa lente ajuda a ver que ela nao guarda apenas dados; ela define identidade, invariantes e integracao com o resto do runtime.
+**Como interpretar o exemplo:** A classe foi montada como mapa dos principais elementos de um tipo orientado a objetos em C#: campos, propriedades, construtor, métodos e sobrescritas. Ler uma classe com essa lente ajuda a ver que ela não guarda apenas dados; ela define identidade, invariantes e integração com o resto do runtime.
 
 ---
 
@@ -2069,7 +2069,7 @@ public class ContaBancaria
 | Assinatura | Mesmo nome da classe. Não possui tipo de retorno (nem mesmo `void`). |
 | Quantidade | Uma classe pode ter múltiplos construtores, desde que cada um tenha uma lista de parâmetros distinta (sobrecarga). |
 
-**Como interpretar o exemplo:** A tabela organiza o construtor como contrato de nascimento do objeto, e nao como um metodo qualquer. Essa distincao importa porque o construtor comunica o que e obrigatorio para a instancia existir em estado coerente.
+**Como interpretar o exemplo:** A tabela organiza o construtor como contrato de nascimento do objeto, e não como um método qualquer. Essa distinção importa porque o construtor comunica o que é obrigatório para a instância existir em estado coerente.
 
 #### 11.2.2 Construtor padrão (implícito)
 
@@ -2096,7 +2096,7 @@ var p = new Produto(); // válido — construtor implícito disponível
 
 > Assim que se declara `public Produto(string nome) { ... }`, o construtor sem parâmetros desaparece e `new Produto()` passa a gerar erro de compilação, salvo se for declarado manualmente.
 
-**Como interpretar o exemplo:** O comportamento implicito do compilador resolve casos simples, mas tambem gera surpresa quando a classe ganha seu primeiro construtor explicito. Saber que o construtor sem parametros desaparece nessa hora evita muitos erros de instanciacao.
+**Como interpretar o exemplo:** O comportamento implícito do compilador resolve casos simples, mas também gera surpresa quando a classe ganha seu primeiro construtor explícito. Saber que o construtor sem parâmetros desaparece nessa hora evita muitos erros de instânciação.
 
 #### 11.2.3 Construtor parametrizado
 
@@ -2129,7 +2129,7 @@ var p = new Produto("Teclado", 199.90);
 | `if (string.IsNullOrWhiteSpace(nome)) throw ...` | Validação executada antes de qualquer atribuição — garante estado consistente. |
 | `Nome = nome;` | Inicializa a propriedade `Nome`, que só pode ser atribuída dentro da classe (`get;` sem `set`). |
 
-**Como interpretar o exemplo:** Esse formato e o mais importante quando o objeto depende de dados essenciais para existir com sentido. Repare que a validacao acontece antes da atribuicao, o que reforca a boa pratica de falhar cedo em vez de permitir estado invalido.
+**Como interpretar o exemplo:** Esse formato é o mais importante quando o objeto depende de dados essenciais para existir com sentido. Repare que a validação acontece antes da atribuição, o que reforça a boa prática de falhar cedo em vez de permitir estado inválido.
 
 #### 11.2.4 Sobrecarga de construtores
 
@@ -2172,7 +2172,7 @@ public class Retangulo
 | `public Retangulo(double lado)` | Assinatura com um único parâmetro — distinta da anterior pela quantidade de argumentos. |
 | `public Retangulo()` | Assinatura sem parâmetros — válida porque as duas anteriores existem como sobrecargas explícitas. |
 
-**Como interpretar o exemplo:** Sobrecargas oferecem caminhos diferentes para criar o mesmo tipo, mas o objeto final continua sendo conceitualmente o mesmo. Use esse recurso para representar inicializacoes legitimas, e nao para misturar modelos mentais diferentes sob o mesmo nome de classe.
+**Como interpretar o exemplo:** Sobrecargas oferecem caminhos diferentes para criar o mesmo tipo, mas o objeto final continua sendo conceitualmente o mesmo. Use esse recurso para representar inicializações legítimas, e não para misturar modelos mentais diferentes sob o mesmo nome de classe.
 
 #### 11.2.5 Encadeamento de construtores com `this(...)`
 
@@ -2211,7 +2211,7 @@ public class Retangulo
 
 > **Ordem de execução:** o construtor referenciado em `this(...)` é executado **integralmente primeiro**; só então o corpo do construtor atual é executado.
 
-**Como interpretar o exemplo:** `this(...)` evita duplicacao porque transforma um construtor em ponto central de validacao e inicializacao. Esse padrao e valioso quando voce quer varias portas de entrada para o mesmo tipo, mas precisa manter uma unica fonte de verdade.
+**Como interpretar o exemplo:** `this(...)` evita duplicação porque transforma um construtor em ponto central de validação e inicialização. Esse padrão é valioso quando você quer várias portas de entrada para o mesmo tipo, mas precisa manter uma única fonte de verdade.
 
 #### 11.2.6 Chamada ao construtor da classe base com `base(...)`
 
@@ -2247,7 +2247,7 @@ public class Funcionario : Pessoa
 
 > Caso a classe base não possua construtor sem parâmetros, toda classe derivada **deve** chamar explicitamente um construtor da base via `base(...)`; caso contrário ocorre erro de compilação.
 
-**Como interpretar o exemplo:** `base(...)` garante que a classe derivada respeite o processo de inicializacao da base, em vez de tentar reconstruir isso manualmente. Em outras palavras, a subclasse nao deve pular as invariantes da classe pai; ela deve completa-las.
+**Como interpretar o exemplo:** `base(...)` garante que a classe derivada respeite o processo de inicialização da base, em vez de tentar reconstruir isso manualmente. Em outras palavras, a subclasse não deve pular as invariantes da classe pai; ela deve completa-las.
 
 #### 11.2.7 Ordem de execução em uma hierarquia de herança
 
@@ -2286,7 +2286,7 @@ var d = new Derivada();
 // Construtor (Derivada)
 ```
 
-**Como interpretar o exemplo:** A ordem mostrada explica por que certos membros ainda nao estao prontos quando outro codigo da hierarquia tenta acessa-los cedo demais. Esse entendimento evita bugs sutis de inicializacao, principalmente em classes derivadas.
+**Como interpretar o exemplo:** A ordem mostrada explica por que certos membros ainda não estão prontos quando outro código da hierarquia tenta acessá-los cedo demais. Esse entendimento evita bugs sutis de inicialização, principalmente em classes derivadas.
 
 #### 11.2.8 Construtor estático
 
@@ -2297,7 +2297,7 @@ Já introduzido na [Parte 7.1](#71-static); reapresentado aqui no contexto espec
 | Característica | Descrição |
 |---|---|
 | Assinatura | Sem modificador de acesso, sem parâmetros: `static NomeDaClasse() { ... }` |
-| Execução | Uma única vez, automaticamente, antes do primeiro uso do tipo (acesso a membro estático ou primeira instanciação) — controlada pelo CLR, não pelo programador. |
+| Execução | Uma única vez, automaticamente, antes do primeiro uso do tipo (acesso a membro estático ou primeira instânciação) — controlada pelo CLR, não pelo programador. |
 | Finalidade | Inicializar campos `static` que exigem lógica não trivial. |
 
 ```csharp
@@ -2317,7 +2317,7 @@ public class Configuracao
 }
 ```
 
-**Como interpretar o exemplo:** O construtor estatico existe para inicializacao do tipo, nao do objeto. Ele roda uma unica vez, sob controle do CLR, e por isso deve ser reservado para setup realmente global do tipo.
+**Como interpretar o exemplo:** O construtor estático existe para inicialização do tipo, não do objeto. Ele roda uma única vez, sob controle do CLR, e por isso deve ser reservado para setup realmente global do tipo.
 
 #### 11.2.9 Construtor privado
 
@@ -2340,7 +2340,7 @@ public sealed class ConfiguracaoGlobal
 var c = ConfiguracaoGlobal.Instancia; // única forma válida de obter a instância
 ```
 
-**Como interpretar o exemplo:** Tornar o construtor privado restringe quem pode criar instancias e por qual caminho. Isso e util quando a propria classe precisa controlar cardinalidade, cache, factories ou politicas especiais de criacao.
+**Como interpretar o exemplo:** Tornar o construtor privado restringe quem pode criar instâncias e por qual caminho. Isso é útil quando a própria classe precisa controlar cardinalidade, cache, factories ou políticas especiais de criação.
 
 #### 11.2.10 Construtores primários (Primary Constructors — C# 12)
 
@@ -2372,7 +2372,7 @@ var p = new Produto("Teclado", 199.90);
 
 > **Atenção:** Eu, Claude, não estou 100% certo de todos os detalhes finos de captura de parâmetros de construtores primários (por exemplo, regras exatas de quando o compilador gera um campo oculto versus reavalia o parâmetro a cada acesso) — recomenda-se validar esse comportamento específico na documentação oficial da Microsoft antes de aplicar em código de produção sensível a performance.
 
-**Como interpretar o exemplo:** O ganho aqui e reduzir boilerplate em classes cujo construtor apenas recebe e expoe dados. O cuidado e nao sacrificar legibilidade: quando a classe cresce demais, a forma tradicional pode voltar a ser mais clara.
+**Como interpretar o exemplo:** O ganho aqui é reduzir boilerplate em classes cujo construtor apenas recebe e expõe dados. O cuidado é não sacrificar legibilidade: quando a classe cresce demais, a forma tradicional pode voltar a ser mais clara.
 
 #### 11.2.11 Tabela-resumo dos tipos de construtor
 
@@ -2386,9 +2386,9 @@ var p = new Produto("Teclado", 199.90);
 | Privado | `private` | Apenas internamente à própria classe | Singleton, métodos fábrica |
 | Primário (C# 12) | conforme classe | Igual ao parametrizado | Redução de verbosidade em classes simples |
 
-**Como interpretar o exemplo:** A tabela final deixa claro que o tipo de construtor escolhido comunica intencao arquitetural, e nao apenas gosto sintatico. Em geral, o melhor construtor e o mais simples que ainda deixa o objeto nascer valido e facil de usar.
+**Como interpretar o exemplo:** A tabela final deixa claro que o tipo de construtor escolhido comunica intenção arquitetural, e não apenas gosto sintático. Em geral, o melhor construtor é o mais simples que ainda deixa o objeto nascer válido e fácil de usar.
 
-**Como interpretar o exemplo:** Todo o capitulo de construtores gira em torno da mesma ideia: o momento do `new` e a hora de garantir que o objeto nasca valido. Os diferentes estilos existem para equilibrar clareza, reaproveitamento da logica de inicializacao e protecao de invariantes.
+**Como interpretar o exemplo:** Todo o capítulo de construtores gira em torno da mesma ideia: o momento do `new` é a hora de garantir que o objeto nasça válido. Os diferentes estilos existem para equilibrar clareza, reaproveitamento da lógica de inicialização e proteção de invariantes.
 
 ---
 
@@ -2435,7 +2435,7 @@ public record Temperatura(double Valor, string Unidade)
 public record struct Coordenada(double Latitude, double Longitude);
 ```
 
-**Como interpretar o exemplo:** Records sao ideais quando o foco do tipo esta nos dados e nao na identidade da instancia. O exemplo destaca tres ideias centrais: igualdade por valor, copia imutavel com `with` e sintaxe compacta para modelos orientados a dados.
+**Como interpretar o exemplo:** Records são ideais quando o foco do tipo está nos dados e não na identidade da instância. O exemplo destaca três ideias centrais: igualdade por valor, cópia imutável com `with` e sintaxe compacta para modelos orientados a dados.
 
 ---
 
@@ -2506,7 +2506,7 @@ deve ser lida assim:
 
 - crie um novo `Pedido`;
 - passe o builder atual (`this`) para o construtor privado;
-- o construtor do `Pedido` copia do builder os valores acumulados.
+- o construtor do `Pedido` cópia do builder os valores acumulados.
 
 Em outras palavras, o builder funciona como uma "área de montagem temporária". O produto final só nasce no `Build()`.
 
@@ -2518,7 +2518,7 @@ Em outras palavras, o builder funciona como uma "área de montagem temporária".
 
 [⬆️ Voltar ao Sumário](#sumário)
 
-**Como interpretar o exemplo:** Builder resolve bem objetos com poucos parametros obrigatorios e varios opcionais, especialmente quando o conjunto de construtores ficaria ilegivel. Ele tambem aproxima a chamada da forma como a pessoa pensa no objeto: primeiro configura, depois materializa com `Build()`.
+**Como interpretar o exemplo:** Builder resolve bem objetos com poucos parâmetros obrigatórios e vários opcionais, especialmente quando o conjunto de construtores ficaria ilegível. Ele também aproxima a chamada da forma como a pessoa pensa no objeto: primeiro configura, depois materializa com `Build()`.
 
 ---
 
@@ -2587,7 +2587,7 @@ Regras práticas importantes:
 
 Em engenharia de software real, a pergunta não é "posso herdar?", mas sim **"a herança expressa corretamente o domínio?"**. Se a resposta for "mais ou menos", provavelmente uma interface ou composição produzirá um design melhor.
 
-**Como interpretar o exemplo:** O trecho com `Animal animal = new Cachorro(...)` e o teste mais importante da heranca: o consumidor trabalha com a abstracao e o runtime despacha o comportamento especializado correto. Esse e o uso saudavel da heranca em C#: representar um verdadeiro relacionamento `e um` sem quebrar o contrato da base.
+**Como interpretar o exemplo:** O trecho com `Animal animal = new Cachorro(...)` é o teste mais importante da herança: o consumidor trabalha com a abstração e o runtime despacha o comportamento especializado correto. Esse é o uso saudável da herança em C#: representar um verdadeiro relacionamento `é um` sem quebrar o contrato da base.
 
 ---
 
@@ -2750,7 +2750,7 @@ Regras práticas para decidir:
 
 Em termos de arquitetura, interface é um dos recursos mais importantes do C# para aplicar **DIP (Dependency Inversion Principle)**, testes automatizados e substituição de infraestrutura sem reescrever o domínio.
 
-**Como interpretar o exemplo:** A forca da interface aparece quando o consumidor passa a conhecer a capacidade e nao a classe concreta. Esse movimento reduz acoplamento, melhora testabilidade e facilita evolucao do sistema sem reescrever quem usa a API.
+**Como interpretar o exemplo:** A força da interface aparece quando o consumidor passa a conhecer a capacidade e não a classe concreta. Esse movimento reduz acoplamento, melhora testabilidade e facilita evolução do sistema sem reescrever quem usa a API.
 
 ---
 
@@ -2793,7 +2793,7 @@ notificar("Evento ocorreu"); // chama os dois
 notificar -= LogConsole; // remove
 ```
 
-**Como interpretar o exemplo:** Delegate e a forma que C# usa para tratar comportamento como valor de primeira classe, mas com seguranca de assinatura. O exemplo de multicast mostra que, alem de apontar para um metodo, um delegate pode representar uma cadeia de callbacks executados em sequencia.
+**Como interpretar o exemplo:** Delegate é a forma que C# usa para tratar comportamento como valor de primeira classe, mas com segurança de assinatura. O exemplo de multicast mostra que, além de apontar para um método, um delegate pode representar uma cadeia de callbacks executados em sequência.
 
 ---
 
@@ -2826,7 +2826,7 @@ Predicate<int>       positivo  = n => n > 0;
 bool r = positivo(-5); // false
 ```
 
-**Como interpretar o exemplo:** Esses delegates genericos existem para evitar a criacao de tipos customizados em cenarios muito comuns. Quando voce domina `Func`, `Action` e `Predicate`, passa a ler com mais naturalidade APIs modernas do .NET e do LINQ.
+**Como interpretar o exemplo:** Esses delegates genéricos existem para evitar a criação de tipos customizados em cenários muito comuns. Quando você domina `Func`, `Action` e `Predicate`, passa a ler com mais naturalidade APIs modernas do .NET e do LINQ.
 
 ---
 
@@ -2926,7 +2926,7 @@ Essa forma ajuda a enxergar outra diferença importante:
 - em **expression-bodied members**, o `=>` pertence à definição de um membro da classe
 - em **lambdas**, o `=>` pertence à definição de uma função anônima inline
 
-**Como interpretar o exemplo:** Lambda e a forma compacta de escrever uma funcao anonima no ponto em que ela e usada. O valor real aparece quando voce percebe que ela aproxima o codigo da intencao, sem obrigar a nomear um metodo auxiliar para algo muito local.
+**Como interpretar o exemplo:** Lambda é a forma compacta de escrever uma função anônima no ponto em que ela é usada. O valor real aparece quando você percebe que ela aproxima o código da intenção, sem obrigar a nomear um método auxiliar para algo muito local.
 
 **Regra prática:** use lambda quando o comportamento é pequeno, local e faz mais sentido perto do uso. Se a lógica cresce, ganha nome próprio ou precisa ser reutilizada em muitos lugares, transformar aquilo em método normal costuma melhorar a manutenção.
 
@@ -2973,7 +2973,7 @@ botao.Clicar();            // "Botão clicado!"
 botao.Clicado -= Handler;  // cancela assinatura
 ```
 
-**Como interpretar o exemplo:** `event` encapsula um delegate para permitir inscricao e cancelamento sem liberar disparo externo arbitrario. Assim, o publicador controla quando algo aconteceu, e os assinantes controlam apenas como reagir.
+**Como interpretar o exemplo:** `event` encapsula um delegate para permitir inscrição e cancelamento sem liberar disparo externo arbitrário. Assim, o publicador controla quando algo aconteceu, e os assinantes controlam apenas como reagir.
 
 ---
 
@@ -3046,7 +3046,7 @@ Também é essencial entender que LINQ não é apenas "a maneira bonita de itera
 - reduz loops imperativos repetitivos;
 - pode ser otimizado por provedores externos.
 
-**Como interpretar o exemplo:** O ponto central e enxergar a query como pipeline declarativo: fonte, operadores e momento de materializacao. Quando voce pensa assim, LINQ deixa de parecer magica elegante e passa a ser uma forma precisa de modelar transformacao de dados.
+**Como interpretar o exemplo:** O ponto central é enxergar a query como pipeline declarativo: fonte, operadores e momento de materialização. Quando você pensa assim, LINQ deixa de parecer mágica elegante e passa a ser uma forma precisa de modelar transformação de dados.
 
 ---
 
@@ -3153,7 +3153,7 @@ Algumas diferenças críticas que todo engenheiro C# precisa dominar:
 
 Em outras palavras: LINQ deixa o código conciso, mas não elimina o custo computacional. Código declarativo continua tendo custo real.
 
-**Como interpretar o exemplo:** A categoria de cada operador importa mais do que decorar todas as assinaturas. Quem domina filtro, projecao, agregacao, busca, agrupamento e conjunto consegue ler quase qualquer pipeline LINQ com rapidez.
+**Como interpretar o exemplo:** A categoria de cada operador importa mais do que decorar todas as assinaturas. Quem domina filtro, projeção, agregação, busca, agrupamento e conjunto consegue ler quase qualquer pipeline LINQ com rapidez.
 
 ---
 
@@ -3219,7 +3219,7 @@ public sealed class CatalogoProdutos
 }
 ```
 
-Isso é melhor do que retornar `List<string>` quando o chamador não precisa de operações específicas da lista.
+Isso é melhor do que retornar `List<T>` quando o chamador não precisa de operações específicas da lista.
 
 #### O que `IEnumerable<T>` não garante
 
@@ -3246,7 +3246,7 @@ Armadilhas comuns:
 
 Em resumo: `IEnumerable<T>` é o contrato ideal para **sequência**, não necessariamente para **coleção rica**.
 
-**Como interpretar o exemplo:** O exemplo com `yield return` reforca que sequencia nao e sinonimo de lista pronta. Em design de API, expor `IEnumerable<T>` e prometer iteracao, e nao indexacao, contagem barata ou armazenamento materializado.
+**Como interpretar o exemplo:** O exemplo com `yield return` reforça que sequência não é sinônimo de lista pronta. Em design de API, expor `IEnumerable<T>` é prometer iteração, e não indexação, contagem barata ou armazenamento materializado.
 
 ---
 
@@ -3318,7 +3318,7 @@ Regra prática:
 - use `IEnumerable<T>` quando o dado já foi materializado ou quando o contrato é somente de enumeração;
 - não misture os dois sem saber em que lado da fronteira de execução você está.
 
-**Como interpretar o exemplo:** `IQueryable<T>` muda a conversa porque a consulta deixa de ser apenas uma sequencia local e passa a ser uma descricao que outro provider pode reinterpretar, como SQL em um ORM. O exemplo existe justamente para treinar a pergunta: isso vai rodar no banco ou em memoria?
+**Como interpretar o exemplo:** `IQueryable<T>` muda a conversa porque a consulta deixa de ser apenas uma sequência local e passa a ser uma descrição que outro provider pode reinterpretar, como SQL em um ORM. O exemplo existe justamente para treinar a pergunta: isso vai rodar no banco ou em memória?
 
 ---
 
@@ -3406,7 +3406,7 @@ Boas práticas:
 
 [⬆️ Voltar ao Sumário](#sumário)
 
-**Como interpretar o exemplo:** Execucao adiada e uma das maiores fontes de surpresa em LINQ, porque escrever a query nao significa executa-la. O exercicio mental correto e sempre perguntar onde a pipeline e consumida e em que ponto o resultado vira dados concretos.
+**Como interpretar o exemplo:** Execução adiada é uma das maiores fontes de surpresa em LINQ, porque escrever a query não significa executá-la. O exercício mental correto é sempre perguntar onde a pipeline é consumida e em que ponto o resultado vira dados concretos.
 
 ---
 
@@ -3439,9 +3439,9 @@ Agora sim, os tipos concretos mais comuns:
 | `SortedSet<T>` | Conjunto ordenado | Unicidade + ordenação | Operações tendem a ser `O(log n)` |
 | `Queue<T>` | Fila FIFO | Processamento em ordem de chegada | Não é para acesso aleatório |
 | `Stack<T>` | Pilha LIFO | Backtracking, undo, parsing | Semântica específica |
-| `Dictionary<TKey,TValue>` | Tabela hash | Busca por chave muito rápida | Chave deve ser estável e bem comparável |
-| `SortedDictionary<TKey,TValue>` | Mapa ordenado | Chaves sempre em ordem | Mais caro que `Dictionary` comum |
-| `ConcurrentDictionary<TKey,TValue>` | Dicionário thread-safe | Concorrência | Não substitui desenho correto de sincronização |
+| `Dictionary<TKey, TValue>` | Tabela hash | Busca por chave muito rápida | Chave deve ser estável e bem comparável |
+| `SortedDictionary<TKey, TValue>` | Mapa ordenado | Chaves sempre em ordem | Mais caro que `Dictionary` comum |
+| `ConcurrentDictionary<TKey, TValue>` | Dicionário thread-safe | Concorrência | Não substitui desenho correto de sincronização |
 
 Repare em um ponto sutil, porém crítico:
 
@@ -3451,7 +3451,7 @@ Repare em um ponto sutil, porém crítico:
 
 Confundir essas coisas leva a APIs mal desenhadas.
 
-**Como interpretar o exemplo:** A secao separa contratos de colecao de implementacoes concretas porque esse erro aparece o tempo todo em APIs. Saber se voce esta prometendo iteracao, indice, cardinalidade, unicidade ou mapeamento por chave ja resolve boa parte das escolhas de forma honesta.
+**Como interpretar o exemplo:** A seção separa contratos de coleção de implementações concretas porque esse erro aparece o tempo todo em APIs. Saber se você está prometendo iteração, índice, cardinalidade, unicidade ou mapeamento por chave já resolve boa parte das escolhas de forma honesta.
 
 ---
 
@@ -3505,7 +3505,7 @@ Quando `List<T>` é excelente:
 Quando `List<T>` não é a melhor escolha:
 
 - você precisa apenas testar pertencimento com frequência: use `HashSet<T>`;
-- você precisa mapear por chave: use `Dictionary<TKey,TValue>`;
+- você precisa mapear por chave: use `Dictionary<TKey, TValue>`;
 - você precisa garantir imutabilidade compartilhada: considere coleções imutáveis;
 - você expõe a lista só para leitura: talvez `IReadOnlyList<T>` comunique melhor a intenção da API.
 
@@ -3517,7 +3517,7 @@ Custos clássicos de `List<T>`:
 - `RemoveAt` no meio: `O(n)`;
 - busca por valor com `Contains`: `O(n)`.
 
-**Como interpretar o exemplo:** `List<T>` e excelente porque equilibra simplicidade e desempenho para a maioria dos cenarios, mas continua sendo um array redimensionavel com custos especificos. Entender esses custos evita o habito ruim de trata-la como solucao universal so por ser familiar.
+**Como interpretar o exemplo:** `List<T>` é excelente porque equilibra simplicidade e desempenho para a maioria dos cenários, mas continua sendo um array redimensionável com custos específicos. Entender esses custos evita o hábito ruim de tratá-la como solução universal só por ser familiar.
 
 ---
 
@@ -3582,7 +3582,7 @@ Armadilhas comuns:
 - Usar `ContainsKey` seguido de indexador em vez de um único `TryGetValue`.
 - Expor `Dictionary` mutável para qualquer camada e perder controle sobre invariantes.
 
-**Como interpretar o exemplo:** O foco do dicionario nao e ordem, e sim acesso rapido por chave. O exemplo tambem ensina que escolher o comparador correto e usar `TryGetValue` ou `GetValueOrDefault` costuma produzir codigo mais robusto do que assumir que a chave sempre existira.
+**Como interpretar o exemplo:** O foco do dicionário não é ordem, e sim acesso rápido por chave. O exemplo também ensina que escolher o comparador correto e usar `TryGetValue` ou `GetValueOrDefault` costuma produzir código mais robusto do que assumir que a chave sempre existirá.
 
 ---
 
@@ -3602,7 +3602,7 @@ Se você decorar só uma parte deste capítulo, que seja esta tabela:
 | Chave para valor | `Dictionary<TKey, TValue>` | Busca direta por chave |
 | Ordem de processamento FIFO | `Queue<T>` | Semântica de fila |
 | Ordem de processamento LIFO | `Stack<T>` | Semântica de pilha |
-| Concorrência com chave/valor | `ConcurrentDictionary<TKey,TValue>` | API pensada para múltiplas threads |
+| Concorrência com chave/valor | `ConcurrentDictionary<TKey, TValue>` | API pensada para múltiplas threads |
 
 Além da coleção concreta, pense no **tipo que sua API expõe**:
 
@@ -3621,7 +3621,7 @@ Em código maduro, escolher coleção não é detalhe. É parte do design.
 
 [⬆️ Voltar ao Sumário](#sumário)
 
-**Como interpretar o exemplo:** A tabela resume um principio central de design: escolha primeiro a semantica do acesso e so depois a estrutura concreta. A melhor colecao nao e a mais famosa, e sim a que comunica com honestidade o que o consumidor podera fazer com os dados.
+**Como interpretar o exemplo:** A tabela resume um princípio central de design: escolha primeiro a semântica do acesso e só depois a estrutura concreta. A melhor coleção não é a mais famosa, e sim a que comunica com honestidade o que o consumidor poderá fazer com os dados.
 
 ---
 
@@ -3661,7 +3661,7 @@ public async Task ExemploAsync()
 }
 ```
 
-**Como interpretar o exemplo:** O ganho de `async` e `await` nao e criar varias threads automaticamente, e sim permitir espera sem bloqueio da thread chamadora. Isso deixa o fluxo legivel como codigo sequencial, mas com comportamento muito melhor para operacoes de I/O.
+**Como interpretar o exemplo:** O ganho de `async` e `await` não é criar várias threads automaticamente, e sim permitir espera sem bloqueio da thread chamadora. Isso deixa o fluxo legível como código sequencial, mas com comportamento muito melhor para operações de I/O.
 
 ---
 
@@ -3710,7 +3710,7 @@ catch (OperationCanceledException)
 string dados = await BuscarDadosAsync("url").ConfigureAwait(false);
 ```
 
-**Como interpretar o exemplo:** O trecho junta tres padroes muito comuns: coordenacao de multiplas tasks, cancelamento cooperativo e cuidado com contexto de sincronizacao. Quando esses conceitos ficam claros, o restante da programacao assincrona em C# passa a formar um modelo coerente.
+**Como interpretar o exemplo:** O trecho junta três padrões muito comuns: coordenação de múltiplas tasks, cancelamento cooperativo e cuidado com contexto de sincronização. Quando esses conceitos ficam claros, o restante da programação assíncrona em C# passa a formar um modelo coerente.
 
 ---
 
@@ -3731,7 +3731,7 @@ public async ValueTask<int> OperacaoRapidaAsync(bool usarCache)
 }
 ```
 
-**Como interpretar o exemplo:** `ValueTask` existe para cenarios em que o caminho sincrono e frequente e a alocacao de `Task` se torna custo relevante, mas isso nao o transforma em escolha padrao. Em geral, prefira `Task` por simplicidade e so use `ValueTask` com beneficio mensuravel.
+**Como interpretar o exemplo:** `ValueTask` existe para cenários em que o caminho síncrono é frequente e a alocação de `Task` se torna custo relevante, mas isso não o transforma em escolha padrão. Em geral, prefira `Task` por simplicidade e só use `ValueTask` com benefício mensurável.
 
 ---
 
@@ -3760,7 +3760,7 @@ var repo = new Repositorio<Usuario>();
 repo.Adicionar(new Usuario());
 ```
 
-**Como interpretar o exemplo:** Generics permitem escrever uma estrutura ou algoritmo uma vez e ainda preservar seguranca de tipo em compile-time. O repositorio generico mostra justamente essa ideia: a logica e reaproveitada, mas o compilador continua sabendo qual tipo concreto esta sendo manipulado.
+**Como interpretar o exemplo:** Generics permitem escrever uma estrutura ou algoritmo uma vez e ainda preservar segurança de tipo em compile-time. O repositório genérico mostra justamente essa ideia: a lógica é reaproveitada, mas o compilador continua sabendo qual tipo concreto está sendo manipulado.
 
 ---
 
@@ -3794,7 +3794,7 @@ public static T PrimeiroOuPadrao<T>(IEnumerable<T> colecao, T valorPadrao = defa
 }
 ```
 
-**Como interpretar o exemplo:** Constraint e a forma de limitar o universo dos tipos aceitos para que o corpo generico possa assumir certas capacidades. Em vez de `qualquer T`, o codigo passa a trabalhar com um `T` que, por contrato, e instanciavel, comparavel ou compativel com outra abstracao.
+**Como interpretar o exemplo:** Constraint é a forma de limitar o universo dos tipos aceitos para que o corpo genérico possa assumir certas capacidades. Em vez de `qualquer T`, o código passa a trabalhar com um `T` que, por contrato, é instanciável, comparável ou compatível com outra abstração.
 
 ---
 
@@ -3826,7 +3826,7 @@ public interface IEscritor<in T> { void Escrever(T item); }
 
 [⬆️ Voltar ao Sumário](#sumário)
 
-**Como interpretar o exemplo:** A direcao da variancia fica clara quando voce pensa em fluxo de dados: quem produz valores pode ser covariante, e quem consome valores pode ser contravariante. Esse raciocinio evita decorar regras e ajuda a entender por que algumas atribuicoes sao seguras.
+**Como interpretar o exemplo:** A direção da variância fica clara quando você pensa em fluxo de dados: quem produz valores pode ser covariante, e quem consome valores pode ser contravariante. Esse raciocínio evita decorar regras e ajuda a entender por que algumas atribuições são seguras.
 
 ---
 
@@ -3860,7 +3860,7 @@ finally
 }
 ```
 
-**Como interpretar o exemplo:** O bloco mostra a ordem correta de captura: excecoes especificas primeiro, generica por ultimo, e `finally` para limpeza obrigatoria. O detalhe de `throw;` versus `throw ex;` e vital porque afeta o stack trace e, portanto, a qualidade do diagnostico.
+**Como interpretar o exemplo:** O bloco mostra a ordem correta de captura: exceções específicas primeiro, genérica por último, e `finally` para limpeza obrigatória. O detalhe de `throw;` versus `throw ex;` é vital porque afeta o stack trace e, portanto, a qualidade do diagnóstico.
 
 ---
 
@@ -3898,7 +3898,7 @@ public class NaoEncontradoException : DomainException
 }
 ```
 
-**Como interpretar o exemplo:** Excecoes customizadas fazem mais sentido quando carregam contexto de dominio e nao apenas um nome diferente. Ao adicionar propriedades e uma hierarquia pensada, a excecao passa a servir tambem como estrutura util para observabilidade e tratamento especializado.
+**Como interpretar o exemplo:** Exceções customizadas fazem mais sentido quando carregam contexto de domínio e não apenas um nome diferente. Ao adicionar propriedades e uma hierarquia pensada, a exceção passa a servir também como estrutura útil para observabilidade e tratamento especializado.
 
 ---
 
@@ -3926,7 +3926,7 @@ Exception
 └── ApplicationException (use DomainException customizada em vez desta)
 ```
 
-**Como interpretar o exemplo:** A arvore ajuda a perceber que capturar excecao em C# tambem e decisao de modelagem: quanto mais alto voce captura, mais geral e menos especifico fica o tratamento. Conhecer as familias principais ajuda a escrever `catch` mais intencionais.
+**Como interpretar o exemplo:** A árvore ajuda a perceber que capturar exceção em C# também é decisão de modelagem: quanto mais alto você captura, mais geral e menos específico fica o tratamento. Conhecer as famílias principais ajuda a escrever `catch` mais intencionais.
 
 ---
 
@@ -4030,7 +4030,7 @@ public class Produto
 }
 ```
 
-**Como interpretar o exemplo:** Attribute e metadado declarativo: ele nao muda o comportamento por si so, mas informa a compiladores, bibliotecas e frameworks como tratar aquele membro. O exemplo mostra usos comuns como orientacao do compilador com `[Obsolete]` e orientacao de serializacao com `System.Text.Json`.
+**Como interpretar o exemplo:** Attribute é metadado declarativo: ele não muda o comportamento por si só, mas informa a compiladores, bibliotecas e frameworks como tratar aquele membro. O exemplo mostra usos comuns como orientação do compilador com `[Obsolete]` e orientação de serialização com `System.Text.Json`.
 
 ---
 
@@ -4067,7 +4067,7 @@ if (attr != null)
     Console.WriteLine($"Log: {attr.Descricao}, Cronometrar: {attr.Cronometrar}");
 ```
 
-**Como interpretar o exemplo:** Criar um atributo customizado e enriquecer o codigo com intencao que pode ser lida depois por reflexao, tooling ou infraestrutura propria. Esse padrao e valioso quando voce quer descrever comportamento de forma declarativa em vez de espalhar configuracoes manuais.
+**Como interpretar o exemplo:** Criar um atributo customizado é enriquecer o código com intenção que pode ser lida depois por reflexão, tooling ou infraestrutura própria. Esse padrão é valioso quando você quer descrever comportamento de forma declarativa em vez de espalhar configurações manuais.
 
 ---
 
@@ -4100,7 +4100,7 @@ public (double Minimo, double Maximo, double Media) Estatisticas(List<double> va
 var (min, max, media) = Estatisticas(new List<double> { 1, 5, 3, 2, 4 });
 ```
 
-**Como interpretar o exemplo:** Tuplas resolvem bem o problema de devolver ou agrupar poucos valores relacionados sem criar um tipo formal de imediato. O cuidado e que, quando a estrutura ganha significado proprio de dominio, um tipo nomeado costuma comunicar melhor.
+**Como interpretar o exemplo:** Tuplas resolvem bem o problema de devolver ou agrupar poucos valores relacionados sem criar um tipo formal de imediato. O cuidado é que, quando a estrutura ganha significado próprio de domínio, um tipo nomeado costuma comunicar melhor.
 
 ---
 
@@ -4146,16 +4146,16 @@ Se a sua dúvida também envolver `Ref<ITheme>` e handles, consulte a seção [3
 Em linguagem simples:
 
 - uma variável como `Tema tema = new Tema();` é uma referência forte;
-- uma `WeakReference<Tema>` é mais parecida com um "atalho observável", e não com posse real do objeto.
+- uma `WeakReference<T>` é mais parecida com um "atalho observável", e não com posse real do objeto.
 
 Esse tipo aparece no projeto na aula `Object Tracking and Bulk Replacement`, em que a factory quer:
 
 - saber quais objetos já nasceram;
 - sem ser a responsável por mantê-los vivos para sempre.
 
-Importante: isso nao significa que toda factory naturalmente evolui para tracking ou bulk replacement.
+Importante: isso não significa que toda factory naturalmente evolui para tracking ou bulk replacement.
 
-Essas ideias devem ser vistas como capacidades opcionais que podem ser adicionadas a uma factory quando a centralizacao da criacao precisa resolver algo a mais alem de instanciar.
+Essas ideias devem ser vistas como capacidades opcionais que podem ser adicionadas a uma factory quando a centralização da criação precisa resolver algo a mais além de instanciar.
 
 #### O que significa "handle" nesse exemplo?
 
@@ -4163,16 +4163,16 @@ Na aula do projeto, a classe `Ref<ITheme>` é descrita como um **handle mutável
 
 Aqui, "handle" está sendo usado no sentido mais geral de software design:
 
-- é um objeto intermediario que voce segura;
-- ele te da acesso indireto a outro objeto;
-- e esse nivel de indirecao permite trocar o alvo real sem trocar a referencia externa.
+- é um objeto intermediário que você segura;
+- ele te dá acesso indireto a outro objeto;
+- e esse nível de indireção permite trocar o alvo real sem trocar a referência externa.
 
 Uma imagem mental simples ajuda bastante:
 
-- `Ref<ITheme>` e a caixa;
+- `Ref<ITheme>` é a caixa;
 - o cliente segura a caixa;
 - o tema atual fica dentro da caixa, em `Value`;
-- a factory pode trocar o conteudo da caixa;
+- a factory pode trocar o conteúdo da caixa;
 - o cliente continua com a mesma caixa, mas passa a enxergar outro tema.
 
 Leitura mental:
@@ -4180,7 +4180,7 @@ Leitura mental:
 - o cliente segura o handle;
 - o handle aponta para o objeto atual;
 - a factory pode trocar o objeto apontado;
-- o cliente continua com o mesmo handle, mas passa a enxergar outro conteudo.
+- o cliente continua com o mesmo handle, mas passa a enxergar outro conteúdo.
 
 Em forma de seta:
 
@@ -4188,9 +4188,9 @@ Em forma de seta:
 
 Logo, neste exemplo:
 
-- o handle e `Ref<ITheme>`;
-- o tema real nao e o handle;
-- `Value` e o ponto pelo qual o handle alcanca o tema atual.
+- o handle é `Ref<ITheme>`;
+- o tema real não é o handle;
+- `Value` é o ponto pelo qual o handle alcança o tema atual.
 
 Importante distinguir dois usos da palavra:
 
@@ -4201,15 +4201,15 @@ Os dois usos compartilham a ideia de "algo que você segura para chegar em outra
 
 #### O que seria a "troca em massa" do bulk replacement?
 
-No exemplo do projeto, "troca em massa" significa atualizar varios clientes com uma unica chamada da factory.
+No exemplo do projeto, "troca em massa" significa atualizar vários clientes com uma única chamada da factory.
 
-Imagine que tres partes da aplicacao estejam segurando estes handles:
+Imagine que três partes da aplicação estejam segurando estes handles:
 
 - `headerTheme`
 - `sidebarTheme`
 - `footerTheme`
 
-Se todos eles apontarem para temas escuros, uma unica chamada:
+Se todos eles apontarem para temas escuros, uma única chamada:
 
 ```csharp
 replaceableFactory.ReplaceTheme(dark: false);
@@ -4217,16 +4217,16 @@ replaceableFactory.ReplaceTheme(dark: false);
 
 faz a factory percorrer todos os handles vivos e trocar o `Value` de cada um para um novo `LightTheme`.
 
-Entao, o "em massa" esta aqui:
+Então, o "em massa" está aqui:
 
-- nao e um unico objeto sendo trocado;
-- sao varios handles sendo atualizados numa operacao centralizada;
-- os clientes nao precisam recriar seus temas um por um.
+- não é um único objeto sendo trocado;
+- são vários handles sendo atualizados numa operação centralizada;
+- os clientes não precisam recriar seus temas um por um.
 
 Ponto importante:
 
-- no **object tracking**, a factory quer observar objetos ja criados;
-- no **bulk replacement**, a factory quer atualizar o objeto ativo visto por varios clientes.
+- no **object tracking**, a factory quer observar objetos já criados;
+- no **bulk replacement**, a factory quer atualizar o objeto ativo visto por vários clientes.
 
 Por isso, o bulk replacement costuma usar algum rastreamento internamente, mas com outro foco:
 
@@ -4235,13 +4235,13 @@ Por isso, o bulk replacement costuma usar algum rastreamento internamente, mas c
 
 Leitura mais precisa:
 
-- factory e o mecanismo base de centralizar a criacao;
-- object tracking e uma capacidade opcional baseada nessa centralizacao;
-- bulk replacement e outra capacidade opcional, tambem baseada nessa centralizacao.
+- factory é o mecanismo base de centralizar a criação;
+- object tracking é uma capacidade opcional baseada nessa centralização;
+- bulk replacement é outra capacidade opcional, também baseada nessa centralização.
 
 #### O que o GC faz nesse cenário?
 
-O Garbage Collector do .NET gerencia a memória dos objetos no heap gerenciado. Quando um objeto deixa de ser alcançável por referências fortes, ele se torna elegível para coleta. Se só restarem weak references, isso não é suficiente para preservar o objeto.
+O Garbage Collector do .NET gerência a memória dos objetos no heap gerenciado. Quando um objeto deixa de ser alcançável por referências fortes, ele se torna elegível para coleta. Se só restarem weak references, isso não é suficiente para preservar o objeto.
 
 Ponto crucial:
 
@@ -4298,7 +4298,7 @@ ReadOnlySpan<char> texto = "Olá, Mundo!".AsSpan(5, 5);
 Console.WriteLine(texto.ToString()); // "Mundo"
 ```
 
-**Como interpretar o exemplo:** `Span<T>` mostra que e possivel trabalhar com janelas de memoria sem copiar dados, algo muito util em parsing e processamento de buffers. A contrapartida e lidar com regras mais rigidas de tempo de vida e seguranca.
+**Como interpretar o exemplo:** `Span<T>` mostra que é possível trabalhar com janelas de memória sem copiar dados, algo muito útil em parsing e processamento de buffers. A contrapartida é lidar com regras mais rígidas de tempo de vida e segurança.
 
 ---
 
@@ -4325,7 +4325,7 @@ string descricao = resultado switch
 };
 ```
 
-**Como interpretar o exemplo:** A combinacao de `record`, tipos fechados e pattern matching cria uma forma elegante de modelar estados possiveis sem deixar brechas para formatos invalidos. O resultado e um fluxo de tratamento mais explicito e mais seguro.
+**Como interpretar o exemplo:** A combinação de `record`, tipos fechados e pattern matching cria uma forma elegante de modelar estados possíveis sem deixar brechas para formatos inválidos. O resultado é um fluxo de tratamento mais explícito e mais seguro.
 
 ---
 
@@ -4357,7 +4357,7 @@ ThreadPool.QueueUserWorkItem(_ =>
 });
 ```
 
-**Como interpretar o exemplo:** O exemplo existe mais como base conceitual do que como recomendacao diaria. Em aplicacoes modernas, criar `Thread` manualmente e raro; o aprendizado importante e entender a diferenca entre thread real, pool gerenciado e abstracoes mais altas.
+**Como interpretar o exemplo:** O exemplo existe mais como base conceitual do que como recomendação diária. Em aplicações modernas, criar `Thread` manualmente é raro; o aprendizado importante é entender a diferença entre thread real, pool gerenciado e abstrações mais altas.
 
 ---
 
@@ -4394,7 +4394,7 @@ var resultados = numeros
     .ToList();
 ```
 
-**Como interpretar o exemplo:** A TPL oferece uma camada mais expressiva para concorrencia e paralelismo do que a manipulacao manual de threads. O essencial e distinguir trabalho CPU-bound, onde `Parallel` e PLINQ ajudam, de I/O-bound, onde `async` continua sendo o modelo certo.
+**Como interpretar o exemplo:** A TPL oferece uma camada mais expressiva para concorrência e paralelismo do que a manipulação manual de threads. O essencial é distinguir trabalho CPU-bound, onde `Parallel` e PLINQ ajudam, de I/O-bound, onde `async` continua sendo o modelo certo.
 
 ---
 
@@ -4443,7 +4443,7 @@ public async Task AcessarRecursoAsync()
 
 [⬆️ Voltar ao Sumário](#sumário)
 
-**Como interpretar o exemplo:** Sincronizacao existe para proteger estado compartilhado, mas cada ferramenta tem custo e semantica proprios. `lock`, `Interlocked` e `SemaphoreSlim` nao sao equivalentes; escolher a menor ferramenta que resolve o problema ajuda a manter corretude sem pagar complexidade desnecessaria.
+**Como interpretar o exemplo:** Sincronização existe para proteger estado compartilhado, mas cada ferramenta tem custo e semântica próprios. `lock`, `Interlocked` e `SemaphoreSlim` não são equivalentes; escolher a menor ferramenta que resolve o problema ajuda a manter corretude sem pagar complexidade desnecessária.
 
 ---
 
@@ -4472,7 +4472,7 @@ MethodInfo metodo = tipo.GetMethod("Depositar")!;
 metodo.Invoke(instancia, new object[] { 500.0 });
 ```
 
-**Como interpretar o exemplo:** Reflection permite que o programa inspecione tipos e invoque membros dinamicamente em runtime, o que e poderoso para tooling, frameworks e integracao generica. O preco e perder parte da previsibilidade e da seguranca do codigo fortemente tipado.
+**Como interpretar o exemplo:** Reflection permite que o programa inspecione tipos e invoque membros dinamicamente em runtime, o que é poderoso para tooling, frameworks e integração genérica. O preço é perder parte da previsibilidade e da segurança do código fortemente tipado.
 
 ---
 
@@ -4492,7 +4492,7 @@ public partial class MeuJsonContext : JsonSerializerContext { }
 string json = JsonSerializer.Serialize(usuario, MeuJsonContext.Default.Usuario);
 ```
 
-**Como interpretar o exemplo:** Source Generators deslocam trabalho para a compilacao, reduzindo reflexao e boilerplate em runtime. O exemplo do contexto JSON mostra justamente essa troca: em vez de descobrir tudo dinamicamente na execucao, o compilador ja produz o codigo especializado.
+**Como interpretar o exemplo:** Source Generators deslocam trabalho para a compilação, reduzindo reflexão e boilerplate em runtime. O exemplo do contexto JSON mostra justamente essa troca: em vez de descobrir tudo dinamicamente na execução, o compilador já produz o código especializado.
 
 ---
 
@@ -4518,7 +4518,7 @@ unsafe
 }
 ```
 
-**Como interpretar o exemplo:** `unsafe` remove parte das protecoes que normalmente tornam C# seguro e previsivel. Isso so se justifica em interop, manipulaÃ§Ã£o de memoria ou otimizacoes muito especificas, porque o desenvolvedor passa a assumir riscos que o runtime costuma administrar.
+**Como interpretar o exemplo:** `unsafe` remove parte das proteções que normalmente tornam C# seguro e previsível. Isso só se justifica em interop, manipulação de memória ou otimizações muito específicas, porque o desenvolvedor passa a assumir riscos que o runtime costuma administrar.
 
 ---
 
@@ -4586,7 +4586,7 @@ Unity utiliza uma versão do runtime .NET chamada **Mono** (em builds legadas) e
 Código C# → IL/CIL → IL2CPP → C++ → binário nativo da plataforma
 ```
 
-**Como interpretar o exemplo:** O pipeline IL para IL2CPP mostra que o C# de Unity continua sendo C#, mas executado sob restricoes e etapas de build muito particulares do engine. Essa diferenca explica por que certos habitos da linguagem convivem com preocupacoes de AOT, GC e frame loop.
+**Como interpretar o exemplo:** O pipeline IL para IL2CPP mostra que o C# de Unity continua sendo C#, mas executado sob restrições e etapas de build muito particulares do engine. Essa diferença explica por que certos hábitos da linguagem convivem com preocupações de AOT, GC e frame loop.
 
 ---
 
@@ -4708,7 +4708,7 @@ public class Jogador : MonoBehaviour
 }
 ```
 
-**Como interpretar o exemplo:** O script evidencia que, no Unity, o modelo de programacao e guiado pelo ciclo de vida da engine e pela serializacao do Inspector, nao por um `Main` tradicional. Ler `MonoBehaviour` corretamente significa entender o contrato entre seu codigo e o runtime do jogo.
+**Como interpretar o exemplo:** O script evidencia que, no Unity, o modelo de programação é guiado pelo ciclo de vida da engine e pela serialização do Inspector, não por um `Main` tradicional. Ler `MonoBehaviour` corretamente significa entender o contrato entre seu código e o runtime do jogo.
 
 ---
 
@@ -4748,7 +4748,7 @@ OnDisable()      — quando o componente é desabilitado
 OnDestroy()      — quando o objeto é destruído
 ```
 
-**Como interpretar o exemplo:** O diagrama existe para responder uma pergunta pratica de todo iniciante em Unity: em qual metodo essa logica deve ficar? Quando voce entende o papel e o tempo de `Awake`, `Start`, `Update`, `FixedUpdate` e companhia, muitos bugs de timing deixam de parecer aleatorios.
+**Como interpretar o exemplo:** O diagrama existe para responder uma pergunta prática de todo iniciante em Unity: em qual método essa lógica deve ficar? Quando você entende o papel e o tempo de `Awake`, `Start`, `Update`, `FixedUpdate` e companhia, muitos bugs de timing deixam de parecer aleatórios.
 
 ---
 
@@ -4806,7 +4806,7 @@ public class EquipamentoJogador : MonoBehaviour
 - Alterações em tempo de Play Mode **persistem** (ao contrário de campos de MonoBehaviour)
 - Facilita balanceamento de jogo sem recompilar o código
 
-**Como interpretar o exemplo:** O valor do `ScriptableObject` esta em separar dados de configuracao das instancias de cena, reduzindo duplicacao e acoplamento com `MonoBehaviour`. Em jogos, isso melhora reuso, balanceamento e o fluxo de trabalho entre programacao e design.
+**Como interpretar o exemplo:** O valor do `ScriptableObject` está em separar dados de configuração das instâncias de cena, reduzindo duplicação e acoplamento com `MonoBehaviour`. Em jogos, isso melhora reuso, balanceamento e o fluxo de trabalho entre programação e design.
 
 ---
 
@@ -4873,7 +4873,7 @@ public class EfeitosVisuais : MonoBehaviour
 }
 ```
 
-**Como interpretar o exemplo:** Coroutine em Unity nao e thread nem `Task`; ela e uma rotina cooperativa pausada e retomada ao longo dos frames. Isso combina muito bem com efeitos temporizados, esperas condicionais e sequencias visuais integradas ao loop do jogo.
+**Como interpretar o exemplo:** Coroutine em Unity não é thread nem `Task`; ela é uma rotina cooperativa pausada e retomada ao longo dos frames. Isso combina muito bem com efeitos temporizados, esperas condicionais e sequências visuais integradas ao loop do jogo.
 
 ---
 
@@ -4937,7 +4937,7 @@ public class HUD : MonoBehaviour
 }
 ```
 
-**Como interpretar o exemplo:** O contraste entre `UnityEvent` e `event` do C# mostra duas filosofias uteis: uma voltada ao editor e outra ao codigo. Em times reais, a escolha depende tanto de arquitetura quanto do fluxo de trabalho entre programadores, UI e designers.
+**Como interpretar o exemplo:** O contraste entre `UnityEvent` e `event` do C# mostra duas filosofias úteis: uma voltada ao editor e outra ao código. Em times reais, a escolha depende tanto de arquitetura quanto do fluxo de trabalho entre programadores, UI e designers.
 
 ---
 
@@ -5106,7 +5106,7 @@ public class SistemaParticulas : MonoBehaviour
 }
 ```
 
-**Como interpretar o exemplo:** Todos os exemplos desta secao giram em torno da mesma regra: o frame loop amplifica pequenos custos porque eles se repetem o tempo todo. Cache de componentes, reducao de alocacao, pooling e jobs existem para tirar trabalho caro do caminho mais quente do jogo.
+**Como interpretar o exemplo:** Todos os exemplos desta seção giram em torno da mesma regra: o frame loop amplifica pequenos custos porque eles se repetem o tempo todo. Cache de componentes, redução de alocação, pooling e jobs existem para tirar trabalho caro do caminho mais quente do jogo.
 
 ---
 
@@ -5216,7 +5216,7 @@ public class PainelPontuacao : MonoBehaviour
 }
 ```
 
-**Como interpretar o exemplo:** Os padroes apresentados aparecem muito em jogos porque estados, eventos e objetos de vida curta precisam ser coordenados o tempo inteiro. O mais importante nao e decorar os nomes, e sim entender o problema que cada padrao resolve e o custo que ele traz.
+**Como interpretar o exemplo:** Os padrões apresentados aparecem muito em jogos porque estados, eventos e objetos de vida curta precisam ser coordenados o tempo inteiro. O mais importante não é decorar os nomes, e sim entender o problema que cada padrão resolve e o custo que ele traz.
 
 ---
 
@@ -5279,7 +5279,7 @@ public partial class Inimigo : Node2D
 }
 ```
 
-**Como interpretar o exemplo:** Mudar de engine nao apaga os fundamentos da linguagem; o que muda e o vocabulario do runtime e do editor. Quem entende bem ciclo de vida, callbacks e composicao em C# se adapta muito melhor as diferencas entre Unity e Godot.
+**Como interpretar o exemplo:** Mudar de engine não apaga os fundamentos da linguagem; o que muda é o vocabulário do runtime e do editor. Quem entende bem ciclo de vida, callbacks e composição em C# se adapta muito melhor às diferenças entre Unity e Godot.
 
 ---
 
@@ -5415,7 +5415,7 @@ Sugestão de estudo: use este guia para construir o modelo mental e a documenta�
 - **ScriptableObject** — tipo de asset da Unity para armazenar dados independentes de uma instância de GameObject. → [23.4 ScriptableObject](#234-scriptableobject-dados-desacoplados-do-gameobject)
 - **Singleton** — padrão de projeto que garante uma única instância acessível globalmente de uma classe. → [23.8 Padrões de design comuns em jogos com C#](#238-padrões-de-design-comuns-em-jogos-com-c)
 - **Source Generator** — componente que gera código C# adicional em tempo de compilação. → [22.2 Source Generators](#222-source-generators-c-9)
-- **Span\<T\> / Memory\<T\>** — estruturas para trabalhar com "fatias" de memória contígua sem alocação extra. → [20.3 Span\<T\> e Memory\<T\>](#203-spant-e-memoryt-zero-allocation-slicing)
+- **Span\<T\> / Memory\<T\>** — estruturas para trabalhar com "fatias" de memória contígua sem alocação extra. → [20.3 Span\<T\> e Memory\<T\> — zero-allocation slicing](#203-spant-e-memoryt-zero-allocation-slicing)
 - **`static`** — modificador que faz um membro pertencer ao tipo, não a uma instância específica. → [7.1 `static`](#71-static)
 - **State Machine** — padrão que organiza o comportamento de um objeto em estados distintos com transições explícitas. → [23.8 Padrões de design comuns em jogos com C#](#238-padrões-de-design-comuns-em-jogos-com-c)
 - **StringBuilder** — classe mutável para concatenar strings repetidamente sem o custo de criar novas instâncias a cada operação. → [4.2 Imutabilidade e StringBuilder](#42-imutabilidade-e-stringbuilder)
@@ -5426,4 +5426,4 @@ Sugestão de estudo: use este guia para construir o modelo mental e a documenta�
 - **Handle** — objeto intermediário usado para alcançar outro objeto ou recurso por indireção; no projeto, `Ref<ITheme>` funciona como um handle mutável para o tema atual. → [20.2 `WeakReference<T>` e referências fracas no GC](#202-weakreferencet-e-referências-fracas-no-gc)
 - **WeakReference\<T\>** — referência fraca para um objeto que permite observá-lo sem impedir que o GC o colete quando não restarem referências fortes. → [20.2 `WeakReference<T>` e referências fracas no GC](#202-weakreferencet-e-referências-fracas-no-gc)
 
-**Como interpretar o exemplo:** A tabela lembra que saber C# nao e exatamente o mesmo que saber C# dentro de uma engine especifica. Em Unity, runtime, GC, AOT e APIs de jogo fazem alguns habitos do C# padrao continuarem validos e outros precisarem de adaptacao consciente.
+**Como interpretar o exemplo:** A tabela lembra que saber C# não é exatamente o mesmo que saber C# dentro de uma engine específica. Em Unity, runtime, GC, AOT e APIs de jogo fazem alguns hábitos do C# padrão continuarem válidos e outros precisarem de adaptação consciente.

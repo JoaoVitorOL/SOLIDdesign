@@ -631,7 +631,7 @@ public enum Color1
 
 Isso é útil para modelar propriedades com opções conhecidas.
 
-#### `IEnumerable<Product1>`
+#### `IEnumerable<T>`
 
 [⬆️ Voltar ao Sumário](#sumário)
 
@@ -709,9 +709,9 @@ public interface ISpecification<T>
 
 O `<T>` significa que a interface é genérica. Ela funciona para qualquer tipo:
 
-- `ISpecification<Product>`
-- `ISpecification<User>`
-- `ISpecification<Order>`
+- `ISpecification<T>`
+- `ISpecification<T>`
+- `ISpecification<T>`
 
 A interface está dizendo:
 
@@ -735,7 +735,7 @@ Didaticamente, o ponto principal não é performance. O ponto principal é que o
 
 [⬆️ Voltar ao Sumário](#sumário)
 
-Agora, para adicionar uma regra nova, em vez de editar `BetterFilter`, você cria outra especificação:
+Agora, para adicionar uma regra nova, em vez de editar `BetterFilter`, você cria outra específicação:
 
 ```csharp
 public class WeightSpecification : ISpecification<Product>
@@ -1140,7 +1140,7 @@ Quando as interfaces ficam específicas:
 - esta interface está agrupando capacidades demais?
 - alguma implementação precisa inventar comportamento que não tem?
 - estou vendo `NotImplementedException` por causa de contrato ruim?
-- posso quebrar a interface em contratos menores e mais honestos?a
+- posso quebrar a interface em contratos menores e mais honestos?
 
 ---
 
