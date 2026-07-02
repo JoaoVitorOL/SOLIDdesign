@@ -51,7 +51,7 @@ namespace Aula05_ObjectTrackingandBulkReplacement
         public string BackgroundColor => "Black";
     }
 
-    // ===== Factory =====
+    // ===== Factory Object Tracking =====
     public class TrackingThemeFactory
     {
         // TrackingThemeFactory e a factory do cenario de object tracking.
@@ -104,6 +104,15 @@ namespace Aula05_ObjectTrackingandBulkReplacement
         // ===== Propriedades =====
         public string Info
         {
+            // Esta propriedade existe so para LEITURA.
+            // Sempre que alguem acessar `trackingFactory.Info`,
+            // o bloco `get` abaixo sera executado inteiro.
+            //
+            // Ou seja:
+            // - ela nao devolve um campo pronto;
+            // - ela monta a string naquele momento;
+            // - ela varre a lista, inspeciona as referencias
+            //   e produz um relatorio atualizado.
             get
             {
                 var sb = new StringBuilder();
@@ -138,7 +147,7 @@ namespace Aula05_ObjectTrackingandBulkReplacement
         }
     }
 
-    // ===== Factory =====
+    // ===== Factory Bulk Replacement =====
     public class ReplaceableThemeFactory
     {
         // ReplaceableThemeFactory e a factory do cenario de bulk replacement.
@@ -210,11 +219,24 @@ namespace Aula05_ObjectTrackingandBulkReplacement
         }
     }
 
-    // ===== Classe =====
+    // ===== Classe Handle Mutavel =====
     public class Ref<T> where T : class
     {
         // Ref<T> nao e o produto final.
         // Ele funciona como uma caixa mutavel que segura o produto atual.
+        //
+        // Aqui usamos a palavra "handle" no sentido de design de software:
+        // e um objeto intermediario que o cliente segura para chegar ao recurso real.
+        //
+        // Entao, neste exemplo:
+        // - o tema real e o objeto dentro de `Value`
+        // - o handle e a instancia de `Ref<T>`
+        //
+        // Importante:
+        // este "handle" NAO e um handle de sistema operacional
+        // como os do mundo de `SafeHandle`, arquivos, sockets ou janelas.
+        // Aqui o termo significa apenas:
+        // "uma referencia indireta e controlavel para um objeto".
         //
         // Papel no exemplo:
         // - o cliente guarda a caixa;
