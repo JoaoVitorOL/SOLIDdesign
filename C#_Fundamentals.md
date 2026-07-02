@@ -45,8 +45,6 @@ Ao longo do texto, pense sempre nestas quatro perguntas:
 
 ## Sumário Geral
 
-### Capítulo 1 — Fundamentos da Linguagem
-
 - [Como usar este guia](#como-usar-este-guia)
 - [Parte 1 — Introdução e Contextualização](#parte-1-introdução-e-contextualização)
   - [1.1 O que é C#?](#11-o-que-é-c)
@@ -70,9 +68,6 @@ Ao longo do texto, pense sempre nestas quatro perguntas:
 - [Parte 5 — Modificadores de Acesso](#parte-5-modificadores-de-acesso)
   - [5.1 Os modificadores de acesso do C#](#51-os-modificadores-de-acesso-do-c)
   - [5.2 Boas práticas com modificadores](#52-boas-práticas-com-modificadores)
-
-### Capítulo 2 — Modelagem e Estrutura do Código
-
 - [Parte 6 — Propriedades (Properties)](#parte-6-propriedades-properties)
   - [6.1 O que são Properties?](#61-o-que-são-properties)
   - [6.2 Expression-bodied members](#62-expression-bodied-members)
@@ -105,9 +100,6 @@ Ao longo do texto, pense sempre nestas quatro perguntas:
 - [Parte 12 — Herança e Polimorfismo](#parte-12-herança-e-polimorfismo)
   - [12.1 Herança em C#](#121-herança-em-c)
   - [12.2 Interfaces](#122-interfaces)
-
-### Capítulo 3 — Comportamento, Consultas e Abstrações
-
 - [Parte 13 — Delegates, Events e Lambdas](#parte-13-delegates-events-e-lambdas)
   - [13.1 Delegates — ponteiros de método tipados](#131-delegates-ponteiros-de-método-tipados)
   - [13.2 Func, Action e Predicate](#132-func-action-e-predicate)
@@ -132,9 +124,6 @@ Ao longo do texto, pense sempre nestas quatro perguntas:
   - [17.1 Tipos parametrizados](#171-tipos-parametrizados)
   - [17.2 Constraints (restrições)](#172-constraints-restrições)
   - [17.3 Covariância e contravariância](#173-covariância-e-contravariância)
-
-### Capítulo 4 — Robustez, Tipos Modernos e Recursos Avançados
-
 - [Parte 18 — Tratamento de Exceções](#parte-18-tratamento-de-exceções)
   - [18.1 `try / catch / finally`](#181-try-catch-finally)
   - [18.2 Exceções customizadas](#182-exceções-customizadas)
@@ -157,9 +146,6 @@ Ao longo do texto, pense sempre nestas quatro perguntas:
   - [22.2 Source Generators (C# 9+)](#222-source-generators-c-9)
   - [22.3 Unsafe code e ponteiros](#223-unsafe-code-e-ponteiros)
 - [Resumo Geral — Conceitos Fundamentais](#resumo-geral-conceitos-fundamentais)
-
-### Capítulo 5 — C# no Contexto de Game Development
-
 - [Parte 23 — C# no Contexto de Game Development](#parte-23-c-no-contexto-de-game-development)
   - [23.1 C# e Unity — a combinação dominante](#231-c-e-unity-a-combinação-dominante)
   - [23.2 MonoBehaviour — a classe base dos scripts Unity](#232-monobehaviour-a-classe-base-dos-scripts-unity)
@@ -171,9 +157,6 @@ Ao longo do texto, pense sempre nestas quatro perguntas:
   - [23.8 Padrões de design comuns em jogos com C#](#238-padrões-de-design-comuns-em-jogos-com-c)
   - [23.9 C# no Godot 4](#239-c-no-godot-4)
   - [23.10 Diferenças entre C# padrão e C# no Unity](#2310-diferenças-entre-c-padrão-e-c-no-unity)
-
-### Capítulo 6 — Materiais de Apoio
-
 - [Anexo A — Plataformas de Prática Recomendadas](#anexo-a--plataformas-de-prática-recomendadas)
 - [Anexo B — Referências Oficiais Consultadas](#anexo-b--referências-oficiais-consultadas)
 - [Glossário](#glossário)
