@@ -46,32 +46,32 @@ Ao longo do texto, pense sempre nestas quatro perguntas:
 ## Sumário Geral
 
 - [Como usar este guia](#como-usar-este-guia)
-- [Parte 1 — Introdução e Contextualização](#parte-1-introdução-e-contextualização)
+- **Parte 1 — Introdução e Contextualização**
   - [1.1 O que é C#?](#11-o-que-é-c)
   - [1.2 Por que aprender C# em 2026?](#12-por-que-aprender-c-em-2026)
   - [1.3 Estrutura de um programa C#](#13-estrutura-de-um-programa-c)
-- [Parte 2 — Namespaces e Using](#parte-2-namespaces-e-using)
+- **Parte 2 — Namespaces e Using**
   - [2.1 Namespaces](#21-namespaces)
   - [2.2 Using Directives](#22-using-directives)
-- [Parte 3 — Variáveis e Tipos](#parte-3-variáveis-e-tipos)
+- **Parte 3 — Variáveis e Tipos**
   - [3.1 O que é uma variável?](#31-o-que-é-uma-variável)
   - [3.2 Tipos de valor vs tipos de referência](#32-tipos-de-valor-vs-tipos-de-referência)
   - [3.3 Nullable Types — tipos que aceitam null](#33-nullable-types-tipos-que-aceitam-null)
   - [3.4 `var` — inferência de tipo](#34-var-inferência-de-tipo)
   - [3.5 `const` e `readonly`](#35-const-e-readonly)
-- [Parte 4 — String e suas Peculiaridades](#parte-4-string-e-suas-peculiaridades)
+- **Parte 4 — String e suas Peculiaridades**
   - [4.1 String é um tipo de referência imutável](#41-string-é-um-tipo-de-referência-imutável)
   - [4.2 Imutabilidade e StringBuilder](#42-imutabilidade-e-stringbuilder)
   - [4.3 String Interpolation e verbatim strings](#43-string-interpolation-e-verbatim-strings)
   - [4.4 Métodos importantes de string](#44-métodos-importantes-de-string)
   - [4.5 Classes e funções predefinidas essenciais do .NET](#45-classes-e-funções-predefinidas-essenciais-do-net)
-- [Parte 5 — Modificadores de Acesso](#parte-5-modificadores-de-acesso)
+- **Parte 5 — Modificadores de Acesso**
   - [5.1 Os modificadores de acesso do C#](#51-os-modificadores-de-acesso-do-c)
   - [5.2 Boas práticas com modificadores](#52-boas-práticas-com-modificadores)
-- [Parte 6 — Propriedades (Properties)](#parte-6-propriedades-properties)
+- **Parte 6 — Propriedades (Properties)**
   - [6.1 O que são Properties?](#61-o-que-são-properties)
   - [6.2 Expression-bodied members](#62-expression-bodied-members)
-- [Parte 7 — Palavras-chave Especiais do C#](#parte-7-palavras-chave-especiais-do-c)
+- **Parte 7 — Palavras-chave Especiais do C#**
   - [7.1 `static`](#71-static)
   - [7.2 `sealed`](#72-sealed)
   - [7.3 `abstract`](#73-abstract)
@@ -81,72 +81,72 @@ Ao longo do texto, pense sempre nestas quatro perguntas:
   - [7.7 `using` para gerenciamento de recursos](#77-using-para-gerenciamento-de-recursos)
   - [7.8 `ref`, `out` e `in`](#78-ref-out-e-in)
   - [7.9 Conversões definidas pelo usuário (`implicit` e `explicit`)](#79-conversões-definidas-pelo-usuário-implicit-e-explicit)
-- [Parte 8 — Controle de Fluxo](#parte-8-controle-de-fluxo)
+- **Parte 8 — Controle de Fluxo**
   - [8.1 `if / else if / else`](#81-if-else-if-else)
   - [8.2 `switch` e switch expressions](#82-switch-e-switch-expressions)
   - [8.3 Loops](#83-loops)
-- [Parte 9 — Métodos](#parte-9-métodos)
+- **Parte 9 — Métodos**
   - [9.1 Declaração de métodos](#91-declaração-de-métodos)
   - [9.2 Métodos de extensão (Extension Methods)](#92-métodos-de-extensão-extension-methods)
   - [9.3 Sobrecarga de métodos](#93-sobrecarga-de-métodos)
-- [Parte 10 — Enums](#parte-10-enums)
+- **Parte 10 — Enums**
   - [10.1 Enums básicos](#101-enums-básicos)
   - [10.2 Flags enum — bitmask](#102-flags-enum-bitmask)
-- [Parte 11 — Classes e Objetos](#parte-11-classes-e-objetos)
+- **Parte 11 — Classes e Objetos**
   - [11.1 Estrutura completa de uma classe](#111-estrutura-completa-de-uma-classe)
   - [11.2 Construtores em Profundidade](#112-construtores-em-profundidade)
   - [11.3 Records (C# 9+)](#113-records-c-9)
   - [11.4 Padrão Builder](#114-padrão-builder)
-- [Parte 12 — Herança e Polimorfismo](#parte-12-herança-e-polimorfismo)
+- **Parte 12 — Herança e Polimorfismo**
   - [12.1 Herança em C#](#121-herança-em-c)
   - [12.2 Interfaces](#122-interfaces)
-- [Parte 13 — Delegates, Events e Lambdas](#parte-13-delegates-events-e-lambdas)
+- **Parte 13 — Delegates, Events e Lambdas**
   - [13.1 Delegates — ponteiros de método tipados](#131-delegates-ponteiros-de-método-tipados)
   - [13.2 Func, Action e Predicate](#132-func-action-e-predicate)
   - [13.3 Expressões Lambda](#133-expressões-lambda)
   - [13.4 Eventos (Events)](#134-eventos-events)
-- [Parte 14 — LINQ (Language Integrated Query)](#parte-14-linq-language-integrated-query)
+- **Parte 14 — LINQ (Language Integrated Query)**
   - [14.1 O que é LINQ?](#141-o-que-é-linq)
   - [14.2 Operadores LINQ principais](#142-operadores-linq-principais)
   - [14.3 `IEnumerable<T>` e o contrato fundamental das sequências](#143-ienumerablet-e-o-contrato-fundamental-das-sequências)
   - [14.4 `IQueryable<T>` e queries traduzíveis para outra fonte](#144-iqueryablet-e-queries-traduzíveis-para-outra-fonte)
   - [14.5 Execução adiada, materialização e armadilhas](#145-execução-adiada-materialização-e-armadilhas)
-- [Parte 15 — Coleções](#parte-15-coleções)
+- **Parte 15 — Coleções**
   - [15.1 Tipos de coleções principais](#151-tipos-de-coleções-principais)
   - [15.2 List\<T\>](#152-listt)
   - [15.3 Dictionary\<TKey, TValue\>](#153-dictionarytkey-tvalue)
   - [15.4 Como escolher a coleção certa](#154-como-escolher-a-coleção-certa)
-- [Parte 16 — Async/Await e Programação Assíncrona](#parte-16-asyncawait-e-programação-assíncrona)
+- **Parte 16 — Async/Await e Programação Assíncrona**
   - [16.1 O modelo assíncrono do C#](#161-o-modelo-assíncrono-do-c)
   - [16.2 Padrões de uso](#162-padrões-de-uso)
   - [16.3 Task vs ValueTask](#163-task-vs-valuetask)
-- [Parte 17 — Generics](#parte-17-generics)
+- **Parte 17 — Generics**
   - [17.1 Tipos parametrizados](#171-tipos-parametrizados)
   - [17.2 Constraints (restrições)](#172-constraints-restrições)
   - [17.3 Covariância e contravariância](#173-covariância-e-contravariância)
-- [Parte 18 — Tratamento de Exceções](#parte-18-tratamento-de-exceções)
+- **Parte 18 — Tratamento de Exceções**
   - [18.1 `try / catch / finally`](#181-try-catch-finally)
   - [18.2 Exceções customizadas](#182-exceções-customizadas)
   - [18.3 Hierarquia de exceções](#183-hierarquia-de-exceções)
   - [18.4 Exceções de argumento e implementação comuns](#184-exceções-de-argumento-e-implementação-comuns)
-- [Parte 19 — Attributes (Annotations)](#parte-19-attributes-annotations)
+- **Parte 19 — Attributes (Annotations)**
   - [19.1 Attributes embutidos](#191-attributes-embutidos)
   - [19.2 Criando Attributes customizados](#192-criando-attributes-customizados)
-- [Parte 20 — Tipos Especiais Modernos do C#](#parte-20-tipos-especiais-modernos-do-c)
+- **Parte 20 — Tipos Especiais Modernos do C#**
   - [20.1 Tuple e ValueTuple](#201-tuple-e-valuetuple)
   - [20.2 `WeakReference<T>` e referências fracas no GC](#202-weakreferencet-e-referências-fracas-no-gc)
   - [20.3 Span\<T\> e Memory\<T\> — zero-allocation slicing](#203-spant-e-memoryt-zero-allocation-slicing)
   - [20.4 Sealed classes com Pattern Matching (como Discriminated Union)](#204-sealed-classes-com-pattern-matching-como-discriminated-union)
-- [Parte 21 — Threads e Concorrência](#parte-21-threads-e-concorrência)
+- **Parte 21 — Threads e Concorrência**
   - [21.1 Thread básico e ThreadPool](#211-thread-básico-e-threadpool)
   - [21.2 Task Parallel Library (TPL)](#212-task-parallel-library-tpl)
   - [21.3 Sincronização](#213-sincronização)
-- [Parte 22 — Interoperabilidade e Recursos Avançados](#parte-22-interoperabilidade-e-recursos-avançados)
+- **Parte 22 — Interoperabilidade e Recursos Avançados**
   - [22.1 Reflection](#221-reflection)
   - [22.2 Source Generators (C# 9+)](#222-source-generators-c-9)
   - [22.3 Unsafe code e ponteiros](#223-unsafe-code-e-ponteiros)
 - [Resumo Geral — Conceitos Fundamentais](#resumo-geral-conceitos-fundamentais)
-- [Parte 23 — C# no Contexto de Game Development](#parte-23-c-no-contexto-de-game-development)
+- **Parte 23 — C# no Contexto de Game Development**
   - [23.1 C# e Unity — a combinação dominante](#231-c-e-unity-a-combinação-dominante)
   - [23.2 MonoBehaviour — a classe base dos scripts Unity](#232-monobehaviour-a-classe-base-dos-scripts-unity)
   - [23.3 Ciclo de vida do MonoBehaviour](#233-ciclo-de-vida-do-monobehaviour)
