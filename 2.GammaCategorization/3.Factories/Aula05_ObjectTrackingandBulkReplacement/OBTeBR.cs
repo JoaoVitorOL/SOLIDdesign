@@ -5,9 +5,12 @@ using static System.Console;
 
 namespace Aula05_ObjectTrackingandBulkReplacement
 {
-    // A aula mostra dois ganhos de centralizar a criacao em uma factory:
-    // 1. Object Tracking: registrar o que ja foi criado.
-    // 2. Bulk Replacement: trocar em massa o objeto ativo entregue ao cliente.
+    // A aula mostra dois cenarios independentes baseados na mesma ideia:
+    // centralizar a criacao em uma factory.
+    // Importante: isso NAO significa que toda factory precisa fazer essas coisas.
+    // Tracking e bulk replacement sao capacidades opcionais, usadas quando o problema pede.
+    // 1. Object Tracking: observar o que ja foi criado.
+    // 2. Bulk Replacement: trocar, de uma vez, o tema visto por varios clientes.
 
     // ===== Interface =====
     public interface ITheme
@@ -42,14 +45,15 @@ namespace Aula05_ObjectTrackingandBulkReplacement
     // ===== Factory Object Tracking =====
     public class TrackingThemeFactory
     {
-        // Factory do cenario de tracking.
-        // Ela cria temas e mantem um registro observavel do que ja entregou.
+        // Objetivo: observar os temas que ja nasceram.
+        // Ela registra e inspeciona; nao altera os temas ja entregues.
+        // Este e um estilo possivel de factory, nao uma obrigacao do pattern.
 
         // ===== Campos =====
         private readonly List<WeakReference<ITheme>> themes = new();
 
-        // Cada item da lista observa um tema ja criado.
-        // WeakReference aponta para o objeto sem impedir o GC de coleta-lo.
+        // A lista guarda rastros dos temas criados para consulta posterior.
+        // WeakReference observa o objeto sem impedir sua coleta pelo GC.
 
         // ===== Metodos =====
         public ITheme CreateTheme(bool dark)
@@ -101,18 +105,18 @@ namespace Aula05_ObjectTrackingandBulkReplacement
             }
         }
     }
-
     // ===== Factory Bulk Replacement =====
     public class ReplaceableThemeFactory
     {
-        // Factory do cenario de bulk replacement.
-        // Ela entrega handles mutaveis para poder trocar o tema depois.
+        // Objetivo: trocar em massa o tema que varios clientes enxergam.
+        // Ela entrega handles mutaveis e depois atualiza o `Value` de todos eles.
+        // Este e outro estilo possivel de factory, usado quando a troca centralizada faz sentido.
 
         // ===== Campos =====
         private readonly List<WeakReference<Ref<ITheme>>> themes = new();
 
-        // Aqui a factory rastreia os handles, nao os temas crus.
-        // Cada handle pode trocar o objeto guardado em `Value`.
+        // Aqui o rastreamento existe como meio para a troca em massa.
+        // A factory rastreia os handles, nao os temas crus.
 
         // ===== Metodos =====
         private static ITheme CreateThemeImpl(bool dark)
@@ -131,7 +135,8 @@ namespace Aula05_ObjectTrackingandBulkReplacement
 
         public void ReplaceTheme(bool dark)
         {
-            // Troca em massa o conteudo dos handles ainda vivos.
+            // "Troca em massa" = uma unica chamada atualiza varios clientes de uma vez.
+            // Ex.: varias telas deixam de ver DarkTheme e passam a ver LightTheme.
             foreach (var weakReference in themes)
             {
                 if (weakReference.TryGetTarget(out var reference))
@@ -146,8 +151,9 @@ namespace Aula05_ObjectTrackingandBulkReplacement
     // ===== Classe Handle Mutavel =====
     public class Ref<T> where T : class
     {
-        // Handle mutavel: o cliente segura esta caixa e a factory troca `Value`.
-        // Aqui "handle" significa referencia indireta, nao `SafeHandle` do SO.
+        // Pense em `Ref<T>` como uma caixa.
+        // O cliente segura a caixa; a factory pode trocar o objeto dentro dela.
+        // A caixa e o handle. O objeto dentro dela e o alvo atual.
 
         // ===== Propriedades =====
         public T Value { get; set; }
@@ -189,17 +195,24 @@ namespace Aula05_ObjectTrackingandBulkReplacement
 
             var replaceableFactory = new ReplaceableThemeFactory();
 
-            // Aqui o cliente recebe um handle mutavel para o tema.
-            var sharedTheme = replaceableFactory.CreateTheme(dark: true);
+            // Dois clientes diferentes recebem handles distintos.
+            var headerTheme = replaceableFactory.CreateTheme(dark: true);
+            var footerTheme = replaceableFactory.CreateTheme(dark: true);
 
+            WriteLine("Antes da troca em massa:");
             WriteLine(
-                $"Antes da troca em massa: {sharedTheme.Value.BackgroundColor}");
+                $"headerTheme -> {headerTheme.Value.BackgroundColor}");
+            WriteLine(
+                $"footerTheme -> {footerTheme.Value.BackgroundColor}");
 
-            // A factory atualiza todos os handles vivos de uma vez.
+            // Uma unica chamada troca o tema visto por todos os handles vivos.
             replaceableFactory.ReplaceTheme(dark: false);
 
+            WriteLine("Depois da troca em massa:");
             WriteLine(
-                $"Depois da troca em massa: {sharedTheme.Value.BackgroundColor}");
+                $"headerTheme -> {headerTheme.Value.BackgroundColor}");
+            WriteLine(
+                $"footerTheme -> {footerTheme.Value.BackgroundColor}");
         }
     }
 }
