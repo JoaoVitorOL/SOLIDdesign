@@ -78,6 +78,7 @@ Ao longo do texto, pense sempre nestas quatro perguntas:
   - [7.6 `is`, `as` e Pattern Matching](#76-is-as-e-pattern-matching)
   - [7.7 `using` para gerenciamento de recursos](#77-using-para-gerenciamento-de-recursos)
   - [7.8 `ref`, `out` e `in`](#78-ref-out-e-in)
+  - [7.9 Conversões definidas pelo usuário (`implicit` e `explicit`)](#79-conversões-definidas-pelo-usuário-implicit-e-explicit)
 - [Parte 8 — Controle de Fluxo](#parte-8-controle-de-fluxo)
   - [8.1 `if / else if / else`](#81-if-else-if-else)
   - [8.2 `switch` e switch expressions](#82-switch-e-switch-expressions)
@@ -125,13 +126,15 @@ Ao longo do texto, pense sempre nestas quatro perguntas:
   - [18.1 `try / catch / finally`](#181-try-catch-finally)
   - [18.2 Exceções customizadas](#182-exceções-customizadas)
   - [18.3 Hierarquia de exceções](#183-hierarquia-de-exceções)
+  - [18.4 Exceções de argumento e implementação comuns](#184-exceções-de-argumento-e-implementação-comuns)
 - [Parte 19 — Attributes (Annotations)](#parte-19-attributes-annotations)
   - [19.1 Attributes embutidos](#191-attributes-embutidos)
   - [19.2 Criando Attributes customizados](#192-criando-attributes-customizados)
 - [Parte 20 — Tipos Especiais Modernos do C#](#parte-20-tipos-especiais-modernos-do-c)
   - [20.1 Tuple e ValueTuple](#201-tuple-e-valuetuple)
-  - [20.2 Span\<T\> e Memory\<T\> — zero-allocation slicing](#202-spant-e-memoryt-zero-allocation-slicing)
-  - [20.3 Sealed classes com Pattern Matching (como Discriminated Union)](#203-sealed-classes-com-pattern-matching-como-discriminated-union)
+  - [20.2 `WeakReference<T>` e referências fracas no GC](#202-weakreferencet-e-referências-fracas-no-gc)
+  - [20.3 Span\<T\> e Memory\<T\> — zero-allocation slicing](#203-spant-e-memoryt-zero-allocation-slicing)
+  - [20.4 Sealed classes com Pattern Matching (como Discriminated Union)](#204-sealed-classes-com-pattern-matching-como-discriminated-union)
 - [Parte 21 — Threads e Concorrência](#parte-21-threads-e-concorrência)
   - [21.1 Thread básico e ThreadPool](#211-thread-básico-e-threadpool)
   - [21.2 Task Parallel Library (TPL)](#212-task-parallel-library-tpl)
@@ -1335,6 +1338,60 @@ void ImprimirPonto(in Ponto p) => Console.WriteLine($"({p.X}, {p.Y})");
 ```
 
 **Como interpretar o exemplo:** Os tres modificadores deixam explicita a intencao de passagem por referencia. `ref` compartilha leitura e escrita, `out` obriga preenchimento de saida, e `in` evita copia sem permitir modificacao do argumento pelo metodo chamado.
+
+---
+
+### 7.9 Conversões definidas pelo usuário (`implicit` e `explicit`)
+
+[⬆️ Voltar ao Sumário](#sumário)
+
+```csharp
+public class Person
+{
+    public string Nome { get; set; } = string.Empty;
+}
+
+public class PersonBuilder
+{
+    private readonly Person _person = new Person { Nome = "Ana" };
+
+    // Conversão implícita: o chamador pode usar o builder onde um Person é esperado
+    public static implicit operator Person(PersonBuilder builder)
+        => builder._person;
+}
+
+PersonBuilder builder = new PersonBuilder();
+Person pessoa = builder; // chama implicit operator sem cast explícito
+
+public readonly struct Metros
+{
+    public double Valor { get; }
+    public Metros(double valor) => Valor = valor;
+
+    // Conversão explícita: exige cast no ponto de uso
+    public static explicit operator double(Metros m) => m.Valor;
+}
+
+double distancia = (double)new Metros(12.5);
+```
+
+Quando um tipo declara `public static implicit operator ...` ou `public static explicit operator ...`, ele está ensinando ao compilador como converter entre tipos customizados.
+
+Essa ideia aparece no projeto no `FacetedBuilder`, com um `implicit operator Person(PersonBuilder builder)`, para permitir que o builder final seja tratado como `Person` sem exigir uma chamada manual de `Build()`.
+
+Regra de design importante:
+
+- conversões **implícitas** devem ser seguras, previsíveis e não surpreender;
+- conversões **explícitas** são mais adequadas quando há perda de informação, custo relevante ou risco de interpretação errada.
+
+Em termos práticos:
+
+- `implicit` melhora ergonomia da API;
+- `explicit` melhora clareza quando a conversão merece atenção visual do leitor.
+
+**Como interpretar o exemplo:** Esse recurso permite criar APIs mais fluentes, mas também pode esconder trabalho demais se usado sem critério. A documentação oficial recomenda que conversões implícitas sempre sejam bem-comportadas; se a conversão puder falhar, lançar exceção ou perder significado, prefira `explicit`.
+
+> **Referência oficial:** [Microsoft Learn — User-defined explicit and implicit conversion operators](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/user-defined-conversion-operators)
 
 ---
 
@@ -3584,13 +3641,73 @@ Exception
 └── ApplicationException (use DomainException customizada em vez desta)
 ```
 
+**Como interpretar o exemplo:** A arvore ajuda a perceber que capturar excecao em C# tambem e decisao de modelagem: quanto mais alto voce captura, mais geral e menos especifico fica o tratamento. Conhecer as familias principais ajuda a escrever `catch` mais intencionais.
+
+---
+
+### 18.4 Exceções de argumento e implementação comuns
+
+[⬆️ Voltar ao Sumário](#sumário)
+
+```csharp
+public class Produto
+{
+    public string Nome { get; }
+
+    public Produto(string nome, int estoqueInicial)
+    {
+        ArgumentNullException.ThrowIfNull(nome);
+
+        if (estoqueInicial < 0)
+            throw new ArgumentOutOfRangeException(nameof(estoqueInicial),
+                "Estoque não pode ser negativo.");
+
+        Nome = nome;
+    }
+}
+
+public interface IScanner
+{
+    void Scan();
+}
+
+public class ImpressoraAntiga : IScanner
+{
+    public void Scan()
+    {
+        throw new NotImplementedException();
+    }
+}
+```
+
+Três exceções aparecem com frequência no projeto e merecem leitura separada:
+
+- `ArgumentNullException`: use quando um argumento obrigatório recebeu `null`;
+- `ArgumentOutOfRangeException`: use quando o argumento existe, mas seu valor está fora do intervalo aceito;
+- `NotImplementedException`: use para sinalizar que um método ou operação ainda não foi implementado.
+
+Diferença conceitual importante:
+
+- `ArgumentNullException` e `ArgumentOutOfRangeException` validam **entrada inválida do chamador**;
+- `NotImplementedException` sinaliza **incompletude da implementação**, e não erro de parâmetro.
+
+No contexto do projeto, `ArgumentNullException` e `ArgumentOutOfRangeException` aparecem em construtores, builders e factories para proteger invariantes logo na entrada. Já `NotImplementedException` aparece didaticamente na aula de ISP para mostrar um contrato ruim: a classe foi forçada a fingir uma capacidade que não possui.
+
+Boa prática moderna:
+
+- em .NET atual, `ArgumentNullException.ThrowIfNull(...)` reduz ruído em guard clauses;
+- para faixas numéricas, `ArgumentOutOfRangeException` comunica intenção melhor do que `ArgumentException` genérica;
+- `NotImplementedException` deve ser temporária ou pedagógica; em código de produção, se ela vira estado permanente, normalmente revela desenho inadequado da API.
+
+**Como interpretar o exemplo:** Essas exceções não são detalhes cosméticos. Elas comunicam contrato. Quem lê `ArgumentNullException` entende que a API exige presença; quem lê `ArgumentOutOfRangeException` entende que existe um domínio válido de valores; quem lê `NotImplementedException` entende que a operação prometida ainda não existe — ou talvez nem devesse ter sido prometida.
+
+> **Referências oficiais:** [ArgumentNullException](https://learn.microsoft.com/en-us/dotnet/api/system.argumentnullexception?view=net-10.0), [ArgumentOutOfRangeException](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception?view=net-10.0), [NotImplementedException](https://learn.microsoft.com/en-us/dotnet/api/system.notimplementedexception?view=net-10.0)
+
 ---
 
 ## Parte 19 — Attributes (Annotations)
 
 [⬆️ Voltar ao Sumário](#sumário)
-
-**Como interpretar o exemplo:** A arvore ajuda a perceber que capturar excecao em C# tambem e decisao de modelagem: quanto mais alto voce captura, mais geral e menos especifico fica o tratamento. Conhecer as familias principais ajuda a escrever `catch` mais intencionais.
 
 ---
 
@@ -3702,7 +3819,92 @@ var (min, max, media) = Estatisticas(new List<double> { 1, 5, 3, 2, 4 });
 
 ---
 
-### 20.2 Span\<T\> e Memory\<T\> — zero-allocation slicing
+### 20.2 `WeakReference<T>` e referências fracas no GC
+
+[⬆️ Voltar ao Sumário](#sumário)
+
+```csharp
+public class Tema
+{
+    public string Nome { get; set; } = string.Empty;
+}
+
+Tema? tema = new Tema { Nome = "DarkTheme" };
+var weak = new WeakReference<Tema>(tema);
+
+// Enquanto existe uma referência forte, o objeto continua claramente alcançável
+if (weak.TryGetTarget(out var alvoVivo))
+{
+    Console.WriteLine(alvoVivo.Nome);
+}
+
+tema = null; // remove esta referência forte
+
+// Em algum ciclo futuro do GC, o objeto pode ou não ainda existir aqui
+if (weak.TryGetTarget(out var talvezAindaVivo))
+{
+    Console.WriteLine($"Ainda existe: {talvezAindaVivo.Nome}");
+}
+else
+{
+    Console.WriteLine("O objeto já foi coletado.");
+}
+```
+
+Para entender `WeakReference<T>`, primeiro vale separar dois conceitos:
+
+- **referência forte**: a referência comum do dia a dia em C#; enquanto o objeto continua alcançável por referências fortes, ele não deve ser coletado;
+- **referência fraca**: uma referência que aponta para o objeto, mas não impede o Garbage Collector de recuperá-lo quando não restarem referências fortes.
+
+Em linguagem simples:
+
+- uma variável como `Tema tema = new Tema();` é uma referência forte;
+- uma `WeakReference<Tema>` é mais parecida com um "atalho observável", e não com posse real do objeto.
+
+Esse tipo aparece no projeto na aula `Object Tracking and Bulk Replacement`, em que a factory quer:
+
+- saber quais objetos já nasceram;
+- sem ser a responsável por mantê-los vivos para sempre.
+
+#### O que o GC faz nesse cenário?
+
+O Garbage Collector do .NET gerencia a memória dos objetos no heap gerenciado. Quando um objeto deixa de ser alcançável por referências fortes, ele se torna elegível para coleta. Se só restarem weak references, isso não é suficiente para preservar o objeto.
+
+Ponto crucial:
+
+- `WeakReference<T>` **não garante** que o objeto existirá no próximo acesso;
+- ela só permite **tentar** recuperar o alvo com `TryGetTarget(...)`.
+
+#### Como ler `TryGetTarget(...)`
+
+`TryGetTarget(out T target)` devolve:
+
+- `true` quando o objeto ainda existe e o `out` recebe uma referência forte temporária para uso imediato;
+- `false` quando o objeto já foi coletado.
+
+Isso explica por que o uso correto de weak reference quase sempre começa com um `if`.
+
+#### Quando isso faz sentido?
+
+Casos clássicos:
+
+- caches em que você quer reaproveitar um objeto se ele ainda estiver vivo;
+- rastreamento de objetos sem "posse" deles;
+- estruturas auxiliares de observação, como no exemplo das factories do projeto.
+
+Quando isso **não** faz sentido:
+
+- como substituto geral para referências comuns;
+- quando a lógica depende de o objeto continuar existindo com previsibilidade;
+- quando você quer controle determinístico de tempo de vida — isso é outra conversa (`IDisposable`, `using`, ownership explícito).
+
+**Como interpretar o exemplo:** `WeakReference<T>` não é um "jeito avançado de guardar objetos". É um jeito específico de observá-los sem assumir propriedade de tempo de vida. A diferença entre "eu uso este objeto" e "eu só quero saber se ele ainda existe" é exatamente o que torna essa API importante.
+
+> **Referências oficiais:** [WeakReference<T>](https://learn.microsoft.com/en-us/dotnet/api/system.weakreference-1?view=net-10.0), [WeakReference<T>.TryGetTarget](https://learn.microsoft.com/en-us/dotnet/api/system.weakreference-1.trygettarget?view=net-10.0), [Fundamentos de garbage collection](https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/fundamentals)
+
+---
+
+### 20.3 Span\<T\> e Memory\<T\> — zero-allocation slicing
 
 [⬆️ Voltar ao Sumário](#sumário)
 
@@ -3727,7 +3929,7 @@ Console.WriteLine(texto.ToString()); // "Mundo"
 
 ---
 
-### 20.3 Sealed classes com Pattern Matching (como Discriminated Union)
+### 20.4 Sealed classes com Pattern Matching (como Discriminated Union)
 
 [⬆️ Voltar ao Sumário](#sumário)
 
@@ -4774,11 +4976,18 @@ As definições, distinções conceituais e atualizações de versão deste guia
 - [Path Class (System.IO)](https://learn.microsoft.com/en-us/dotnet/api/system.io.path?view=net-10.0)
 - [Directory Class (System.IO)](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory?view=net-10.0)
 - [Interfaces - define behavior for multiple types](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/interfaces)
+- [User-defined explicit and implicit conversion operators](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/user-defined-conversion-operators)
 - [Language Integrated Query (LINQ)](https://learn.microsoft.com/en-us/dotnet/csharp/linq/)
 - [Standard query operators overview](https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/)
 - [`IEnumerable<T>` Interface](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1?view=net-10.0)
 - [`IQueryable<T>` Interface](https://learn.microsoft.com/en-us/dotnet/api/system.linq.iqueryable-1?view=net-10.0)
+- [ArgumentNullException Class](https://learn.microsoft.com/en-us/dotnet/api/system.argumentnullexception?view=net-10.0)
+- [ArgumentOutOfRangeException Class](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception?view=net-10.0)
+- [NotImplementedException Class](https://learn.microsoft.com/en-us/dotnet/api/system.notimplementedexception?view=net-10.0)
 - [Usando a classe StringBuilder no .NET](https://learn.microsoft.com/pt-br/dotnet/standard/base-types/stringbuilder)
+- [`WeakReference<T>` Class](https://learn.microsoft.com/en-us/dotnet/api/system.weakreference-1?view=net-10.0)
+- [`WeakReference<T>.TryGetTarget(T)` Method](https://learn.microsoft.com/en-us/dotnet/api/system.weakreference-1.trygettarget?view=net-10.0)
+- [Fundamentals of garbage collection](https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/fundamentals)
 - [Introduction to LINQ queries](https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/introduction-to-linq-queries)
 - [Explicit Interface Implementation](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/interfaces/explicit-interface-implementation)
 
@@ -4799,6 +5008,7 @@ Sugestão de estudo: use este guia para construir o modelo mental e a documenta�
 - **Burst Compiler** — compilador da Unity que converte código C# em código nativo de alta performance via LLVM. → [23.7 Boas práticas de performance no Unity](#237-boas-práticas-de-performance-no-unity)
 - **CLR (Common Language Runtime)** — máquina virtual do .NET que executa o código compilado (IL), análoga à JVM do Java. → [1.1 O que é C#?](#11-o-que-é-c)
 - **Constraints (restrições de generics)** — regras que limitam quais tipos podem ser usados num tipo genérico. → [17.2 Constraints (restrições)](#172-constraints-restrições)
+- **Conversão definida pelo usuário (`implicit` / `explicit`)** — mecanismo que permite a um tipo ensinar ao compilador como convertê-lo para outro tipo com ou sem cast explícito. → [7.9 Conversões definidas pelo usuário (`implicit` e `explicit`)](#79-conversões-definidas-pelo-usuário-implicit-e-explicit)
 - **Construtor** — método especial, sem tipo de retorno, executado na criação de uma instância (`new`), responsável por inicializar seu estado. → [11.2 Construtores em Profundidade](#112-construtores-em-profundidade)
 - **`const` / `readonly`** — modificadores para valores imutáveis; `const` é resolvido em tempo de compilação, `readonly` em tempo de execução. → [3.5 `const` e `readonly`](#35-const-e-readonly)
 - **Coroutine** — mecanismo do Unity para executar código ao longo de vários frames, sem usar `async`/`await`. → [23.5 Coroutines](#235-coroutines-execução-assíncrona-sem-asyncawait)
@@ -4807,6 +5017,7 @@ Sugestão de estudo: use este guia para construir o modelo mental e a documenta�
 - **Event** — mecanismo baseado em delegates para notificar múltiplos assinantes sobre uma ocorrência. → [13.4 Eventos (Events)](#134-eventos-events)
 - **Extension Method** — método que "adiciona" comportamento a um tipo existente sem modificá-lo ou herdar dele. → [9.2 Métodos de extensão](#92-métodos-de-extensão-extension-methods)
 - **Generics** — recurso que permite escrever tipos e métodos parametrizados por tipo, mantendo segurança de tipos. → [17.1 Tipos parametrizados](#171-tipos-parametrizados)
+- **Garbage Collector (GC)** — componente do runtime .NET que recupera memória de objetos não mais alcançáveis por referências fortes. → [20.2 `WeakReference<T>` e referências fracas no GC](#202-weakreferencet-e-referências-fracas-no-gc)
 - **IL / CIL (Intermediate Language)** — formato intermediário para o qual o C# é compilado antes de ser executado pelo CLR. → [1.1 O que é C#?](#11-o-que-é-c)
 - **Interface** — contrato que define quais membros uma classe deve implementar, sem fornecer implementação própria. → [12.2 Interfaces](#122-interfaces)
 - **`IEnumerable<T>`** — contrato fundamental de sequência enumerável; diz que um tipo pode fornecer elementos em ordem de iteração, sem prometer índice ou materialização. → [14.3 `IEnumerable<T>`](#143-ienumerablet-e-o-contrato-fundamental-das-sequências)
@@ -4827,7 +5038,7 @@ Sugestão de estudo: use este guia para construir o modelo mental e a documenta�
 - **ScriptableObject** — tipo de asset da Unity para armazenar dados independentes de uma instância de GameObject. → [23.4 ScriptableObject](#234-scriptableobject-dados-desacoplados-do-gameobject)
 - **Singleton** — padrão de projeto que garante uma única instância acessível globalmente de uma classe. → [23.8 Padrões de design comuns em jogos com C#](#238-padrões-de-design-comuns-em-jogos-com-c)
 - **Source Generator** — componente que gera código C# adicional em tempo de compilação. → [22.2 Source Generators](#222-source-generators-c-9)
-- **Span\<T\> / Memory\<T\>** — estruturas para trabalhar com "fatias" de memória contígua sem alocação extra. → [20.2 Span\<T\> e Memory\<T\>](#202-spant-e-memoryt-zero-allocation-slicing)
+- **Span\<T\> / Memory\<T\>** — estruturas para trabalhar com "fatias" de memória contígua sem alocação extra. → [20.3 Span\<T\> e Memory\<T\>](#203-spant-e-memoryt-zero-allocation-slicing)
 - **`static`** — modificador que faz um membro pertencer ao tipo, não a uma instância específica. → [7.1 `static`](#71-static)
 - **State Machine** — padrão que organiza o comportamento de um objeto em estados distintos com transições explícitas. → [23.8 Padrões de design comuns em jogos com C#](#238-padrões-de-design-comuns-em-jogos-com-c)
 - **StringBuilder** — classe mutável para concatenar strings repetidamente sem o custo de criar novas instâncias a cada operação. → [4.2 Imutabilidade e StringBuilder](#42-imutabilidade-e-stringbuilder)
@@ -4835,5 +5046,6 @@ Sugestão de estudo: use este guia para construir o modelo mental e a documenta�
 - **Unsafe code** — blocos de código que permitem manipulação direta de ponteiros, fora da supervisão normal do CLR. → [22.3 Unsafe code e ponteiros](#223-unsafe-code-e-ponteiros)
 - **`var`** — palavra-chave que permite ao compilador inferir o tipo de uma variável a partir do valor atribuído. → [3.4 `var` — inferência de tipo](#34-var-inferência-de-tipo)
 - **`virtual` / `override`** — modificadores que permitem que um método seja redefinido por uma subclasse. → [7.4 `virtual` e `override`](#74-virtual-e-override)
+- **WeakReference\<T\>** — referência fraca para um objeto que permite observá-lo sem impedir que o GC o colete quando não restarem referências fortes. → [20.2 `WeakReference<T>` e referências fracas no GC](#202-weakreferencet-e-referências-fracas-no-gc)
 
 **Como interpretar o exemplo:** A tabela lembra que saber C# nao e exatamente o mesmo que saber C# dentro de uma engine especifica. Em Unity, runtime, GC, AOT e APIs de jogo fazem alguns habitos do C# padrao continuarem validos e outros precisarem de adaptacao consciente.
